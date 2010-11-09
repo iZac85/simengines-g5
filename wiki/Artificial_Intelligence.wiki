@@ -1,13 +1,9 @@
-#summary One-sentence summary of this page.
+#Artificial Intelligence Section.
 
 = Introduction =
 
-Add your content here.
+Im to create a path-planning algorithm that features an avoidance algorithm. 
 
 
 = Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Dont really know how to upload code yet.
