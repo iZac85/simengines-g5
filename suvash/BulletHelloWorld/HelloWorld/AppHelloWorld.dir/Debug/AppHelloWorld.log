@@ -1,0 +1,21 @@
+﻿Build started 11/19/2010 11:15:37 AM.
+     1>Project "C:\Users\suVasH\Developer\Projects\BulletHelloWorld\HelloWorld\AppHelloWorld.vcxproj" on node 2 (build target(s)).
+     1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.Targets(1200,9): warning : The referenced project 'C:/Users/suVasH/Developer/bulletBuild/src/BulletCollision/BulletCollision.vcxproj' does not exist.
+     1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.Targets(1200,9): warning : The referenced project 'C:/Users/suVasH/Developer/bulletBuild/src/BulletDynamics/BulletDynamics.vcxproj' does not exist.
+     1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.Targets(1200,9): warning : The referenced project 'C:/Users/suVasH/Developer/bulletBuild/src/LinearMath/LinearMath.vcxproj' does not exist.
+     1>C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Common.Targets(1200,9): warning : The referenced project 'C:/Users/suVasH/Developer/bulletBuild/ZERO_CHECK.vcxproj' does not exist.
+     1>InitializeBuildStatus:
+         Creating "AppHelloWorld.dir\Debug\BulletHelloWorld.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         All outputs are up-to-date.
+         AppHelloWorld.vcxproj -> C:\Users\suVasH\Developer\bulletBuild\Demos\HelloWorld\Debug\AppHelloWorld.exe
+       FinalizeBuildStatus:
+         Deleting file "AppHelloWorld.dir\Debug\BulletHelloWorld.unsuccessfulbuild".
+         Touching "AppHelloWorld.dir\Debug\BulletHelloWorld.lastbuildstate".
+     1>Done Building Project "C:\Users\suVasH\Developer\Projects\BulletHelloWorld\HelloWorld\AppHelloWorld.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.10
