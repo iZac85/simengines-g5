@@ -67,7 +67,7 @@ void RandGen::split(map arena)
 		tile min = getSmallestRoom();
 		if(!sizeOk(min))
 		{
-			removeWall
+			removeWall();
 		}
 		//biggest one room
 		while(room<MIN)
