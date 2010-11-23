@@ -30,7 +30,7 @@ Rand::~Rand(void)
 //-------------------------------------------------------------------------------------
 void Rand::createScene(void)
 {
-    Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
+	Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
 
     Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
     headNode->attachObject(ogreHead);
