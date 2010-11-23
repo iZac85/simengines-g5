@@ -126,8 +126,6 @@ bool OgreCEGUI::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id
 }
 //-------------------------------------------------------------------------------------
 
-
-//-------------------------------------------------------------------------------------
 void OgreCEGUI::createScene(void)
 {
 	mRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
@@ -142,21 +140,62 @@ void OgreCEGUI::createScene(void)
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
 
-	//CEGUI::Window *guiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("TextDemo.layout"); 
-	//CEGUI::System::getSingleton().setGUISheet(guiRoot);
+	CEGUI::Window *guiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("TextDemo.layout"); 
+	CEGUI::System::getSingleton().setGUISheet(guiRoot);
 	
-	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-	CEGUI::Window *sheet1 = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet1");
+	//CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+	//CEGUI::Window *sheet1 = wmgr.createWindow("DefaultWindow", "CEGUIDemo/Sheet1");
 
-	CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
-	quit->setText("Quit");
-	quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
-	quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::quit, this));
+	//CEGUI::Window *quit = wmgr.createWindow("TaharezLook/Button", "CEGUIDemo/QuitButton");
+	//quit->setText("Quit");
+	//quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.05, 0)));
+	//quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::quit, this));
 
+	//sheet1->addChildWindow(quit);
+	//CEGUI::System::getSingleton().setGUISheet(sheet1);
 
-	sheet1->addChildWindow(quit);
-	CEGUI::System::getSingleton().setGUISheet(sheet1);
-}
+	//mSceneMgr->setAmbientLight(Ogre::ColourValue(1, 1, 1));
+	//mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+	//Ogre::Entity* ogreHead = mSceneMgr->createEntity("Head", "ogrehead.mesh");
+	//Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode(Ogre::Vector3(0, 0, -300));
+	//headNode->attachObject(ogreHead);
+
+	//Ogre::TexturePtr tex = mRoot->getTextureManager()->createManual(
+	//	"RTT",
+	//	Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
+	//	Ogre::TEX_TYPE_2D,
+	//	512,
+	//	512,
+	//	0,
+	//	Ogre::PF_R8G8B8,
+	//	Ogre::TU_RENDERTARGET);
+	//Ogre::RenderTexture *rtex = tex->getBuffer()->getRenderTarget();
+
+	//Ogre::Camera *cam = mSceneMgr->createCamera("RTTCam");
+	//cam->setPosition(100, -100, -400);
+	//cam->lookAt(0, 0, -300);
+	//Ogre::Viewport *v = rtex->addViewport(cam);
+	//v->setOverlaysEnabled(false);
+	//v->setClearEveryFrame(true);
+	//v->setBackgroundColour(Ogre::ColourValue::Black);
+
+	//CEGUI::Texture &guiTex = mRenderer->createTexture(tex);
+
+	//CEGUI::Imageset &imageSet =
+	//CEGUI::ImagesetManager::getSingleton().create("RTTImageset", guiTex);
+	//imageSet.defineImage("RTTImage",
+	//					 CEGUI::Point(0.0f, 0.0f),
+	//					 CEGUI::Size(guiTex.getSize().d_width, guiTex.getSize().d_height),
+	//					 CEGUI::Point(0.0f, 0.0f)
+	//					 );
+
+	//CEGUI::Window *si = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticImage", "RTTWindow");
+	//si->setSize(CEGUI::UVector2(CEGUI::UDim(0.5f, 0), CEGUI::UDim(0.4f, 0)));
+	//si->setPosition(CEGUI::UVector2(CEGUI::UDim(0.5f, 0), CEGUI::UDim(0.0f, 0)));
+	//si->setProperty("Image", CEGUI::PropertyHelper::imageToString(&imageSet.getImage("RTTImage")));
+
+	//sheet1->addChildWindow(si);
+	}
 //-------------------------------------------------------------------------------------
 
 bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
@@ -170,6 +209,8 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 #endif
+
+//-------------------------------------------------------------------------------------
 
 #ifdef __cplusplus
 extern "C" {
