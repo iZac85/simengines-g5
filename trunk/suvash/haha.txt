@@ -1,0 +1,6 @@
+#include "haha.h"
+
+int main()
+{
+	haha()
+}
