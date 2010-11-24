@@ -1,5 +1,8 @@
 
 #include "RandGen.h"
+//#include "math.h"
+#include "stdlib.h"
+#include "time.h"
 
 //-------------------------------------------------------------------------------------
 RandGen::RandGen(void)
@@ -14,7 +17,7 @@ RandGen::~RandGen(void)
 }
 
 //-------------------------------------------------------------------------------------
-void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, int door_cnt, bool furniture_enable, int desk_cnt, int chair_cnt, int shelf_cnt, int painting_cnt)
+void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, int room_max_area, int door_cnt, bool furniture_enable, int desk_cnt, int chair_cnt, int shelf_cnt, int painting_cnt)
 {
     //Fill structures
 	
@@ -24,10 +27,19 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 	arena.dim.y			   = dim_y;
 	arena.office[0].dim.x  = dim_x;
 	arena.office[0].dim.y  = dim_y;
-	arena.office[0].orig.x =	 0;
-	arena.office[0].orig.y =	 0;
-	arena.room_cnt         =	 1;
-
+	arena.office[0].orig.x = 0;
+	arena.office[0].orig.y = 0;
+	arena.room_cnt         = 1;
+	arena.room_min_size.x  = room_min_x;
+	arena.room_min_size.y  = room_min_y;
+	arena.room_max_area	   = room_max_area;
+	//Black tiles
+	for(int i=0; i<MAX_TILES; i++)
+	{
+		for(int i=0; i<MAX_TILES; i++)
+		{
+		}
+	}
 	//doors and Furniture 
 	
 	for (int i = 0; i < arena.room_cnt; i++)
@@ -50,7 +62,6 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 		}
 	}
 	//Generate Walls
-	room room[MAX_ROOMS];
 	tile origo;
 	origo.x = 0;
 	origo.y = 0;
@@ -134,8 +145,60 @@ void RandGen::split(map arena)
 }
 int RandGen::randInt(int low, int high)
 {
-	return 0;
+	srand ( time(NULL) );
+	int r = rand() % (high - low + 1) + low;
+	return r;
 }
+void RandGen::updateBlackTiles(void)
+{
+	//From Physics
+}
+void RandGen::addBlackTile(tile pos, map arena)
+{
+	arena.blackTile[pos.x][pos.y] = 1;
+}
+void RandGen::addWall(tile len, tile pos)
+{
+	tile p;
+	if (len.x==0)
+	{
+		for(int i=0; i<len.y; i++)
+		{
+			p.x=pos.x;
+			p.y=pos.y + i;
+			addBlackTile(p);
+		}
+	}
+	else
+	{
+		for(int i=0; i<len.x; i++)
+		{
+			p.x=pos.x + i;
+			p.y=pos.y;
+			addBlackTile(p);
+		}
+	}
+}
+bool RandGen::sizeOk(map arena, int k)
+{
+	//Is the biggest room too big?
+	if( (arena.office[k].dim.x * arena.office[k].dim.y) < arena.room_max_area )return true;
+	else return false;
+}
+int RandGen::getBiggestRoom(map arena)
+{
+	int biggest_area=0;
+	int biggest_index=0;
+	for(int i =0; i<arena.room_cnt; i++)
+	{
+		if( (arena.office[i].dim.x * arena.office[i].dim.y) > biggest_area)
+		{
+			biggest_index = i;
+		}
+	}
+	return biggest_index;
+}
+///////////////Other stuff/////////////////////////
 void RandGen::doors(void)
 {
 }
@@ -151,20 +214,4 @@ void RandGen::shelf(void)
 void RandGen::painting(void)
 {
 }
-void RandGen::updateBlackTiles(void)
-{
-}
-void RandGen::addBlackTile(tile pos)
-{
-}
-void RandGen::addWall(tile len, tile pos)
-{
-}
-bool RandGen::sizeOk(map arena, int k)
-{
-	return false;
-}
-int RandGen::getBiggestRoom(map arena)
-{
-	return 0;
-}
+

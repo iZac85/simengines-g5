@@ -2,12 +2,14 @@
 #ifndef __RandGen_h_
 #define __RandGen_h_
 
+#include "math.h"
+
 class RandGen
 {
 public:
     RandGen(void);
     ~RandGen(void);
-	void generateMap(int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
+	void generateMap(int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int room_max_area=25,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
 	void updateBlackTiles(void);
 	static const int MAX_TILES = 200;
 	static const int MAX_ROOMS = 100;
@@ -32,15 +34,17 @@ public:
 		furniture painting;
 		tile dim;
 		tile orig;
-		tile blackTile[MAX_TILES];//MAXTILES];
+		//tile blackTile[MAX_TILES][MAX_TILES];//MAXTILES];
 	};
 	struct map
 	{
 		tile dim;
 		int room_cnt;
 		tile room_min_size;
+		int room_max_area;
 		int wall_cnt;
 		room office[MAX_ROOMS];
+		int blackTile[MAX_TILES][MAX_TILES]; //One or zeroo: One means obstable
 	};
 
 private:
@@ -53,7 +57,7 @@ private:
 	void chear(void);
 	void shelf(void);
 	void painting(void);
-	void addBlackTile(tile pos);
+	void addBlackTile(tile pos, map arena);
 	void addWall(tile len, tile pos);
 	bool sizeOk(map arena,int k);
 	int getBiggestRoom(map arena);
