@@ -140,7 +140,7 @@ void OgreCEGUI::createScene(void)
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
 
-	CEGUI::Window *guiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("TextDemo.layout"); 
+	CEGUI::Window *guiRoot = CEGUI::WindowManager::getSingleton().loadWindowLayout("OgreCEGUI.layout"); 
 	CEGUI::System::getSingleton().setGUISheet(guiRoot);
 	
 	//CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
