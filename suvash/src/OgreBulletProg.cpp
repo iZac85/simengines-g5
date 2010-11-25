@@ -7,6 +7,7 @@
 #include <OgreWindowEventUtilities.h>
 
 
+
 //-------------------------------------------------------------------------------------
 OgreBulletProg::OgreBulletProg(void) : mRoot(0), mPluginsCfg(Ogre::StringUtil::BLANK)
 {
@@ -94,7 +95,7 @@ void OgreBulletProg::setupCamera(void)
 	mCamera->lookAt(Ogre::Vector3(0,0,-300));
 	mCamera->setNearClipDistance(5);
 
-
+	mRotX = 0; mRotY = 0; mTranslateVector = Ogre::Vector3(0,0,0);
 }
 //-------------------------------------------------------------------------------------
 void OgreBulletProg::setupViewport(void)
@@ -213,6 +214,13 @@ void OgreBulletProg::renderAndListen(void)
 
 }
 //-------------------------------------------------------------------------------------
+void OgreBulletProg::updateCamera(void)
+{
+	// Make all the changes to the camera
+	mCamera->moveRelative(mTranslateVector);
+
+}
+//-------------------------------------------------------------------------------------
 bool OgreBulletProg::go(void)
 {
 	//Load the resources
@@ -285,13 +293,49 @@ bool OgreBulletProg::frameRenderingQueued(const Ogre::FrameEvent& evt)
     if(mWindow->isClosed())
         return false;
 	
-	if(mTimeUntilNextToggle > 0){
-		mTimeUntilNextToggle -= evt.timeSinceLastFrame;
-	}
-
-    //Need to capture/update each device
+   //Need to capture/update each device
     mKeyboard->capture();
     mMouse->capture();
+
+	if( !mMouse->buffered() || !mKeyboard->buffered() )
+	{
+		// one of the input modes is immediate, so setup what is needed for immediate movement
+		if (mTimeUntilNextToggle >= 0)
+			mTimeUntilNextToggle -= evt.timeSinceLastFrame;
+
+		this->updateCamera();
+
+		mTranslateVector = Ogre::Vector3::ZERO;
+
+	}
+
+	Ogre::Real moveScale = 1;
+	Ogre::Degree mRotScale = Ogre::Degree(1);
+
+	if(mKeyboard->isKeyDown(OIS::KC_A))
+		mTranslateVector.x = -moveScale;	// Move camera left
+
+	if(mKeyboard->isKeyDown(OIS::KC_D))
+		mTranslateVector.x = moveScale;	// Move camera RIGHT
+
+	if(mKeyboard->isKeyDown(OIS::KC_W))
+		mTranslateVector.z = -moveScale;	// Move camera forward
+
+	if(mKeyboard->isKeyDown(OIS::KC_S))
+		mTranslateVector.z = moveScale;	// Move camera backward
+
+	if(mKeyboard->isKeyDown(OIS::KC_UP))
+		mTranslateVector.y = moveScale;	// Move camera up
+
+	if(mKeyboard->isKeyDown(OIS::KC_DOWN))
+		mTranslateVector.y = -moveScale;	// Move camera down
+
+	if(mKeyboard->isKeyDown(OIS::KC_RIGHT))
+	mCamera->yaw(-mRotScale);
+
+	if(mKeyboard->isKeyDown(OIS::KC_LEFT))
+		mCamera->yaw(mRotScale);
+
  
     if(mKeyboard->isKeyDown(OIS::KC_ESCAPE)){
 		Ogre::LogManager::getSingletonPtr()->logMessage("*** Pressed Esc ***");
@@ -301,8 +345,6 @@ bool OgreBulletProg::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if(mKeyboard->isKeyDown(OIS::KC_B)&& mTimeUntilNextToggle <=0){
 		Ogre::LogManager::getSingletonPtr()->logMessage("*** Pressed B ***");
 		
-		// ----------------------------------------------------------------------------------------------------------------
-
 		// starting position of the box
  		Ogre::Vector3 position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
 		Ogre::Vector3 speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
@@ -318,8 +360,6 @@ bool OgreBulletProg::frameRenderingQueued(const Ogre::FrameEvent& evt)
  		mBodies.push_back(box->defaultBody);				
  		//mTimeUntilNextToggle = 0.5;
 		
-		
-		// ----------------------------------------------------------------------------------------------------------------
 		return true;
 	}
 	
