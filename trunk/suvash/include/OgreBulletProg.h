@@ -52,12 +52,20 @@ private:
 	OIS::Mouse*    mMouse;
 	OIS::Keyboard* mKeyboard;
 
+	// Camera movement variables
+	Ogre::Radian mRotX;
+	Ogre::Radian mRotY;
+	Ogre::Vector3 mTranslateVector;
+
 	// Ogre::WindowEventListener
 	virtual void windowResized(Ogre::RenderWindow* rw);
 	virtual void windowClosed(Ogre::RenderWindow* rw);
 
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+	// Ogre movecamera
+	void updateCamera();
 
 	//OgreBullet Stuff
 	std::deque<OgreBulletDynamics::RigidBody *>         mBodies;
