@@ -82,15 +82,17 @@ void Rand::createScene(void)
 	for(int i = 0; i < MaxWalls; i++)
 	{
 		Ogre::Real r = 450/2;
+		//Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), ((Dim*0.1)/2), Ogre::Math::RangeRandom(-r, r));
 		Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), ((Dim*0.1)/2), Ogre::Math::RangeRandom(-r, r));
 		Ogre::Vector3 scale(Ogre::Math::RangeRandom(0.2f, 0.5f), 1, 0.1);
-		Ogre::Quaternion one, two, orientation;
+		Ogre::Quaternion one, two, three, orientation;
 			
 		if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
-		else one.FromAngleAxis(Ogre::Degree(89), Ogre::Vector3::UNIT_Y);
+		else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
 		
-		two.FromAngleAxis(Ogre::Degree(89), Ogre::Vector3::UNIT_X);
-		orientation = one * two;
+		two.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_X);
+		three.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Z);
+		orientation =  one * three * two;
 		
 		if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(boxEnt[1], pos, orientation, scale);
 		else sg->addEntity(boxEnt[2], pos, orientation, scale);
