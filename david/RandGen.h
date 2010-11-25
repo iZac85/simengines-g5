@@ -9,8 +9,6 @@ class RandGen
 public:
 	RandGen(void);
 	~RandGen(void);
-	//void generateMap(struct map *arena, int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int room_max_area=25,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
-	void updateBlackTiles(void);
 	static const int MAX_TILES = 200;
 	static const int MAX_ROOMS = 100;
 	//#define MAX_TILES 200;
@@ -23,31 +21,33 @@ public:
 	struct furniture
 	{
 		int cnt;
-		tile pos;
+		tile *pos;
 	};
 	struct room
 	{
-		furniture door;
-		furniture desk;
-		furniture chair;
-		furniture shelf;
-		furniture painting;
-		tile dim;
-		tile orig;
+		furniture *door;
+		furniture *desk;
+		furniture *chair;
+		furniture *shelf;
+		furniture *painting;
+		tile *dim;
+		tile *orig;
 		//tile blackTile[MAX_TILES][MAX_TILES];//MAXTILES];
 	};
 	struct map
 	{
-		tile dim;
+		tile *dim;
 		int room_cnt;
-		tile room_min_size;
+		tile *room_min_size;
 		int room_max_area;
 		int wall_cnt;
-		room office[MAX_ROOMS];
+		room *office[MAX_ROOMS];
 		int blackTile[MAX_TILES][MAX_TILES]; //One or zeroo: One means obstable
 	};
-	void generateMap(struct map *arena, int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int room_max_area=25,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
-
+	//void generateMap(struct map *arena, int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int room_max_area=25,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
+	//void generateMap(struct map *arena, int dim_x, int dim_y, int room_min_x, int room_min_y, int room_max_area,int door_cnt, bool furniture_enable, int desk_cnt, int chair_cnt, int shelf_cnt, int painting_cnt);
+	void generateMap(struct map *arena);
+	void updateBlackTiles(void);
 private:
 	//#define MAXTILES 100;
 	//void split(int x, int y);
@@ -58,8 +58,8 @@ private:
 	void chear(void);
 	void shelf(void);
 	void painting(void);
-	void addBlackTile(tile pos, struct map *arena);
-	void addWall(tile len, tile pos, struct map *arena);
+	void addBlackTile(struct tile *pos, struct map *arena);
+	void addWall(struct tile *len, struct tile *pos, struct map *arena);
 	bool sizeOk(struct map *arena,int k);
 	int getBiggestRoom(struct map *arena);
 };
