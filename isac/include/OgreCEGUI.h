@@ -32,8 +32,34 @@ public:
     ~OgreCEGUI(void);
 
 protected:
+
+	//-----------VARIABLES------------//
+	bool AISettingsBtns[3];
+	bool PhysSettingsBtns[3];
+	bool ThreeDSettingsActive;
+
+	//-----------CEGUI POINTERS------------//
+
 	CEGUI::OgreRenderer* mRenderer;
-	//CEGUI::WindowManager* Wmgr;
+	CEGUI::WindowManager *Wmgr;
+
+	//-----------CEGUI OBJECTS------------//
+
+	CEGUI::Window* infoBox;
+	CEGUI::Window* nRooms;
+	CEGUI::Window* arenaSize;
+	CEGUI::PushButton* quitBtn;
+	CEGUI::PushButton* launchBtn;
+	CEGUI::RadioButton* AISettingsOp1Btn;
+	CEGUI::RadioButton* AISettingsOp2Btn;
+	CEGUI::RadioButton* AISettingsOp3Btn;
+	CEGUI::RadioButton* PhysSettingsOp1Btn;
+	CEGUI::RadioButton* PhysSettingsOp2Btn;
+	CEGUI::RadioButton* PhysSettingsOp3Btn;
+	CEGUI::RadioButton* ThreeDSettingsOnBtn;
+	CEGUI::RadioButton* ThreeDSettingsOffBtn;
+
+	//-----------FUNCTIONS------------//
 
     virtual void createScene(void);
 
@@ -45,14 +71,24 @@ protected:
     // OIS::KeyListener
     virtual bool keyPressed( const OIS::KeyEvent &arg );
     virtual bool keyReleased( const OIS::KeyEvent &arg );
+
     // OIS::MouseListener
     virtual bool mouseMoved( const OIS::MouseEvent &arg );
     virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
     virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+	//-----------BUTTON FUNCTIONS------------//
  
     bool quit(const CEGUI::EventArgs &e);
-	//bool launchDemo(const CEGUI::EventArgs &e);
-
+	bool launchDemo(const CEGUI::EventArgs &e);
+	bool AISettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool AISettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool AISettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+	bool PhysSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool PhysSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool PhysSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+	bool ThreeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
+	bool ThreeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef __OgreCEGUI_h_
