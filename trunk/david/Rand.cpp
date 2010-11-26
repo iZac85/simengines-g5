@@ -77,14 +77,14 @@ void Rand::createScene(void)
 
 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(boxEnt[0]);		//The Floor!
 	Ogre::StaticGeometry* sg = mSceneMgr->createStaticGeometry("Walls");
-	const int MaxWalls = 200;
-	const int Dim = 100.0f;
+	const int MaxWalls = 100;
+	const int Dim = 50.0f;
 	for(int i = 0; i < MaxWalls; i++)
 	{
 		Ogre::Real r = 450/2;
 		//Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), ((Dim*0.1)/2), Ogre::Math::RangeRandom(-r, r));
-		Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), ((Dim*0.1)/2), Ogre::Math::RangeRandom(-r, r));
-		Ogre::Vector3 scale(Ogre::Math::RangeRandom(0.2f, 0.5f), 1, 0.1);
+		Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), 20, Ogre::Math::RangeRandom(-r, r));
+		Ogre::Vector3 scale(0.1, 0.5, Ogre::Math::RangeRandom(0.2f, 0.5f));
 		Ogre::Quaternion one, two, three, orientation;
 			
 		if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
@@ -92,7 +92,7 @@ void Rand::createScene(void)
 		
 		two.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_X);
 		three.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Z);
-		orientation =  one * three * two;
+		orientation =  one;// * three * two;
 		
 		if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(boxEnt[1], pos, orientation, scale);
 		else sg->addEntity(boxEnt[2], pos, orientation, scale);
