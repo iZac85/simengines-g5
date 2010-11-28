@@ -454,6 +454,7 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 {
 	int j = 1;
 	float number = 0;
+	int powOf = 0;
 	//int j = CEGUI::String.length(numberString);
 	for (int i = 0 ; i <= j ; i++)
 	{
@@ -467,7 +468,8 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 		else if (numberString[i] == '7') number = 7;
 		else if (numberString[i] == '8') number = 8;
 		else number = 9;
-		numberFloat = numberFloat + number*(10*(j-i));
+		for (int k = 0; k <= j-i; k++) number = number*10;
+		numberFloat = numberFloat + number;
 	}
 }
 //-------------------------------------------------------------------------------------
