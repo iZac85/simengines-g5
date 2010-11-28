@@ -72,6 +72,7 @@ bool OgreCEGUI::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg )
 {
     CEGUI::System &sys = CEGUI::System::getSingleton();
+	keyBuffer = arg.key;
 	sys.injectKeyDown(arg.key);
 	sys.injectChar(arg.text);
 	return true;
@@ -152,36 +153,68 @@ void OgreCEGUI::createScene(void)
 	}
 
 	//------------------------LOAD GUI OBJECTS AND CONNECT EVENTS---------------------//
+
+	//Load buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
 	quitBtn->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&OgreCEGUI::quit, this));
 
 	launchBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/launchBtn");
 	launchBtn->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&OgreCEGUI::launchDemo, this));
 
+	//Load infobox
 	infoBox = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/infoBox");
-	nRooms = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/NumOfRooms");
-	arenaSize = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
 
-	AISettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp1");
-	AISettingsOp1Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::AISettingsOp1BtnChanged, this));
-	AISettingsOp2Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp2");
-	AISettingsOp2Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::AISettingsOp2BtnChanged, this));
-	AISettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp3");
-	AISettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::AISettingsOp3BtnChanged, this));
-	AISettingsOp3Btn -> setSelected(true);
-	PhysSettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp1");
-	PhysSettingsOp1Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::PhysSettingsOp1BtnChanged, this));
-	PhysSettingsOp2Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp2");
-	PhysSettingsOp2Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::PhysSettingsOp2BtnChanged, this));
-	PhysSettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp3");
-	PhysSettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::PhysSettingsOp3BtnChanged, this));
-	PhysSettingsOp3Btn -> setSelected(true);
+	//Load input fields for 3D settings
+	nRoomsWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/NumOfRooms");
+	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
+	nRoomsDisplay = (CEGUI::Window*)Wmgr->getWindow("3DSettingsNumRoomsDisp");
+	nRooms = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsNumRooms");
+	nRooms->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsChanged, this));
+	nRoomsSlider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsNumRoomsSlider");
+	nRoomsSlider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsSliderChanged, this));
+	arenaSizeX = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeX");
+	arenaSizeY = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeY");
 
-	ThreeDSettingsOnBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOn");
-	ThreeDSettingsOnBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::ThreeDSettingsOnBtnChanged, this));
-	ThreeDSettingsOffBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOff");
-	ThreeDSettingsOffBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::ThreeDSettingsOffBtnChanged, this));
-	ThreeDSettingsOffBtn -> setSelected(true); 
+	//Set character limits for the input fields
+	nRooms->setMaxTextLength(2);
+	arenaSizeX->setMaxTextLength(3);
+	arenaSizeY->setMaxTextLength(3);
+
+	//Hide the fields for 3D settings as default
+	nRoomsWindow->setVisible(false);
+	arenaSizeWindow->setVisible(false);
+	threeDSettingsActive = false;
+
+	//Load the radiobuttons for 3D settings and connect the events of each button changing to their corresponding functions (threeDSettingsXBtnChanged), X=On,Off
+	threeDSettingsOnBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOn");
+	threeDSettingsOnBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsOnBtnChanged, this));
+	threeDSettingsOffBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOff");
+	threeDSettingsOffBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsOffBtnChanged, this));
+
+	//Set the "off" value as default for 3D settings
+	threeDSettingsOffBtn -> setSelected(true); 
+
+	//Load the radiobuttons for AI settings and connect the events of each button changing to their corresponding functions (aiSettingsOpXBtnChanged), X=1,2,3
+	aiSettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp1");
+	aiSettingsOp1Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsOp1BtnChanged, this));
+	aiSettingsOp2Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp2");
+	aiSettingsOp2Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsOp2BtnChanged, this));
+	aiSettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp3");
+	aiSettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsOp3BtnChanged, this));
+
+	//Set the "off" value as default for AI settings
+	aiSettingsOp3Btn -> setSelected(true);
+
+	//Load the radiobuttons for Physics settings and connect the events of each button changing to their corresponding functions (physSettingsOpXBtnChanged), X=1,2,3
+	physSettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp1");
+	physSettingsOp1Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::physSettingsOp1BtnChanged, this));
+	physSettingsOp2Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp2");
+	physSettingsOp2Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::physSettingsOp2BtnChanged, this));
+	physSettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp3");
+	physSettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::physSettingsOp3BtnChanged, this));
+
+	//Set the "off" value as default for Physics settings
+	physSettingsOp3Btn -> setSelected(true);
 
 /*	
 	CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
@@ -247,118 +280,227 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
-	Ogre::String AISettings;
-	if (AISettingsBtns[0] == 1) AISettings = "Hard";
-	else if (AISettingsBtns[1] == 1) AISettings = "Easy";
-	else AISettings = "off";
+	Ogre::String aiSettings;
+	if (aiSettingsBtns[0] == 1) aiSettings = "Hard";
+	else if (aiSettingsBtns[1] == 1) aiSettings = "Easy";
+	else aiSettings = "off";
 
-	Ogre::String PhysSettings;
-	if (PhysSettingsBtns[0] == 1) PhysSettings = "Realistic";
-	else if (PhysSettingsBtns[1] == 1) PhysSettings = "Arcade";
-	else PhysSettings = "off";
+	Ogre::String physSettings;
+	if (physSettingsBtns[0] == 1) physSettings = "Realistic";
+	else if (physSettingsBtns[1] == 1) physSettings = "Arcade";
+	else physSettings = "off";
 
-	infoBox->setText("Demo Launched with: AI = " + AISettings + " and Physics = " + PhysSettings);
+	CEGUI::String threeDSettings;
+	if (threeDSettingsActive == false) threeDSettings = "off";
+	else
+	{
+		threeDSettings = "Number of rooms = " + nRooms->getText() + ", Arena size = " + arenaSizeX->getText() + " x " + arenaSizeY->getText();
+	}
+	infoBox->setText("Demo launch with AI: " + aiSettings + " Physics: " + physSettings + " 3D settings: " + threeDSettings);
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool ThreeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::nRoomsChanged(const CEGUI::EventArgs &e)
 {
-	if (ThreeDSettingsOnBtn->isSelected())
+	if (keyBuffer == 28)
 	{
-		nRooms->setVisible(true);
-		arenaSize->setVisible(true);
-		//ThreeDSettingsActive = true;
+		float nRoomsFloat = 0;
+		CEGUI::String nRoomsText = (nRooms->getText());
+		OgreCEGUI::stringToFloat(nRoomsText, nRoomsFloat);
+		nRoomsSlider->setCurrentValue(nRoomsFloat);
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::nRoomsSliderChanged(const CEGUI::EventArgs &e)
+{
+	CEGUI::String nRoomsString;
+	float numOfRooms = nRoomsSlider->getCurrentValue();
+	OgreCEGUI::floatToString(numOfRooms,nRoomsString);
+	//int numOfRooms = int(nRoomsSlider->getCurrentValue());
+	//CEGUI::String nRoomsString;
+	//CEGUI::String stringTens;
+	//CEGUI::String stringOnes;
+	//int tens = numOfRooms/10;
+	//int ones = (numOfRooms -= tens*10);
+
+	//if (tens == 0) stringTens = '0';
+	//else if (tens == 1) stringTens = '1';
+	//else if (tens == 2) stringTens = '2';
+	//else if (tens == 3) stringTens = '3';
+	//else if (tens == 4) stringTens = '4';
+	//else if (tens == 5) stringTens = '5';
+	//else if (tens == 6) stringTens = '6';
+	//else if (tens == 7) stringTens = '7';
+	//else if (tens == 8) stringTens = '8';
+	//else stringTens = '9';
+
+	//if (ones == 0) stringOnes = '0';
+	//else if (ones == 1) stringOnes = '1';
+	//else if (ones == 2) stringOnes = '2';
+	//else if (ones == 3) stringOnes = '3';
+	//else if (ones == 4) stringOnes = '4';
+	//else if (ones == 5) stringOnes = '5';
+	//else if (ones == 6) stringOnes = '6';
+	//else if (ones == 7) stringOnes = '7';
+	//else if (ones == 8) stringOnes = '8';
+	//else stringOnes = '9';
+	//nRoomsString = stringTens + stringOnes;
+	nRooms->setText(nRoomsString);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
+{
+	if (threeDSettingsOnBtn->isSelected())
+	{
+		nRoomsWindow->setVisible(true);
+		arenaSizeWindow->setVisible(true);
+		threeDSettingsActive = true;
 	}
 	else
 	{
-		nRooms->setVisible(false);
-		arenaSize->setVisible(false);
-		//ThreeDSettingsActive = false;
+		nRoomsWindow->setVisible(false);
+		arenaSizeWindow->setVisible(false);
+		threeDSettingsActive = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool ThreeDSettingsOffBtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e)
 {
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::AISettingsOp1BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (AISettingsOp1Btn->isSelected())
+	if (aiSettingsOp1Btn->isSelected())
 	{
-		AISettingsBtns[0] = true;
+		aiSettingsBtns[0] = true;
 	}
 	else
 	{
-		AISettingsBtns[0] = false;
+		aiSettingsBtns[0] = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::AISettingsOp2BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (AISettingsOp2Btn->isSelected())
+	if (aiSettingsOp2Btn->isSelected())
 	{
-		AISettingsBtns[1] = true;
+		aiSettingsBtns[1] = true;
 	}
 	else
 	{
-		AISettingsBtns[1] = false;
+		aiSettingsBtns[1] = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::AISettingsOp3BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (AISettingsOp3Btn->isSelected())
+	if (aiSettingsOp3Btn->isSelected())
 	{
-		AISettingsBtns[2] = true;
+		aiSettingsBtns[2] = true;
 	}
 	else
 	{
-		AISettingsBtns[2] = false;
+		aiSettingsBtns[2] = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::PhysSettingsOp1BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::physSettingsOp1BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (PhysSettingsOp1Btn->isSelected())
+	if (physSettingsOp1Btn->isSelected())
 	{
-		PhysSettingsBtns[0] = true;
+		physSettingsBtns[0] = true;
 	}
 	else
 	{
-		PhysSettingsBtns[0] = false;
+		physSettingsBtns[0] = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::PhysSettingsOp2BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::physSettingsOp2BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (PhysSettingsOp2Btn->isSelected())
+	if (physSettingsOp2Btn->isSelected())
 	{
-		PhysSettingsBtns[1] = true;
+		physSettingsBtns[1] = true;
 	}
 	else
 	{
-		PhysSettingsBtns[1] = false;
+		physSettingsBtns[1] = false;
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::PhysSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::physSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
 {
-	if (PhysSettingsOp3Btn->isSelected())
+	if (physSettingsOp3Btn->isSelected())
 	{
-		PhysSettingsBtns[2] = true;
+		physSettingsBtns[2] = true;
 	}
 	else
 	{
-		PhysSettingsBtns[2] = false;
+		physSettingsBtns[2] = false;
 	}
 	return true;
+}
+//-------------------------------------------------------------------------------------
+void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
+{
+	int j = 1;
+	float number = 0;
+	//int j = CEGUI::String.length(numberString);
+	for (int i = 0 ; i <= j ; i++)
+	{
+		if (numberString[i] == '0') number = 0;
+		else if (numberString[i] == '1') number = 1;
+		else if (numberString[i] == '2') number = 2;
+		else if (numberString[i] == '3') number = 3;
+		else if (numberString[i] == '4') number = 4;
+		else if (numberString[i] == '5') number = 5;
+		else if (numberString[i] == '6') number = 6;
+		else if (numberString[i] == '7') number = 7;
+		else if (numberString[i] == '8') number = 8;
+		else number = 9;
+		numberFloat = numberFloat + number*(10*(j-i));
+	}
+}
+//-------------------------------------------------------------------------------------
+void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
+{
+	int number = int(numberFloat);
+	std::string stringTens;
+	std::string stringOnes;
+	int tens = number/10;
+	int ones = (number -= tens*10);
+
+	if (tens == 0) stringTens = ' ';
+	else if (tens == 1) stringTens = '1';
+	else if (tens == 2) stringTens = '2';
+	else if (tens == 3) stringTens = '3';
+	else if (tens == 4) stringTens = '4';
+	else if (tens == 5) stringTens = '5';
+	else if (tens == 6) stringTens = '6';
+	else if (tens == 7) stringTens = '7';
+	else if (tens == 8) stringTens = '8';
+	else stringTens = '9';
+	
+	if (ones == 0) stringOnes = '0';
+	else if (ones == 1) stringOnes = '1';
+	else if (ones == 2) stringOnes = '2';
+	else if (ones == 3) stringOnes = '3';
+	else if (ones == 4) stringOnes = '4';
+	else if (ones == 5) stringOnes = '5';
+	else if (ones == 6) stringOnes = '6';
+	else if (ones == 7) stringOnes = '7';
+	else if (ones == 8) stringOnes = '8';
+	else stringOnes = '9';
+	numberString = stringTens + stringOnes;
 }
 //-------------------------------------------------------------------------------------
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
