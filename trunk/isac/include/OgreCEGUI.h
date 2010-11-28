@@ -34,9 +34,10 @@ public:
 protected:
 
 	//-----------VARIABLES------------//
-	bool AISettingsBtns[3];
-	bool PhysSettingsBtns[3];
-	bool ThreeDSettingsActive;
+	bool aiSettingsBtns[3];
+	bool physSettingsBtns[3];
+	bool threeDSettingsActive;
+	char keyBuffer;
 
 	//-----------CEGUI POINTERS------------//
 
@@ -46,20 +47,28 @@ protected:
 	//-----------CEGUI OBJECTS------------//
 
 	CEGUI::Window* infoBox;
-	CEGUI::Window* nRooms;
-	CEGUI::Window* arenaSize;
+	CEGUI::Window* nRoomsWindow;
+	CEGUI::Window* nRoomsDisplay;
+	CEGUI::Window* arenaSizeWindow;
+	CEGUI::Editbox* nRooms;
+	CEGUI::Editbox* arenaSizeX;
+	CEGUI::Editbox* arenaSizeY;
+	CEGUI::Slider* nRoomsSlider;
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
-	CEGUI::RadioButton* AISettingsOp1Btn;
-	CEGUI::RadioButton* AISettingsOp2Btn;
-	CEGUI::RadioButton* AISettingsOp3Btn;
-	CEGUI::RadioButton* PhysSettingsOp1Btn;
-	CEGUI::RadioButton* PhysSettingsOp2Btn;
-	CEGUI::RadioButton* PhysSettingsOp3Btn;
-	CEGUI::RadioButton* ThreeDSettingsOnBtn;
-	CEGUI::RadioButton* ThreeDSettingsOffBtn;
+	CEGUI::RadioButton* aiSettingsOp1Btn;
+	CEGUI::RadioButton* aiSettingsOp2Btn;
+	CEGUI::RadioButton* aiSettingsOp3Btn;
+	CEGUI::RadioButton* physSettingsOp1Btn;
+	CEGUI::RadioButton* physSettingsOp2Btn;
+	CEGUI::RadioButton* physSettingsOp3Btn;
+	CEGUI::RadioButton* threeDSettingsOnBtn;
+	CEGUI::RadioButton* threeDSettingsOffBtn;
 
 	//-----------FUNCTIONS------------//
+
+	void stringToFloat(CEGUI::String&, float&);
+	void floatToString(float&, CEGUI::String&);
 
     virtual void createScene(void);
 
@@ -81,14 +90,20 @@ protected:
  
     bool quit(const CEGUI::EventArgs &e);
 	bool launchDemo(const CEGUI::EventArgs &e);
-	bool AISettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool AISettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool AISettingsOp3BtnChanged(const CEGUI::EventArgs &e);
-	bool PhysSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool PhysSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool PhysSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
-	bool ThreeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
-	bool ThreeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
+
+	bool aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+
+	bool physSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool physSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+
+	bool threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
+	bool threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
+
+	bool nRoomsSliderChanged(const CEGUI::EventArgs &e);
+	bool nRoomsChanged(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef __OgreCEGUI_h_
