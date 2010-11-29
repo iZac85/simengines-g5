@@ -167,18 +167,21 @@ void OgreCEGUI::createScene(void)
 	//Load input fields for 3D settings
 	nRoomsWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/NumOfRooms");
 	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
-	nRoomsDisplay = (CEGUI::Window*)Wmgr->getWindow("3DSettingsNumRoomsDisp");
 	nRooms = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsNumRooms");
 	nRooms->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsChanged, this));
 	nRoomsSlider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsNumRoomsSlider");
+	//nRoomsSlider->setRotation(float[90,0,0])
 	nRoomsSlider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsSliderChanged, this));
 	arenaSizeX = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeX");
 	arenaSizeY = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeY");
 
 	//Set character limits for the input fields
 	nRooms->setMaxTextLength(2);
+	nRooms->setText("0");
 	arenaSizeX->setMaxTextLength(3);
+	arenaSizeX->setText("0");
 	arenaSizeY->setMaxTextLength(3);
+	arenaSizeY->setText("0");
 
 	//Hide the fields for 3D settings as default
 	nRoomsWindow->setVisible(false);
@@ -281,9 +284,9 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
 	Ogre::String aiSettings;
-	if (aiSettingsBtns[0] == 1) aiSettings = "Hard";
-	else if (aiSettingsBtns[1] == 1) aiSettings = "Easy";
-	else aiSettings = "off";
+	if (aiSettingsBtns[0] == 1) aiSettings = "Hard";//(aiSettingsOp1Btn->getText());
+	else if (aiSettingsBtns[1] == 1) aiSettings = "Easy";//aiSettingsOp2Btn->getText();
+	else aiSettings = "off";//aiSettingsOp3Btn->getText();
 
 	Ogre::String physSettings;
 	if (physSettingsBtns[0] == 1) physSettings = "Realistic";
@@ -296,7 +299,7 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	{
 		threeDSettings = "Number of rooms = " + nRooms->getText() + ", Arena size = " + arenaSizeX->getText() + " x " + arenaSizeY->getText();
 	}
-	infoBox->setText("Demo launch with AI: " + aiSettings + " Physics: " + physSettings + " 3D settings: " + threeDSettings);
+	infoBox->setText("Demo launch with AI: " + aiSettings + ", Physics: " + physSettings + ", 3D settings: " + threeDSettings);
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -317,35 +320,6 @@ bool OgreCEGUI::nRoomsSliderChanged(const CEGUI::EventArgs &e)
 	CEGUI::String nRoomsString;
 	float numOfRooms = nRoomsSlider->getCurrentValue();
 	OgreCEGUI::floatToString(numOfRooms,nRoomsString);
-	//int numOfRooms = int(nRoomsSlider->getCurrentValue());
-	//CEGUI::String nRoomsString;
-	//CEGUI::String stringTens;
-	//CEGUI::String stringOnes;
-	//int tens = numOfRooms/10;
-	//int ones = (numOfRooms -= tens*10);
-
-	//if (tens == 0) stringTens = '0';
-	//else if (tens == 1) stringTens = '1';
-	//else if (tens == 2) stringTens = '2';
-	//else if (tens == 3) stringTens = '3';
-	//else if (tens == 4) stringTens = '4';
-	//else if (tens == 5) stringTens = '5';
-	//else if (tens == 6) stringTens = '6';
-	//else if (tens == 7) stringTens = '7';
-	//else if (tens == 8) stringTens = '8';
-	//else stringTens = '9';
-
-	//if (ones == 0) stringOnes = '0';
-	//else if (ones == 1) stringOnes = '1';
-	//else if (ones == 2) stringOnes = '2';
-	//else if (ones == 3) stringOnes = '3';
-	//else if (ones == 4) stringOnes = '4';
-	//else if (ones == 5) stringOnes = '5';
-	//else if (ones == 6) stringOnes = '6';
-	//else if (ones == 7) stringOnes = '7';
-	//else if (ones == 8) stringOnes = '8';
-	//else stringOnes = '9';
-	//nRoomsString = stringTens + stringOnes;
 	nRooms->setText(nRoomsString);
 	return true;
 }
@@ -454,7 +428,7 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 {
 	int j = 1;
 	float number = 0;
-	int powOf = 0;
+	int powOf = 1;
 	//int j = CEGUI::String.length(numberString);
 	for (int i = 0 ; i <= j ; i++)
 	{
@@ -468,8 +442,12 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 		else if (numberString[i] == '7') number = 7;
 		else if (numberString[i] == '8') number = 8;
 		else number = 9;
-		for (int k = 0; k <= j-i; k++) number = number*10;
-		numberFloat = numberFloat + number;
+		for (int k = 0; k <= j-i; k++)
+		{
+			if (k == 0) powOf = 1;
+			else powOf = powOf*10;
+		}
+		numberFloat = numberFloat + number*powOf;
 	}
 }
 //-------------------------------------------------------------------------------------
