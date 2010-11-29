@@ -48,7 +48,6 @@ protected:
 
 	CEGUI::Window* infoBox;
 	CEGUI::Window* nRoomsWindow;
-	CEGUI::Window* nRoomsDisplay;
 	CEGUI::Window* arenaSizeWindow;
 	CEGUI::Editbox* nRooms;
 	CEGUI::Editbox* arenaSizeX;
