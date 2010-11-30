@@ -242,10 +242,10 @@ bool BaseApplication::setup(void)
     // Load resources
     loadResources();
 
-    createFrameListener();
+	// Create the scene
+	createScene();
 
-    // Create the scene
-    createScene();
+    createFrameListener();
 
     return true;
 };
