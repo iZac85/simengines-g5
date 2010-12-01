@@ -441,8 +441,13 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 		else if (numberString[i] == '6') number = 6;
 		else if (numberString[i] == '7') number = 7;
 		else if (numberString[i] == '8') number = 8;
-		else number = 9;
-		for (int k = 0; k <= j-i; k++)
+		else if (numberString[i] == '9') number = 9;
+		else 
+		{
+			number = 0;
+			numberFloat = numberFloat/10;
+		}
+		for (int k = 0;k <= j-i; k++)
 		{
 			if (k == 0) powOf = 1;
 			else powOf = powOf*10;
@@ -483,6 +488,7 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 	numberString = stringTens + stringOnes;
 }
 //-------------------------------------------------------------------------------------
+
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
