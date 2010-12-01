@@ -1,25 +1,11 @@
-bin\Debug\g5-main.ilk
 bin\Debug\g5-main.pdb
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.EXE
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.ILK
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.PDB
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\BASEAPPLICATION.OBJ
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5-MAIN.EXE.EMBED.MANIFEST
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5-MAIN.EXE.EMBED.MANIFEST.RES
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5-MAIN.EXE.INTERMEDIATE.MANIFEST
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5MAIN.OBJ
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5MAIN.RES
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\G5-MAIN\G5-MAIN\OBJ\DEBUG\VC100.PDB
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.EXE
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.ILK
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\BIN\DEBUG\G5-MAIN.PDB
 C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\OBJ\DEBUG\BASEAPPLICATION.OBJ
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\cl.command.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\CL.read.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\CL.write.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\g5-main.exe.embed.manifest
 C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5-MAIN.EXE.EMBED.MANIFEST.RES
-C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5-MAIN.EXE.INTERMEDIATE.MANIFEST
+C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\g5-main.exe.intermediate.manifest
 C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5MAIN.OBJ
 C:\USERS\IZAC\DOCUMENTS\VISUAL STUDIO 2010\PROJECTS\SIMENGINES-G5\G5-MAIN\G5-MAIN\OBJ\DEBUG\G5MAIN.RES
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\g5-main_manifest.rc
@@ -28,9 +14,6 @@ C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-mai
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\link.write.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\link-cvtres.read.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\link-cvtres.write.1.tlog
-C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\mt.command.1.tlog
-C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\mt.read.1.tlog
-C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\mt.write.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\rc.command.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\rc.read.1.tlog
 C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\obj\Debug\rc.write.1.tlog

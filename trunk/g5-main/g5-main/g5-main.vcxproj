@@ -116,11 +116,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\isac\include\OgreCEGUI.h" />
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\g5main.h" />
     <ClInclude Include="res\Resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\isac\src\OgreCEGUI.cpp" />
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\g5main.cpp" />
   </ItemGroup>
