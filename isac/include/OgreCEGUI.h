@@ -31,6 +31,41 @@ public:
     OgreCEGUI(void);
     ~OgreCEGUI(void);
 
+	virtual void createScene(void);
+
+	virtual void createFrameListener(void);
+
+	// Ogre::FrameListener
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+
+	// OIS::KeyListener
+	virtual bool keyPressed( const OIS::KeyEvent &arg );
+	virtual bool keyReleased( const OIS::KeyEvent &arg );
+
+	// OIS::MouseListener
+	virtual bool mouseMoved( const OIS::MouseEvent &arg );
+	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+	//-----------BUTTON FUNCTIONS------------//
+
+	bool quit(const CEGUI::EventArgs &e);
+	bool launchDemo(const CEGUI::EventArgs &e);
+
+	bool aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+
+	bool physSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
+	bool physSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
+	bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+
+	bool threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
+	bool threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
+
+	bool nRoomsSliderChanged(const CEGUI::EventArgs &e);
+	bool nRoomsChanged(const CEGUI::EventArgs &e);
+
 protected:
 
 	//-----------VARIABLES------------//
@@ -69,40 +104,6 @@ protected:
 	void stringToFloat(CEGUI::String&, float&);
 	void floatToString(float&, CEGUI::String&);
 
-    virtual void createScene(void);
-
-	virtual void createFrameListener(void);
- 
-    // Ogre::FrameListener
-    virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
- 
-    // OIS::KeyListener
-    virtual bool keyPressed( const OIS::KeyEvent &arg );
-    virtual bool keyReleased( const OIS::KeyEvent &arg );
-
-    // OIS::MouseListener
-    virtual bool mouseMoved( const OIS::MouseEvent &arg );
-    virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-    virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
-
-	//-----------BUTTON FUNCTIONS------------//
- 
-    bool quit(const CEGUI::EventArgs &e);
-	bool launchDemo(const CEGUI::EventArgs &e);
-
-	bool aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
-
-	bool physSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool physSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
-
-	bool threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
-	bool threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
-
-	bool nRoomsSliderChanged(const CEGUI::EventArgs &e);
-	bool nRoomsChanged(const CEGUI::EventArgs &e);
 };
 
 #endif // #ifndef __OgreCEGUI_h_
