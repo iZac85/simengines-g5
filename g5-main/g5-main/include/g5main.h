@@ -30,9 +30,12 @@ class g5main : public BaseApplication
 public:
     g5main(void);
     virtual ~g5main(void);
+	OgreCEGUI *mCEGUI;
 
 protected:
-    virtual void createScene(void);
+    void createScene(void);
+	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	void createFrameListener(void);
 };
 
 #endif // #ifndef __g5main_h_
