@@ -222,7 +222,8 @@ void OgreCEGUI::createScene(void)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 {
-    mShutDown = true;
+    
+	mShutDown = true;
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -440,7 +441,7 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 #endif
 
 //-------------------------------------------------------------------------------------
-
+/*
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -471,3 +472,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+*/
