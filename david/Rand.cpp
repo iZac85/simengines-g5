@@ -46,7 +46,7 @@ void Rand::createScene(void)
 	plane.d = 0;
 
 	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 450.0f, 450.0f, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
-
+	Ogre::MeshManager::getSingleton().createPresfabCube();
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture1 = mat1->getTechnique(0)->getPass(0)->createTextureUnitState("MRAMOR6X6.jpg");
@@ -68,7 +68,7 @@ void Rand::createScene(void)
 	boxEnt[1]->setMaterialName("WallMat1");
 	boxEnt[1]->setCastShadows(false);
 	
-	boxEnt[2] = mSceneMgr->createEntity("cube23", "cube.mesh");
+	boxEnt[2] = mSceneMgr->createEntity("cube2", "cube.mesh");
 	boxEnt[2]->setMaterialName("WallMat2");
 	boxEnt[2]->setCastShadows(false);
 	
