@@ -32,10 +32,25 @@ public:
     virtual ~g5main(void);
 	OgreCEGUI *mCEGUI;
 
+	void createScene(void);
+
+	// Ogre::FrameListener
+	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
+	virtual void createFrameListener(void);
+
+	// OIS::KeyListener
+	virtual bool keyPressed( const OIS::KeyEvent &arg );
+	virtual bool keyReleased( const OIS::KeyEvent &arg );
+
+	// OIS::MouseListener
+	virtual bool mouseMoved( const OIS::MouseEvent &arg );
+	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
+
+	bool quit(const CEGUI::EventArgs &e);
+
 protected:
-    void createScene(void);
-	bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-	void createFrameListener(void);
+
 };
 
 #endif // #ifndef __g5main_h_

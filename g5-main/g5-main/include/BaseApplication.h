@@ -42,6 +42,7 @@ public:
     virtual ~BaseApplication(void);
 
     virtual void go(void);
+	bool mShutDown;
 
 protected:
     virtual bool setup();
@@ -85,7 +86,6 @@ protected:
     OgreBites::SdkCameraMan* mCameraMan;     // basic camera controller
     OgreBites::ParamsPanel* mDetailsPanel;   // sample details panel
     bool mCursorWasVisible;                  // was cursor visible before dialog appeared
-    bool mShutDown;
 
     //OIS Input devices
     OIS::InputManager* mInputManager;
