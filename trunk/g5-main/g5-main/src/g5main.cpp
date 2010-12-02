@@ -36,12 +36,86 @@ void g5main::createScene(void)
 
 void g5main::createFrameListener(void)
 {
-	mCEGUI->createFrameListener();
+	Ogre::LogManager::getSingletonPtr()->logMessage("*** Initializing OIS ***");
+	OIS::ParamList pl;
+	size_t windowHnd = 0;
+	std::ostringstream windowHndStr;
+
+	mWindow->getCustomAttribute("WINDOW", &windowHnd);
+	windowHndStr << windowHnd;
+	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
+
+	mInputManager = OIS::InputManager::createInputSystem( pl );
+
+	mKeyboard = static_cast<OIS::Keyboard*>(mInputManager->createInputObject( OIS::OISKeyboard, true ));
+	mMouse = static_cast<OIS::Mouse*>(mInputManager->createInputObject( OIS::OISMouse, true ));
+
+	mMouse->setEventCallback(this);
+	mKeyboard->setEventCallback(this);
+
+	//Set initial mouse clipping size
+	windowResized(mWindow);
+
+	//Register as a Window listener
+	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
+
+	mRoot->addFrameListener(this);
+	//mCEGUI->createFrameListener();
 }
 
 bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-	mCEGUI->frameRenderingQueued(const Ogre::FrameEvent& evt);
+	if(mWindow->isClosed()) return false;
+
+	if(mShutDown) return false;
+
+	//Need to capture/update each device
+	mKeyboard->capture();
+	mMouse->capture();
+
+	return true;
+	//mCEGUI->frameRenderingQueued(evt);
+	//return true;
+}
+
+bool g5main::keyPressed( const OIS::KeyEvent &arg )
+{
+	mCEGUI->keyPressed(arg);
+	if (arg.key == OIS::KC_ESCAPE)
+	{
+		mShutDown = true;
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool g5main::keyReleased( const OIS::KeyEvent &arg )
+{
+	mCEGUI->keyReleased(arg);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool g5main::mouseMoved( const OIS::MouseEvent &arg )
+{
+	mCEGUI->mouseMoved(arg);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool g5main::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	mCEGUI->mousePressed(arg,id);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
+{
+	mCEGUI->mouseReleased(arg,id);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool g5main::quit(const CEGUI::EventArgs &e)
+{
+	mShutDown = true;
+	return true;
 }
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
