@@ -67,7 +67,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	if(mWindow->isClosed()) return false;
 
-	if(mShutDown) return false;
+	if(mCEGUI->mShutDown) return false;
 
 	//Need to capture/update each device
 	mKeyboard->capture();
@@ -83,7 +83,7 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 	mCEGUI->keyPressed(arg);
 	if (arg.key == OIS::KC_ESCAPE)
 	{
-		mShutDown = true;
+		mCEGUI->mShutDown = true;
 	}
 	return true;
 }
