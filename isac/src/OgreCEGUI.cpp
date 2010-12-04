@@ -154,6 +154,9 @@ void OgreCEGUI::createScene(void)
 
 	//------------------------LOAD GUI OBJECTS AND CONNECT EVENTS---------------------//
 
+	//Load root window
+	rootWindow = (CEGUI::Window*)Wmgr->getWindow("Root");
+
 	//Load buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
 	quitBtn->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&OgreCEGUI::quit, this));
@@ -169,11 +172,18 @@ void OgreCEGUI::createScene(void)
 	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
 	nRooms = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsNumRooms");
 	nRooms->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsChanged, this));
-	nRoomsSlider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsNumRoomsSlider");
-	//nRoomsSlider->setRotation(float[90,0,0])
-	nRoomsSlider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::nRoomsSliderChanged, this));
+
+	arenaSizeXslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeXSlider");
+	arenaSizeXslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXsliderChanged, this));
+	//arenaSizeXslider->setRotation(CEGUI::Vector3(0,0,90));
+	arenaSizeYslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeYSlider");
+	arenaSizeYslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYsliderChanged, this));
+	//arenaSizeYslider->setRotation(CEGUI::Vector3(0,0,90));
+
 	arenaSizeX = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeX");
+	arenaSizeX->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXChanged, this));
 	arenaSizeY = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeY");
+	arenaSizeX->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYChanged, this));
 
 	//Set character limits for the input fields
 	nRooms->setMaxTextLength(2);
@@ -222,13 +232,14 @@ void OgreCEGUI::createScene(void)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 {
-    
 	mShutDown = true;
 	return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
+	mLaunch = true;
+	rootWindow->destroy();
 	Ogre::String aiSettings;
 	if (aiSettingsBtns[0] == 1) aiSettings = "Hard";//(aiSettingsOp1Btn->getText());
 	else if (aiSettingsBtns[1] == 1) aiSettings = "Easy";//aiSettingsOp2Btn->getText();
@@ -256,17 +267,50 @@ bool OgreCEGUI::nRoomsChanged(const CEGUI::EventArgs &e)
 		float nRoomsFloat = 0;
 		CEGUI::String nRoomsText = (nRooms->getText());
 		OgreCEGUI::stringToFloat(nRoomsText, nRoomsFloat);
-		nRoomsSlider->setCurrentValue(nRoomsFloat);
+		arenaSizeXslider->setCurrentValue(nRoomsFloat);
 	}
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::nRoomsSliderChanged(const CEGUI::EventArgs &e)
+bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 {
-	CEGUI::String nRoomsString;
-	float numOfRooms = nRoomsSlider->getCurrentValue();
-	OgreCEGUI::floatToString(numOfRooms,nRoomsString);
-	nRooms->setText(nRoomsString);
+	if (keyBuffer == 28)
+	{
+		float arenaSizeXfloat = 0;
+		CEGUI::String arenaSizeXText = (arenaSizeX->getText());
+		OgreCEGUI::stringToFloat(arenaSizeXText, arenaSizeXfloat);
+		arenaSizeXslider->setCurrentValue(arenaSizeXfloat);
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::arenaSizeYChanged(const CEGUI::EventArgs &e)
+{
+	if (keyBuffer == 28)
+	{
+		float arenaSizeYfloat = 0;
+		CEGUI::String arenaSizeYText = (arenaSizeY->getText());
+		OgreCEGUI::stringToFloat(arenaSizeYText, arenaSizeYfloat);
+		arenaSizeYslider->setCurrentValue(arenaSizeYfloat);
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::arenaSizeXsliderChanged(const CEGUI::EventArgs &e)
+{
+	CEGUI::String arenaSizeXstring;
+	float arenaSizeXfloat = arenaSizeXslider->getCurrentValue();
+	OgreCEGUI::floatToString(arenaSizeXfloat,arenaSizeXstring);
+	arenaSizeX->setText(arenaSizeXstring);
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::arenaSizeYsliderChanged(const CEGUI::EventArgs &e)
+{
+	CEGUI::String arenaSizeYstring;
+	float arenaSizeYfloat = arenaSizeYslider->getCurrentValue();
+	OgreCEGUI::floatToString(arenaSizeYfloat,arenaSizeYstring);
+	arenaSizeY->setText(arenaSizeYstring);
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -372,7 +416,7 @@ bool OgreCEGUI::physSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 {
-	int j = 1;
+	int j = 2;
 	float number = 0;
 	int powOf = 1;
 	//int j = CEGUI::String.length(numberString);
@@ -405,10 +449,23 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 {
 	int number = int(numberFloat);
+	std::string stringHundreds;
 	std::string stringTens;
 	std::string stringOnes;
+	int hundreds = number/100;
 	int tens = number/10;
-	int ones = (number -= tens*10);
+	int ones = (number -= tens*10 - hundreds*100);
+
+	if (hundreds == 0) stringHundreds = ' ';
+	else if (hundreds == 1) stringHundreds = '1';
+	else if (hundreds == 2) stringHundreds = '2';
+	else if (hundreds == 3) stringHundreds = '3';
+	else if (hundreds == 4) stringHundreds = '4';
+	else if (hundreds == 5) stringHundreds = '5';
+	else if (hundreds == 6) stringHundreds = '6';
+	else if (hundreds == 7) stringHundreds = '7';
+	else if (hundreds == 8) stringHundreds = '8';
+	else stringHundreds = '9';
 
 	if (tens == 0) stringTens = ' ';
 	else if (tens == 1) stringTens = '1';
@@ -431,7 +488,7 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 	else if (ones == 7) stringOnes = '7';
 	else if (ones == 8) stringOnes = '8';
 	else stringOnes = '9';
-	numberString = stringTens + stringOnes;
+	numberString = stringHundreds + stringTens + stringOnes;
 }
 //-------------------------------------------------------------------------------------
 
