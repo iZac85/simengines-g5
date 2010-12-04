@@ -43,6 +43,7 @@ public:
 
     virtual void go(void);
 	bool mShutDown;
+	bool mLaunch;
 
 protected:
     virtual bool setup();

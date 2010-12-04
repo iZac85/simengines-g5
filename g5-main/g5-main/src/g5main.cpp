@@ -27,7 +27,7 @@ g5main::g5main(void)
 g5main::~g5main(void)
 {
 	delete mCEGUI;
-	delete mMapCreate;
+	//delete mMapCreate;
 }
 
 //-------------------------------------------------------------------------------------
@@ -72,6 +72,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 	if(mCEGUI->mShutDown) return false;
 
+	if(mCEGUI->mLaunch) launch();
 	//Need to capture/update each device
 	mKeyboard->capture();
 	mMouse->capture();
@@ -114,6 +115,23 @@ bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	mCEGUI->mouseReleased(arg,id);
 	return true;
 }
+//-------------------------------------------------------------------------------------
+bool g5main::launch()
+{
+	Ogre::Entity* ogreHead1 = mSceneMgr->createEntity("Head1","ogrehead.mesh");
+
+	Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	headNode->attachObject(ogreHead1);
+
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+
+	Ogre::Light* l = mSceneMgr->createLight("MainLight");
+	l->setPosition(20,80,50);
+
+	mCEGUI->mLaunch = false;
+	return true;
+}
+
 //-------------------------------------------------------------------------------------
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32

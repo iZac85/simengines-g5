@@ -49,7 +49,7 @@ public:
 	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
-	bool quit(const CEGUI::EventArgs &e);
+	bool launch();
 
 protected:
 

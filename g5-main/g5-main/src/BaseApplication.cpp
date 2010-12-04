@@ -35,6 +35,7 @@ BaseApplication::BaseApplication(void)
     mDetailsPanel(0),
     mCursorWasVisible(false),
     mShutDown(false),
+	mLaunch(false),
     mInputManager(0),
     mMouse(0),
     mKeyboard(0)
