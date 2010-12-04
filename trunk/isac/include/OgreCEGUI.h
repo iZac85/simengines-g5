@@ -63,8 +63,12 @@ public:
 	bool threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
 	bool threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
 
-	bool nRoomsSliderChanged(const CEGUI::EventArgs &e);
+	bool arenaSizeXsliderChanged(const CEGUI::EventArgs &e);
+	bool arenaSizeYsliderChanged(const CEGUI::EventArgs &e);
+
 	bool nRoomsChanged(const CEGUI::EventArgs &e);
+	bool arenaSizeXChanged(const CEGUI::EventArgs &e);
+	bool arenaSizeYChanged(const CEGUI::EventArgs &e);
 
 protected:
 
@@ -82,12 +86,14 @@ protected:
 	//-----------CEGUI OBJECTS------------//
 
 	CEGUI::Window* infoBox;
+	CEGUI::Window* rootWindow;
 	CEGUI::Window* nRoomsWindow;
 	CEGUI::Window* arenaSizeWindow;
 	CEGUI::Editbox* nRooms;
 	CEGUI::Editbox* arenaSizeX;
 	CEGUI::Editbox* arenaSizeY;
-	CEGUI::Slider* nRoomsSlider;
+	CEGUI::Slider* arenaSizeXslider;
+	CEGUI::Slider* arenaSizeYslider;
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
 	CEGUI::RadioButton* aiSettingsOp1Btn;
