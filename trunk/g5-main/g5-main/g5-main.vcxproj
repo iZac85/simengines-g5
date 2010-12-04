@@ -63,7 +63,7 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost_1_42;$(G5_HOME)\SimEngines-g5\isac\include;$(G5_HOME)\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include;$(G5_HOME)\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include\RendererModules\Ogre;$(G5_HOME)\libs-SDK\BulletSDK\bullet-2.77\src;$(G5_HOME)\libs-SDK\OgreBullet\Collisions\include;$(G5_HOME)\libs-SDK\OgreBullet\Dynamics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(G5_HOME)\SimEngines-g5\david;include;$(OGRE_HOME)\include;$(OGRE_HOME)\include\OIS;$(OGRE_HOME)\include\OGRE;$(OGRE_HOME)\Samples\Common\include;$(OGRE_HOME)\boost_1_42;$(G5_HOME)\SimEngines-g5\isac\include;$(G5_HOME)\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include;$(G5_HOME)\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include\RendererModules\Ogre;$(G5_HOME)\libs-SDK\BulletSDK\bullet-2.77\src;$(G5_HOME)\libs-SDK\OgreBullet\Collisions\include;$(G5_HOME)\libs-SDK\OgreBullet\Dynamics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +116,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\david\MapCreate.h" />
+    <ClInclude Include="..\..\david\RandGen.h" />
     <ClInclude Include="..\..\isac\include\OgreCEGUI.h" />
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\g5main.h" />
@@ -124,6 +126,8 @@
     <ClInclude Include="res\Resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\david\MapCreate.cpp" />
+    <ClCompile Include="..\..\david\RandGen.cpp" />
     <ClCompile Include="..\..\isac\src\OgreCEGUI.cpp" />
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\g5main.cpp" />
