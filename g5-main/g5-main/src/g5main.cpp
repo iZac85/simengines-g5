@@ -26,12 +26,15 @@ g5main::g5main(void)
 //-------------------------------------------------------------------------------------
 g5main::~g5main(void)
 {
+	delete mCEGUI;
+	delete mMapCreate;
 }
 
 //-------------------------------------------------------------------------------------
 void g5main::createScene(void)
 {
 	mCEGUI->createScene();
+	//mMapCreate = new MapCreate(mSceneMgr);// fel ställe
 }
 
 void g5main::createFrameListener(void)
@@ -112,11 +115,6 @@ bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 	return true;
 }
 //-------------------------------------------------------------------------------------
-bool g5main::quit(const CEGUI::EventArgs &e)
-{
-	mShutDown = true;
-	return true;
-}
 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
