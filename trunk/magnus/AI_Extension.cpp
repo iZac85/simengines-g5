@@ -800,6 +800,7 @@ void Pather::AIgo()
 }
 
 // Main main
+/*
 int _tmain(int argc, _TCHAR* argv[])
 {
 
@@ -848,3 +849,4 @@ int _tmain(int argc, _TCHAR* argv[])
 	return 0;
 	
 }
+*/

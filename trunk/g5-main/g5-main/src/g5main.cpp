@@ -151,6 +151,8 @@ extern "C" {
     {
         // Create application object
         g5main app;
+		//OgreBulletProg app;
+
         try {
             app.go();
         } catch( Ogre::Exception& e ) {

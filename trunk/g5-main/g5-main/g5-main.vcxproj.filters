@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\suvash">
+      <UniqueIdentifier>{dc79d865-8456-4380-b305-dddebeba892e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\suvash">
+      <UniqueIdentifier>{90cdee1b-b661-4e23-88c9-7bfc09c8e0ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\isac">
+      <UniqueIdentifier>{00e69007-3ff9-4395-97e0-aab376376283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\david">
+      <UniqueIdentifier>{4d95b816-d61b-4b42-b363-a71dedc65825}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\magnus">
+      <UniqueIdentifier>{9cefa665-7315-4086-8893-63b53626fee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\isac">
+      <UniqueIdentifier>{7b1a25b0-8ce1-4c89-ad4f-79167cf9a79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\david">
+      <UniqueIdentifier>{f556b06c-3327-4adc-883f-5d8a92a60993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\magnus">
+      <UniqueIdentifier>{66b5435b-3249-4b14-832d-fdfcec71137c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\g5main.h">
@@ -24,20 +48,32 @@
     <ClInclude Include="res\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\suvash\include\OBBox.h">
+      <Filter>Header Files\suvash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\suvash\include\OgreBulletProg.h">
+      <Filter>Header Files\suvash</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\isac\include\OgreCEGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\OBBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\OgreBulletProg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\david\MapCreate.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\isac</Filter>
     </ClInclude>
     <ClInclude Include="..\..\david\RandGen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\david</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\david\MapCreate.h">
+      <Filter>Header Files\david</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\magnus\AI_Extension.h">
+      <Filter>Header Files\magnus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\magnus\micropather.h">
+      <Filter>Header Files\magnus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\magnus\microTalker.h">
+      <Filter>Header Files\magnus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\magnus\stdafx.h">
+      <Filter>Header Files\magnus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -47,20 +83,32 @@
     <ClCompile Include="src\BaseApplication.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\suvash\src\OBBox.cpp">
+      <Filter>Source Files\suvash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\suvash\src\OgreBulletProg.cpp">
+      <Filter>Source Files\suvash</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\isac\src\OgreCEGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OBBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\OgreBulletProg.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\isac</Filter>
     </ClCompile>
     <ClCompile Include="..\..\david\MapCreate.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\david</Filter>
     </ClCompile>
     <ClCompile Include="..\..\david\RandGen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\david</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\AI_Extension.cpp">
+      <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\micropather.cpp">
+      <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\microTalker.cpp">
+      <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\stdafx.cpp">
+      <Filter>Source Files\magnus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

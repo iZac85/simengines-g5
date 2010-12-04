@@ -368,7 +368,7 @@ bool OgreBulletProg::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     return true;
 }
- 
+/* 
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
@@ -404,3 +404,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+*/
