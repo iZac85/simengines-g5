@@ -27,6 +27,12 @@
     <ClInclude Include="..\..\isac\include\OgreCEGUI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\OBBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OgreBulletProg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\g5main.cpp">
@@ -36,6 +42,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\isac\src\OgreCEGUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OBBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OgreBulletProg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

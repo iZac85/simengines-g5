@@ -1,2 +1,38 @@
-﻿  g5-main.vcxproj -> C:\Users\iZac\Documents\Visual Studio 2010\Projects\SimEngines-g5\g5-main\g5-main\bin\Debug\g5-main.exe
-          1 file(s) copied.
+﻿Build started 12/4/2010 2:50:36 PM.
+     1>Project "C:\Users\suVasH\Developer\simengines-g5\g5-main\g5-main\g5-main.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "obj\Debug\g5-main.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Iinclude /I"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\include" /I"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\include\OIS" /I"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\include\OGRE" /I"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\Samples\Common\include" /I"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\boost_1_42" /I"C:\Users\suVasH\Developer\SimEngines-g5\isac\include" /I"C:\Users\suVasH\Developer\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include" /I"C:\Users\suVasH\Developer\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\cegui\include\RendererModules\Ogre" /I"C:\Users\suVasH\Developer\libs-SDK\BulletSDK\bullet-2.77\src" /I"C:\Users\suVasH\Developer\libs-SDK\OgreBullet\Collisions\include" /I"C:\Users\suVasH\Developer\libs-SDK\OgreBullet\Dynamics\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Gy /fp:fast /Zc:wchar_t /Zc:forScope /GR /Fo"obj\Debug\\" /Fd"obj\Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt src\g5main.cpp
+         g5main.cpp
+       ResourceCompile:
+         All outputs are up-to-date.
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"bin\Debug\\g5-main.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\lib\debug" /LIBPATH:"C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\boost_1_42\lib" /LIBPATH:"C:\Users\suVasH\Developer\libs-SDK\CeguiSDK\CEGUI-SDK-0.7.5-vc10\lib" /LIBPATH:"C:\Users\suVasH\Developer\libs-sdk\BulletSDK\bullet-2.77\msvc\2008\lib\Debug" /LIBPATH:"C:\Users\suVasH\Developer\libs-sdk\OgreBullet\lib\Debug" OgreMain_d.lib OIS_d.lib CEGUIBase_d.lib CEGUIOgreRenderer_d.lib OgreBulletCollisions_d.lib OgreBulletDynamics_d.lib bulletcollision.lib bulletdynamics.lib LinearMath.lib GIMPACTutils.lib ConvexDecomposition.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"obj\Debug\g5-main.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"bin\Debug\/g5-main.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"bin\Debug\g5-main.lib" /MACHINE:X86 obj\Debug\g5main.res
+         "obj\Debug\g5-main.exe.embed.manifest.res"
+         obj\Debug\OgreCEGUI.obj
+         obj\Debug\BaseApplication.obj
+         obj\Debug\g5main.obj
+         obj\Debug\OBBox.obj
+         obj\Debug\OgreBulletProg.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"obj\Debug\g5-main.exe.embed.manifest" /manifest "obj\Debug\g5-main.exe.intermediate.manifest"
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         g5-main.vcxproj -> C:\Users\suVasH\Developer\simengines-g5\g5-main\g5-main\bin\Debug\g5-main.exe
+       PostBuildEvent:
+         Description: Copying exe to samples bin directory ...
+         copy "bin\Debug\\g5-main.exe" "C:\Users\suVasH\Developer\Libs-SDK\OgreSDK\OgreSDK_vc10_v1-7-1\Bin\Debug"
+         :VCEnd
+                 1 file(s) copied.
+       FinalizeBuildStatus:
+         Deleting file "obj\Debug\g5-main.unsuccessfulbuild".
+         Touching "obj\Debug\g5-main.lastbuildstate".
+     1>Done Building Project "C:\Users\suVasH\Developer\simengines-g5\g5-main\g5-main\g5-main.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:01:15.02
