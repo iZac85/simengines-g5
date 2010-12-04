@@ -3,6 +3,8 @@
 #define __RandGen_h_
 
 #include "math.h"
+#include <vector>
+//using namespace std;
 
 class RandGen
 {
@@ -42,8 +44,10 @@ public:
 		int room_max_area;
 		int wall_cnt;
 		room office[MAX_ROOMS];
-		int blackTile[MAX_TILES][MAX_TILES]; //One or zeroo: One means obstable
+		std::vector<std::vector<int>> blackTile;//One or zeroo: One means obstable
 	};
+	
+
 	map arena;
 	//map arena;
 	void generateMap(int dim_x=50, int dim_y=50, int room_min_x=4, int room_min_y=4, int room_max_area=25,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);

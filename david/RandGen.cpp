@@ -33,7 +33,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 	arena.room_min_size.y  = room_min_y;
 	arena.room_max_area	= room_max_area;
 	//Black tiles
-	for(int i=0; i<MAX_TILES; i++)
+	/*for(int i=0; i<MAX_TILES; i++)
 	{
 		for(int j=0; j<MAX_TILES; j++)
 		{
@@ -42,7 +42,9 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 			pos.y=j;
 			addBlackTile(pos,arena);
 		}
-	}
+	}*/
+	std::vector<int> rows (dim_x,0);
+	arena.blackTile = std::vector<std::vector<int>> (dim_y,rows);
 		//Generate Walls
 	split(arena);
 	//doors and Furniture 
