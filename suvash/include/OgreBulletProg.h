@@ -13,7 +13,7 @@
 
 #include <OgreBulletDynamicsRigidBody.h>				 // for OgreBullet
 #include <Shapes/OgreBulletCollisionsStaticPlaneShape.h> // for static planes
-#include <Shapes/OgreBulletCollisionsBoxShape.h>		 // for Boxes
+#include <Shapes/OgreBulletCollisionsBoxShape.h>// for Boxes
 
 
 class OgreBulletProg : public Ogre::WindowEventListener, public Ogre::FrameListener
