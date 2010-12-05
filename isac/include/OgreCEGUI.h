@@ -47,6 +47,8 @@ public:
 	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+protected:
+
 	//-----------BUTTON FUNCTIONS------------//
 
 	bool quit(const CEGUI::EventArgs &e);
@@ -66,11 +68,8 @@ public:
 	bool arenaSizeXsliderChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYsliderChanged(const CEGUI::EventArgs &e);
 
-	bool nRoomsChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeXChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYChanged(const CEGUI::EventArgs &e);
-
-protected:
 
 	//-----------VARIABLES------------//
 	bool aiSettingsBtns[3];
@@ -87,9 +86,10 @@ protected:
 
 	CEGUI::Window* infoBox;
 	CEGUI::Window* rootWindow;
-	CEGUI::Window* nRoomsWindow;
 	CEGUI::Window* arenaSizeWindow;
-	CEGUI::Editbox* nRooms;
+	CEGUI::Window* roomSize;
+	CEGUI::Window* doorCnt;
+	CEGUI::Window* furnitureEn;
 	CEGUI::Editbox* arenaSizeX;
 	CEGUI::Editbox* arenaSizeY;
 	CEGUI::Slider* arenaSizeXslider;
