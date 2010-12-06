@@ -167,12 +167,13 @@ void OgreCEGUI::createScene(void)
 	//Load infobox
 	infoBox = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/infoBox");
 
-	//Load input fields for 3D settings
+	//Load text fields for 3D settings
 	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
-	roomSize = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSize");
-	doorCnt = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/DoorCnt");
-	furnitureEn = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/FurnitureEn");
+	roomSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSize");
+	doorCntWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/DoorCnt");
+	furnitureWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/FurnitureEn");
 
+	//Load the sliders that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeXslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeXSlider");
 	arenaSizeXslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXsliderChanged, this));
 	arenaSizeXslider->setRotation(CEGUI::Vector3(0,0,90));
@@ -180,23 +181,47 @@ void OgreCEGUI::createScene(void)
 	arenaSizeYslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYsliderChanged, this));
 	arenaSizeYslider->setRotation(CEGUI::Vector3(0,0,90));
 
-	arenaSizeX = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeX");
-	arenaSizeX->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXChanged, this));
-	arenaSizeY = (CEGUI::Editbox*)Wmgr->getWindow("3DSettingsASizeY");
-	arenaSizeY->subscribeEvent(CEGUI::Editbox::EventKeyDown, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYChanged, this));
+	//Load the edit boxes that affect the arena size settings and connect them to an event subscribing function each.
+	arenaSizeX = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeX");
+	arenaSizeX->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXChanged, this));
+	arenaSizeY = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeY");
+	arenaSizeY->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYChanged, this));
 
-	//Set character limits for the input fields
-	arenaSizeX->setMaxTextLength(3);
-	arenaSizeX->setText("0");
-	arenaSizeY->setMaxTextLength(3);
-	arenaSizeY->setText("0");
+	//Load additional input fields for 3D settings
+	doorsCnt = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsDoorCnt");
+	doorsCnt->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::doorsCntChanged, this));
+	roomSize = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsRoomSize");
+	roomSize->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::roomSizeChanged, this));
+	furnitureEnable = (CEGUI::Checkbox*)Wmgr->getWindow("3DSettingsFurnitureEn");
+	furnitureEnable->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::furnitureEnableChanged, this));
+
+	//Set character limits and init values for the input fields
+	roomSize->setMaximumValue(998001);
+	roomSize->setMinimumValue(1);
+	roomSize->setCurrentValue(1);
+	extensionSettings.threeDsettingsRoomSize = 1;
+
+	doorsCnt->setMaximumValue(4);
+	doorsCnt->setMinimumValue(0);
+	doorsCnt->setCurrentValue(0);
+	extensionSettings.threeDsettingsDoorCnt = 0;
+
+	arenaSizeX->setMaximumValue(999);
+	arenaSizeX->setMinimumValue(1);
+	arenaSizeX->setCurrentValue(1);
+	arenaSizeY->setMaximumValue(999);
+	arenaSizeY->setMinimumValue(1);
+	arenaSizeY->setCurrentValue(1);
+
+	furnitureEnable->setSelected(false);
+	extensionSettings.threeDsettingsFurnitureEn = false;
 
 	//Hide the fields for 3D settings as default
 	arenaSizeWindow->setVisible(false);
-	roomSize->setVisible(false);
-	doorCnt->setVisible(false);
-	furnitureEn->setVisible(false);
-	threeDSettingsActive = false;
+	roomSizeWindow->setVisible(false);
+	doorCntWindow->setVisible(false);
+	furnitureWindow->setVisible(false);
+	extensionSettings.threeDSettingsActive = false;
 
 	//Load the radiobuttons for 3D settings and connect the events of each button changing to their corresponding functions (threeDSettingsXBtnChanged), X=On,Off
 	threeDSettingsOnBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOn");
@@ -240,65 +265,139 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
 	mLaunch = true;
 	rootWindow->destroy();
-	Ogre::String aiSettings;
-	if (aiSettingsBtns[0] == 1) aiSettings = "Hard";//(aiSettingsOp1Btn->getText());
-	else if (aiSettingsBtns[1] == 1) aiSettings = "Easy";//aiSettingsOp2Btn->getText();
-	else aiSettings = "off";//aiSettingsOp3Btn->getText();
+	// Ogre::String aiSettingsString;
+	// if (aiSettingsBtns[0] == 1) 
+	// {
+		// aiSettingsString = "Hard";//(aiSettingsOp1Btn->getText());
+		// extensionSettings.aiSettings = 2;
+	// }
+	// else if (aiSettingsBtns[1] == 1)
+	// {
+		// aiSettingsString = "Easy";//aiSettingsOp2Btn->getText();
+		// extensionSettings.aiSettings = 1;
+	// }
+	// else 
+	// {
+		// aiSettingsString = "off";//aiSettingsOp3Btn->getText();
+		// extensionSettings.aiSettings = 0;
+	// }
 
-	Ogre::String physSettings;
-	if (physSettingsBtns[0] == 1) physSettings = "Realistic";
-	else if (physSettingsBtns[1] == 1) physSettings = "Arcade";
-	else physSettings = "off";
+	// Ogre::String physSettingsString;
+	// if (physSettingsBtns[0] == 1) 
+	// {
+		// physSettingsString = "Realistic";
+		// extensionSettings.physSettings = 2;
+	// }
+	// else if (physSettingsBtns[1] == 1) 
+	// {
+		// physSettingsString = "Arcade";
+		// extensionSettings.physSettings = 1;
+	// }
+	// else 
+	// {
+		// physSettingsString = "off";
+		// extensionSettings.physSettings = 0;
+	// }
 
-	CEGUI::String threeDSettings;
-	if(threeDSettingsActive == false) threeDSettings = "off";
-	else
-	{
-		threeDSettings = "Arena size = " + arenaSizeX->getText() + " x " + arenaSizeY->getText();
-	}
-	infoBox->setText("Demo launch with AI: " + aiSettings + ", Physics: " + physSettings + ", 3D settings: " + threeDSettings);
+	// CEGUI::String threeDSettings;
+	// if(extensionSettings.threeDSettingsActive == false) threeDSettings = "off";
+	// else
+	// {
+		// CEGUI::String furnitureEn;
+		// if (extensionSettings.threeDsettingsFurnitureEn == true) furnitureEn = "Activate";
+		// else furnitureEn = "Inactivate";
+
+		// CEGUI::String doorCntString;
+		// float doorCntFloat = float(extensionSettings.threeDsettingsDoorCnt);
+		// floatToString(doorCntFloat, doorCntString);
+
+		// CEGUI::String roomSizeString;
+		// float roomSizeFloat = float(extensionSettings.threeDsettingsRoomSize);
+		// floatToString(roomSizeFloat, roomSizeString);
+
+		// CEGUI::String arenaSizeXString;
+		// float arenaSizeXfloat = float(arenaSizeX->getCurrentValue());
+		// floatToString(arenaSizeXfloat, arenaSizeXString);
+
+		// CEGUI::String arenaSizeYString;
+		// float arenaSizeYfloat = float(arenaSizeY->getCurrentValue());
+		// floatToString(arenaSizeYfloat, arenaSizeYString);
+
+		// threeDSettings = "Arena size = " + arenaSizeXString + " x " + arenaSizeYString + ", Room size = " + roomSizeString + ", DoorsCnt = " + doorCntString + ", Furniture = " + furnitureEn;
+	// }
+	// infoBox->setText("Demo launch with AI: " + aiSettingsString + ", Physics: " + physSettingsString + ", 3D settings: " + threeDSettings);
 	return true;
 }
 //-------------------------------------------------------------------------------------
+bool OgreCEGUI::doorsCntChanged(const CEGUI::EventArgs &e)
+{
+	extensionSettings.threeDsettingsDoorCnt = doorsCnt->getCurrentValue();
+	return true;
+}
+
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::furnitureEnableChanged(const CEGUI::EventArgs &e)
+{
+	if (furnitureEnable->isSelected()) extensionSettings.threeDsettingsFurnitureEn = true;
+	return true;
+}
+
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::roomSizeChanged(const CEGUI::EventArgs &e)
+{
+	//float sizeFloat;
+	//CEGUI::String sizeString = roomSize->getText();
+	//stringToFloat(sizeString, sizeFloat);
+	extensionSettings.threeDsettingsRoomSize = roomSize->getCurrentValue();//int(sizeFloat);
+	return true;
+}
+
+//-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 {
-	if (keyBuffer == 28)
-	{
-		float arenaSizeXfloat = 0;
-		CEGUI::String arenaSizeXText = (arenaSizeX->getText());
-		OgreCEGUI::stringToFloat(arenaSizeXText, arenaSizeXfloat);
-		arenaSizeXslider->setCurrentValue(arenaSizeXfloat);
-	}
+	//if (keyBuffer == 28)
+	//{
+	//	float arenaSizeXfloat = 0;
+	//	CEGUI::String arenaSizeXText = (arenaSizeX->getText());
+	//	OgreCEGUI::stringToFloat(arenaSizeXText, arenaSizeXfloat);
+	//	arenaSizeXslider->setCurrentValue(arenaSizeXfloat);
+	//}
+	arenaSizeXslider->setCurrentValue(float(arenaSizeX->getCurrentValue()));
+	extensionSettings.threeDSettingsArenaSizeX = int(arenaSizeX->getCurrentValue());
 	return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeYChanged(const CEGUI::EventArgs &e)
 {
-	if (keyBuffer == 28)
-	{
-		float arenaSizeYfloat = 0;
-		CEGUI::String arenaSizeYText = (arenaSizeY->getText());
-		OgreCEGUI::stringToFloat(arenaSizeYText, arenaSizeYfloat);
-		arenaSizeYslider->setCurrentValue(arenaSizeYfloat);
-	}
+	//if (keyBuffer == 28)
+	//{
+	//	float arenaSizeYfloat = 0;
+	//	CEGUI::String arenaSizeYText = (arenaSizeY->getText());
+	//	OgreCEGUI::stringToFloat(arenaSizeYText, arenaSizeYfloat);
+	//	arenaSizeYslider->setCurrentValue(arenaSizeYfloat);
+	//}
+	arenaSizeYslider->setCurrentValue(float(arenaSizeY->getCurrentValue()));
+	extensionSettings.threeDSettingsArenaSizeY = int(arenaSizeY->getCurrentValue());
 	return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeXsliderChanged(const CEGUI::EventArgs &e)
 {
-	CEGUI::String arenaSizeXstring;
-	float arenaSizeXfloat = arenaSizeXslider->getCurrentValue();
-	OgreCEGUI::floatToString(arenaSizeXfloat,arenaSizeXstring);
-	arenaSizeX->setText(arenaSizeXstring);
+	//CEGUI::String arenaSizeXstring;
+	//float arenaSizeXfloat = arenaSizeXslider->getCurrentValue();
+	//OgreCEGUI::floatToString(arenaSizeXfloat,arenaSizeXstring);
+	//arenaSizeX->setText(arenaSizeXstring);
+	arenaSizeX->setCurrentValue(float(arenaSizeXslider->getCurrentValue()));
 	return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeYsliderChanged(const CEGUI::EventArgs &e)
 {
-	CEGUI::String arenaSizeYstring;
-	float arenaSizeYfloat = arenaSizeYslider->getCurrentValue();
-	OgreCEGUI::floatToString(arenaSizeYfloat,arenaSizeYstring);
-	arenaSizeY->setText(arenaSizeYstring);
+	//CEGUI::String arenaSizeYstring;
+	//float arenaSizeYfloat = arenaSizeYslider->getCurrentValue();
+	//OgreCEGUI::floatToString(arenaSizeYfloat,arenaSizeYstring);
+	//arenaSizeY->setText(arenaSizeYstring);
+	arenaSizeY->setCurrentValue(float(arenaSizeYslider->getCurrentValue()));
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -307,15 +406,18 @@ bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 	if (threeDSettingsOnBtn->isSelected())
 	{
 		arenaSizeWindow->setVisible(true);
-		threeDSettingsActive = true;
-		roomSize->setVisible(true);
-		doorCnt->setVisible(true);
-		furnitureEn->setVisible(true);
+		extensionSettings.threeDSettingsActive = true;
+		roomSizeWindow->setVisible(true);
+		doorCntWindow->setVisible(true);
+		furnitureWindow->setVisible(true);
 	}
 	else
 	{
 		arenaSizeWindow->setVisible(false);
-		threeDSettingsActive = false;
+		extensionSettings.threeDSettingsActive = false;
+		roomSizeWindow->setVisible(false);
+		doorCntWindow->setVisible(false);
+		furnitureWindow->setVisible(false);
 	}
 	return true;
 }
@@ -438,16 +540,44 @@ void OgreCEGUI::stringToFloat(CEGUI::String &numberString, float &numberFloat)
 void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 {
 	int number = int(numberFloat);
+	std::string stringHundredThousands;
+	std::string stringTenThousands;
 	std::string stringThousands;
 	std::string stringHundreds;
 	std::string stringTens;
 	std::string stringOnes;
-	int thousands = number/1000;
-	int hundreds = number/100 - thousands*10;
-	int tens = number/10 - hundreds*10 - thousands*100;
-	int ones = (number -= (tens*10 + hundreds*100 + thousands*1000));
+	int hundredThousands = number/100000;
+	int tenThousands = number/10000 - hundredThousands*10;
+	int thousands = number/1000 - tenThousands*10 - hundredThousands*100;
+	int hundreds = number/100 - thousands*10 - tenThousands*100 - hundredThousands*1000;
+	int tens = number/10 - hundreds*10 - thousands*100 - tenThousands*1000 - hundredThousands*10000;
+	int ones = (number -= (tens*10 + hundreds*100 + thousands*1000 + tenThousands*10000 + hundredThousands*100000));
 
-	if (thousands == 0) stringThousands = ' ';
+	if (hundredThousands == 0) stringHundredThousands = ' ';
+	else if (hundredThousands == 1) stringHundredThousands = '1';
+	else if (hundredThousands == 2) stringHundredThousands = '2';
+	else if (hundredThousands == 3) stringHundredThousands = '3';
+	else if (hundredThousands == 4) stringHundredThousands = '4';
+	else if (hundredThousands == 5) stringHundredThousands = '5';
+	else if (hundredThousands == 6) stringHundredThousands = '6';
+	else if (hundredThousands == 7) stringHundredThousands = '7';
+	else if (hundredThousands == 8) stringHundredThousands = '8';
+	else stringHundredThousands = '9';
+
+	if (tenThousands == 0 && hundredThousands == 0) stringTenThousands = ' ';
+	else if (tenThousands == 0) stringTenThousands = '0';
+	else if (tenThousands == 1) stringTenThousands = '1';
+	else if (tenThousands == 2) stringTenThousands = '2';
+	else if (tenThousands == 3) stringTenThousands = '3';
+	else if (tenThousands == 4) stringTenThousands = '4';
+	else if (tenThousands == 5) stringTenThousands = '5';
+	else if (tenThousands == 6) stringTenThousands = '6';
+	else if (tenThousands == 7) stringTenThousands = '7';
+	else if (tenThousands == 8) stringTenThousands = '8';
+	else stringTenThousands = '9';
+
+	if (thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringThousands = ' ';
+	else if (thousands == 0) stringThousands = '0';
 	else if (thousands == 1) stringThousands = '1';
 	else if (thousands == 2) stringThousands = '2';
 	else if (thousands == 3) stringThousands = '3';
@@ -458,7 +588,7 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 	else if (thousands == 8) stringThousands = '8';
 	else stringThousands = '9';
 	
-	if (hundreds == 0 && thousands == 0) stringHundreds = ' ';
+	if (hundreds == 0 && thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringHundreds = ' ';
 	else if (hundreds == 0) stringHundreds = '0';
 	else if (hundreds == 1) stringHundreds = '1';
 	else if (hundreds == 2) stringHundreds = '2';
@@ -470,7 +600,7 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 	else if (hundreds == 8) stringHundreds = '8';
 	else stringHundreds = '9';
 
-	if (tens == 0 && hundreds == 0 && thousands == 0) stringTens = ' ';
+	if (tens == 0 && hundreds == 0 && thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringTens = ' ';
 	else if (tens == 0) stringTens = '0';
 	else if (tens == 1) stringTens = '1';
 	else if (tens == 2) stringTens = '2';
@@ -493,20 +623,22 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 	else if (ones == 8) stringOnes = '8';
 	else stringOnes = '9';
 
-	if (thousands == 0 && hundreds == 0 && tens == 0) numberString = stringOnes;
-	else if (thousands == 0 && hundreds == 0) numberString = stringTens + stringOnes;
-	else if (thousands == 0) numberString = stringHundreds + stringTens + stringOnes;
-	else numberString = stringThousands + stringHundreds + stringTens + stringOnes;
+	     if (hundredThousands == 0 && tenThousands == 0 && thousands == 0 && hundreds == 0 && tens == 0) numberString = stringOnes;
+	else if (hundredThousands == 0 && tenThousands == 0 && thousands == 0 && hundreds == 0) numberString = stringTens + stringOnes;
+	else if (hundredThousands == 0 && tenThousands == 0 && thousands == 0) numberString = stringHundreds + stringTens + stringOnes;
+	else if (hundredThousands == 0 && tenThousands == 0) numberString = stringThousands + stringHundreds + stringTens + stringOnes;
+	else if (hundredThousands == 0) numberString = stringTenThousands + stringThousands + stringHundreds + stringTens + stringOnes;
+	else   numberString = stringHundredThousands + stringTenThousands + stringThousands + stringHundreds + stringTens + stringOnes;
 }
 //-------------------------------------------------------------------------------------
-
+/*
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 #endif
 
 //-------------------------------------------------------------------------------------
-/*
+
 #ifdef __cplusplus
 extern "C" {
 #endif

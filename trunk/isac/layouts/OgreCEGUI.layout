@@ -9,13 +9,13 @@
             <Property Name="TitlebarFont" Value="DejaVuSans-10" />
             <Property Name="SizingEnabled" Value="False" />
             <Property Name="TitlebarEnabled" Value="True" />
-            <Property Name="UnifiedAreaRect" Value="{{-0.000929348,0},{-0.00140949,0},{0.995422,0},{0.990676,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{-0.000148121,0},{0.0030815,0},{0.996203,0},{0.995167,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Window Type="TaharezLook/GroupBox" Name="ExtensionSettings" >
                 <Property Name="Text" Value="Extension properties" />
                 <Property Name="RiseOnClick" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.0200444,0},{0.0188945,0},{0.427916,0},{0.907468,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.023965,0},{0.0173856,0},{0.431837,0},{0.905959,0}}" />
             </Window>
             <Window Type="TaharezLook/Button" Name="OgreCEGUI/quitBtn" >
                 <Property Name="Text" Value="Quit" />
@@ -25,12 +25,12 @@
             <Window Type="TaharezLook/Button" Name="OgreCEGUI/launchBtn" >
                 <Property Name="Text" Value="Launch Demo" />
                 <Property Name="Tooltip" Value="Launch the demo!" />
-                <Property Name="UnifiedAreaRect" Value="{{0.238025,0},{0.926717,0},{0.428282,0},{0.980242,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.241161,0},{0.928226,0},{0.431418,0},{0.981751,0}}" />
             </Window>
             <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/PhysicsSettings" >
                 <Property Name="Text" Value="Physics Settings" />
-                <Property Name="HorzExtent" Value="144" />
-                <Property Name="VertExtent" Value="19.8618" />
+                <Property Name="HorzExtent" Value="174" />
+                <Property Name="VertExtent" Value="17.2609" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0.18265,0},{0.0646129,0},{0.349191,0},{0.101731,0}}" />
@@ -57,8 +57,8 @@
             <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/AISettings" >
                 <Property Name="Font" Value="DejaVuSans-10" />
                 <Property Name="Text" Value="AI Settings" />
-                <Property Name="HorzExtent" Value="96" />
-                <Property Name="VertExtent" Value="19.8618" />
+                <Property Name="HorzExtent" Value="116" />
+                <Property Name="VertExtent" Value="17.2609" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0.050356,0},{0.0628818,0},{0.163026,0},{0.1,0}}" />
@@ -73,7 +73,7 @@
                     <Property Name="Text" Value="Easy" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.000768766,0},{2.45225,0},{0.633007,0},{3.45134,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.000768802,0},{2.45225,0},{0.633007,0},{3.45134,0}}" />
                 </Window>
                 <Window Type="TaharezLook/RadioButton" Name="AISettingsOp3" >
                     <Property Name="Text" Value="Off" />
@@ -84,8 +84,8 @@
             </Window>
             <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/3DSettings" >
                 <Property Name="Text" Value="3D Settings" />
-                <Property Name="HorzExtent" Value="103" />
-                <Property Name="VertExtent" Value="19.8618" />
+                <Property Name="HorzExtent" Value="124" />
+                <Property Name="VertExtent" Value="17.2609" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="ClippedByParent" Value="False" />
@@ -93,8 +93,8 @@
                 <Property Name="BackgroundEnabled" Value="False" />
                 <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/ArenaSize" >
                     <Property Name="Text" Value="Arena size:" />
-                    <Property Name="HorzExtent" Value="98" />
-                    <Property Name="VertExtent" Value="19.8618" />
+                    <Property Name="HorzExtent" Value="119" />
+                    <Property Name="VertExtent" Value="17.2609" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -104,34 +104,20 @@
                         <Property Name="Text" >X=
  
 Y=</Property>
-                        <Property Name="HorzExtent" Value="27" />
-                        <Property Name="VertExtent" Value="59.5854" />
+                        <Property Name="HorzExtent" Value="32" />
+                        <Property Name="VertExtent" Value="51.7826" />
                         <Property Name="AlwaysOnTop" Value="True" />
                         <Property Name="FrameEnabled" Value="False" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.906488,0},{-0.52746,0},{1.131,0},{2.88243,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.878478,0},{-0.52746,0},{1.10299,0},{2.88243,0}}" />
                         <Property Name="BackgroundEnabled" Value="False" />
                     </Window>
-                    <Window Type="TaharezLook/Editbox" Name="3DSettingsASizeX" >
-                        <Property Name="AlwaysOnTop" Value="True" />
-                        <Property Name="MaxTextLength" Value="1073741823" />
-                        <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.17039,0},{-0.0562312,0},{1.63732,0},{1.1937,0}}" />
-                        <Property Name="TextParsingEnabled" Value="False" />
-                    </Window>
-                    <Window Type="TaharezLook/Editbox" Name="3DSettingsASizeY" >
-                        <Property Name="AlwaysOnTop" Value="True" />
-                        <Property Name="MaxTextLength" Value="1073741823" />
-                        <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.17037,0},{1.29056,0},{1.63806,0},{2.48723,0}}" />
-                        <Property Name="TextParsingEnabled" Value="False" />
-                    </Window>
-                    <Window Type="TaharezLook/Slider" Name="3DSettingsArenaSizeXSlider1" >
+                    <Window Type="TaharezLook/Slider" Name="3DSettingsArenaSizeXSlider" >
                         <Property Name="CurrentValue" Value="0" />
                         <Property Name="MaximumValue" Value="999" />
                         <Property Name="ClickStepSize" Value="1" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{2.28886,0},{-2.2734,0},{2.42494,0},{3.22198,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{2.29586,0},{-2.23683,0},{2.43194,0},{3.25855,0}}" />
                     </Window>
                     <Window Type="TaharezLook/Slider" Name="3DSettingsArenaSizeYSlider" >
                         <Property Name="CurrentValue" Value="0" />
@@ -140,14 +126,21 @@ Y=</Property>
                         <Property Name="ClippedByParent" Value="False" />
                         <Property Name="UnifiedAreaRect" Value="{{2.29628,0},{-0.92389,0},{2.42767,0},{4.60329,0}}" />
                     </Window>
-                    <Window Type="TaharezLook/HorizontalScrollbar" Name="3DSettingsArenaSizeXSlider" >
-                        <Property Name="PageSize" Value="0" />
+                    <Window Type="TaharezLook/Spinner" Name="3DSettingsASizeY" >
                         <Property Name="StepSize" Value="1" />
-                        <Property Name="OverlapSize" Value="0" />
-                        <Property Name="DocumentSize" Value="1" />
-                        <Property Name="ScrollPosition" Value="0" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.15649,0},{2.82226,0},{2.55317,0},{3.1995,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.13724,0},{1.30463,0},{1.75838,0},{2.4324,0}}" />
+                    </Window>
+                    <Window Type="TaharezLook/Spinner" Name="3DSettingsASizeX" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.13724,0},{-0.0120357,0},{1.75838,0},{1.11574,0}}" />
                     </Window>
                 </Window>
                 <Window Type="TaharezLook/RadioButton" Name="3DSettingsOn" >
@@ -164,47 +157,64 @@ Y=</Property>
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/RoomSize" >
                     <Property Name="Text" Value="Room size:" />
-                    <Property Name="HorzExtent" Value="96" />
-                    <Property Name="VertExtent" Value="19.8618" />
+                    <Property Name="HorzExtent" Value="118" />
+                    <Property Name="VertExtent" Value="17.2609" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0107237,0},{4.01758,0},{0.877681,0},{4.62551,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0107237,0},{3.78789,0},{0.877681,0},{4.39582,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
+                    <Window Type="TaharezLook/Spinner" Name="3DSettingsRoomSize" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.933416,0},{-0.201676,0},{1.92098,0},{1.34373,0}}" />
+                    </Window>
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/DoorCnt" >
                     <Property Name="Text" Value="Doors per room:" />
-                    <Property Name="HorzExtent" Value="147" />
-                    <Property Name="VertExtent" Value="19.8618" />
+                    <Property Name="HorzExtent" Value="175" />
+                    <Property Name="VertExtent" Value="17.2609" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0112825,0},{4.75255,0},{1.29025,0},{5.36048,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0112825,0},{5.04787,0},{1.29025,0},{5.6558,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
+                    <Window Type="TaharezLook/Spinner" Name="3DSettingsDoorCnt" >
+                        <Property Name="StepSize" Value="1" />
+                        <Property Name="CurrentValue" Value="0" />
+                        <Property Name="MaximumValue" Value="32767" />
+                        <Property Name="MinimumValue" Value="-32768" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.935827,0},{-0.197702,0},{1.29498,0},{1.3477,0}}" />
+                    </Window>
                 </Window>
                 <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/FurnitureEn" >
                     <Property Name="Text" Value="Furniture enabled" />
-                    <Property Name="HorzExtent" Value="160" />
-                    <Property Name="VertExtent" Value="19.8618" />
+                    <Property Name="HorzExtent" Value="192" />
+                    <Property Name="VertExtent" Value="17.2609" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.209606,0},{5.48752,0},{1.57098,0},{6.09545,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.196422,0},{6.04534,0},{1.5578,0},{6.65327,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="TaharezLook/Checkbox" Name="3DSettingsFurnitureEn" >
+                        <Property Name="Font" Value="DejaVuSans-10" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{-0.125489,0},{0.117119,0},{0.0178981,0},{0.909389,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{-0.120647,0},{0.117119,0},{0.0227404,0},{0.909389,0}}" />
                     </Window>
                 </Window>
             </Window>
             <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/infoBox" >
                 <Property Name="Font" Value="DejaVuSans-10" />
                 <Property Name="Text" Value="Press Launch to start demo" />
-                <Property Name="HorzExtent" Value="245" />
-                <Property Name="VertExtent" Value="19.8618" />
+                <Property Name="HorzExtent" Value="297" />
+                <Property Name="VertExtent" Value="17.2609" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
-                <Property Name="UnifiedAreaRect" Value="{{0.0338072,0},{0.736122,0},{0.412736,0},{0.883457,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0400801,0},{0.733104,0},{0.419009,0},{0.880439,0}}" />
             </Window>
         </Window>
     </Window>

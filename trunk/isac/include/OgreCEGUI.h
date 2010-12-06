@@ -47,6 +47,21 @@ public:
 	virtual bool mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
+	//-----------VARIABLES------------//
+	struct settings
+	{
+		int aiSettings;
+		int physSettings;
+		bool threeDSettingsActive;
+		int threeDsettingsDoorCnt;
+		bool threeDsettingsFurnitureEn;
+		int threeDsettingsRoomSize;
+		int threeDSettingsArenaSizeX;
+		int threeDSettingsArenaSizeY;
+	};
+
+	settings extensionSettings;
+
 protected:
 
 	//-----------BUTTON FUNCTIONS------------//
@@ -71,11 +86,15 @@ protected:
 	bool arenaSizeXChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYChanged(const CEGUI::EventArgs &e);
 
+	bool doorsCntChanged(const CEGUI::EventArgs &e);
+	bool roomSizeChanged(const CEGUI::EventArgs &e);
+	bool furnitureEnableChanged(const CEGUI::EventArgs &e);
+
 	//-----------VARIABLES------------//
+
+	char keyBuffer;
 	bool aiSettingsBtns[3];
 	bool physSettingsBtns[3];
-	bool threeDSettingsActive;
-	char keyBuffer;
 
 	//-----------CEGUI POINTERS------------//
 
@@ -87,11 +106,15 @@ protected:
 	CEGUI::Window* infoBox;
 	CEGUI::Window* rootWindow;
 	CEGUI::Window* arenaSizeWindow;
-	CEGUI::Window* roomSize;
-	CEGUI::Window* doorCnt;
-	CEGUI::Window* furnitureEn;
-	CEGUI::Editbox* arenaSizeX;
-	CEGUI::Editbox* arenaSizeY;
+	CEGUI::Window* roomSizeWindow;
+	CEGUI::Window* doorCntWindow;
+	CEGUI::Window* furnitureWindow;
+
+	CEGUI::Checkbox* furnitureEnable;
+	CEGUI::Spinner* doorsCnt;
+	CEGUI::Spinner* roomSize;
+	CEGUI::Spinner* arenaSizeX;
+	CEGUI::Spinner* arenaSizeY;
 	CEGUI::Slider* arenaSizeXslider;
 	CEGUI::Slider* arenaSizeYslider;
 	CEGUI::PushButton* quitBtn;
