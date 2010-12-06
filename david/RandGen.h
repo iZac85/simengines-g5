@@ -57,17 +57,17 @@ public:
 private:
 	//#define MAXTILES 100;
 	//void split(int x, int y);
-	void split(struct map arena);
+	void split();
 	int randInt(int low, int high);
 	void doors(void);
 	void desk(void);
 	void chear(void);
 	void shelf(void);
 	void painting(void);
-	void addBlackTile(struct tile pos, struct map arena);
-	void addWall(struct tile len, struct tile pos, struct map arena);
-	bool sizeOk(struct map arena,int k);
-	int getBiggestRoom(struct map arena);
+	void addBlackTile(struct tile pos);
+	void addWall(struct tile len, struct tile pos);
+	bool sizeOk(int k);
+	int getBiggestRoom();
 };
 
 #endif

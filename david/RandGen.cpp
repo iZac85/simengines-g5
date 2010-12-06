@@ -46,7 +46,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 	std::vector<int> rows (dim_x,0);
 	arena.blackTile = std::vector<std::vector<int>> (dim_y,rows);
 	//Generate Walls
-	split(arena);
+	split();
 	//doors and Furniture 
 	for (int i = 0; i < arena.room_cnt; i++)
 	{
@@ -68,7 +68,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 		}
 	}
 }
-void RandGen::split(struct map arena)
+void RandGen::split()
 { 
 	//room tmp_room[2];
 	int k;	//index to active room
@@ -81,30 +81,30 @@ void RandGen::split(struct map arena)
 	pos.y=arena.office[0].orig.y;
 	wall.x=arena.office[0].dim.x-1;
 	wall.y=0;
-	addWall(wall,pos,arena);
+	addWall(wall,pos);
 	/*-------------------------------------*/
 	pos.x=arena.office[0].orig.x;
-	pos.y=arena.office[0].orig.y + arena.office[0].dim.y;
+	pos.y=arena.office[0].orig.y + arena.office[0].dim.y-1;
 	wall.x=arena.office[0].dim.x-1;
 	wall.y=0;
-	addWall(wall,pos,arena);
+	addWall(wall,pos);
 	/*-------------------------------------*/
 	pos.x=arena.office[0].orig.x;
 	pos.y=arena.office[0].orig.y;
 	wall.x=0;
 	wall.y=arena.office[0].dim.y-1;
-	addWall(wall,pos,arena);
+	addWall(wall,pos);
 	/*-------------------------------------*/
-	pos.x=arena.office[0].orig.x + arena.office[0].dim.x;
+	pos.x=arena.office[0].orig.x + arena.office[0].dim.x-1;
 	pos.y=arena.office[0].orig.y;
 	wall.x=0;
 	wall.y=arena.office[0].dim.y-1;
-	addWall(wall,pos,arena);
+	addWall(wall,pos);
 
 	//Generate interior walls
-	while(sizeOk(arena, getBiggestRoom(arena)))//Is the biggest room too big? 
+	/*while(sizeOk(getBiggestRoom()))//Is the biggest room too big? 
 	{
-		k = getBiggestRoom(arena);
+		k = getBiggestRoom();
 		//is x the longest wall?
 		if(arena.office[k].dim.x > arena.office[k].dim.y)
 		{
@@ -116,7 +116,7 @@ void RandGen::split(struct map arena)
 				wall.y = arena.office[k].dim.y;
 				pos.x = arena.office[k].orig.x + wall.x;
 				pos.y = arena.office[k].orig.y;
-				addWall(wall,pos,arena);
+				addWall(wall,pos);
 				arena.room_cnt++;
 			}
 		}
@@ -131,7 +131,7 @@ void RandGen::split(struct map arena)
 				wall.x = arena.office[k].dim.y;
 				pos.y = arena.office[k].orig.y + wall.y;
 				pos.x = arena.office[k].orig.x;
-				addWall(wall,pos,arena);
+				addWall(wall,pos);
 				arena.room_cnt++;
 			}
 		}
@@ -148,7 +148,7 @@ void RandGen::split(struct map arena)
 					wall.y = arena.office[k].dim.y;
 					pos.x = arena.office[k].orig.x + wall.x;
 					pos.y = arena.office[k].orig.y;
-					addWall(wall,pos,arena);
+					addWall(wall,pos);
 					arena.room_cnt++;
 				}
 			}
@@ -163,12 +163,12 @@ void RandGen::split(struct map arena)
 					wall.x = arena.office[k].dim.y;
 					pos.y = arena.office[k].orig.y + wall.y;
 					pos.x = arena.office[k].orig.x;
-					addWall(wall,pos,arena);
+					addWall(wall,pos);
 					arena.room_cnt++;
 				}
 			}
 		}
-	}//End while loop
+	}*/			//End while loop
 }
 int RandGen::randInt(int low, int high)
 {
@@ -181,11 +181,11 @@ void RandGen::updateBlackTiles(void)
 {
 	//From Physics
 }
-void RandGen::addBlackTile(struct tile pos, struct map arena)
+void RandGen::addBlackTile(struct tile pos)
 {
 	arena.blackTile[pos.x][pos.y] = 1;
 }
-void RandGen::addWall(struct tile len, struct tile pos, struct map arena)
+void RandGen::addWall(struct tile len, struct tile pos)
 {
 	tile p;
 	if (len.x==0)
@@ -194,7 +194,7 @@ void RandGen::addWall(struct tile len, struct tile pos, struct map arena)
 		{
 			p.x=pos.x;
 			p.y=pos.y + i;
-			addBlackTile(p, arena);
+			addBlackTile(p);
 		}
 	}
 	else
@@ -203,17 +203,17 @@ void RandGen::addWall(struct tile len, struct tile pos, struct map arena)
 		{
 			p.x=pos.x + i;
 			p.y=pos.y;
-			addBlackTile(p, arena);
+			addBlackTile(p);
 		}
 	}
 }
-bool RandGen::sizeOk(struct map arena, int k)
+bool RandGen::sizeOk(int k)
 {
 	//Is the biggest room too big?
 	if( (arena.office[k].dim.x * arena.office[k].dim.y) < arena.room_max_area )return true;
 	else return false;
 }
-int RandGen::getBiggestRoom(struct map arena)
+int RandGen::getBiggestRoom()
 {
 	int biggest_area=0;
 	int biggest_index=0;

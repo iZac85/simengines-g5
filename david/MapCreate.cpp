@@ -28,9 +28,13 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
-	//mRandGen->generateMap();
+	mRandGen->generateMap(450,450);
 
-	Ogre::Entity* boxEnt[3];
+	Ogre::Entity* wallEnt[2];
+	Ogre::Entity* floorEnt;
+	Ogre::Entity* boxEnt[10];
+	std::vector<Ogre::Entity*> wallEntDyn;
+
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
@@ -50,40 +54,48 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	Ogre::TextureUnitState* tuisTexture3 = mat3->getTechnique(0)->getPass(0)->createTextureUnitState("KAMEN320x240.jpg");
 	//mat3->setCullingMode(Ogre::CullingMode::CULL_NONE);
 	
-	boxEnt[0] = mSceneMgr->createEntity("plane1", "floor");
-	boxEnt[0]->setMaterialName("FloorMat");
-	boxEnt[0]->setCastShadows(false);
+	floorEnt = mSceneMgr->createEntity("floor1", "floor");
+	floorEnt->setMaterialName("FloorMat");
+	floorEnt->setCastShadows(false);
 	
-	boxEnt[1] = mSceneMgr->createEntity("cube1", "cube.mesh");
-	boxEnt[1]->setMaterialName("WallMat1");
-	boxEnt[1]->setCastShadows(false);
+	wallEnt[0] = mSceneMgr->createEntity("wall1", "cube.mesh");
+	wallEnt[0]->setMaterialName("WallMat1");
+	wallEnt[0]->setCastShadows(false);
 	
-	boxEnt[2] = mSceneMgr->createEntity("cube2", "cube.mesh");
-	boxEnt[2]->setMaterialName("WallMat2");
-	boxEnt[2]->setCastShadows(false);
+	wallEnt[1] = mSceneMgr->createEntity("wall2", "cube.mesh");
+	wallEnt[1]->setMaterialName("WallMat2");
+	wallEnt[1]->setCastShadows(false);
 
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(boxEnt[0]);		//The Floor!
+	wallEntDyn.push_back(mSceneMgr->createEntity("wall1", "cube.mesh"));
+	wallEntDyn[0]->setMaterialName("WallMat1");
+
+
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(floorEnt);		//The Floor!
 	Ogre::StaticGeometry* sg = mSceneMgr->createStaticGeometry("Walls");
-	const int MaxWalls = 100;
+	const int MaxWalls = 10;
 	const int Dim = 50.0f;
-	for(int i = 0; i < MaxWalls; i++)
-	{
-		Ogre::Real r = 450/2;
-		Ogre::Vector3 pos(Ogre::Math::RangeRandom(-r, r), 20, Ogre::Math::RangeRandom(-r, r));
-		Ogre::Vector3 scale(0.1, 0.5, Ogre::Math::RangeRandom(0.2f, 0.5f));
-		Ogre::Quaternion one, two, three, orientation;
-			
-		if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
-		else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
-		
-		two.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_X);
-		three.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Z);
-		orientation =  one;// * three * two;
-		
-		if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(boxEnt[1], pos, orientation, scale);
-		else sg->addEntity(boxEnt[2], pos, orientation, scale);
 
-		sg->build();
+	for(int i = 0; i < dim_x; i++)		//x
+	{		
+		for(int j = 0; j < dim_y; j++)	//y
+		{
+			if(mRandGen->arena.blackTile[i][j]==1)
+			{
+				Ogre::Vector3 pos(i, 20, j);
+				Ogre::Vector3 scale(0.1, 0.5, 0.1);
+				Ogre::Quaternion one, orientation;
+			
+				if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
+				else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
+		
+				orientation =  one;
+		
+				if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(wallEnt[0], pos, orientation, scale);
+				else sg->addEntity(wallEnt[1], pos, orientation, scale);
+
+				sg->build();
+			}
+		}
 	}
 }
 //-------------------------------------------------------------------------------------
