@@ -45,7 +45,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 	}*/
 	std::vector<int> rows (dim_x,0);
 	arena.blackTile = std::vector<std::vector<int>> (dim_y,rows);
-		//Generate Walls
+	//Generate Walls
 	split(arena);
 	//doors and Furniture 
 	for (int i = 0; i < arena.room_cnt; i++)
@@ -70,7 +70,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 }
 void RandGen::split(struct map arena)
 { 
-	room tmp_room[2];
+	//room tmp_room[2];
 	int k;	//index to active room
 	int wallPos;
 	tile wall;
@@ -172,9 +172,10 @@ void RandGen::split(struct map arena)
 }
 int RandGen::randInt(int low, int high)
 {
-	srand ( time(NULL) );
-	int r = rand() % (high - low + 1) + low;
-	return r;
+	//srand ( time(NULL) );
+	//int r = rand() % (high - low + 1) + low;
+	//return r;
+	return 0;
 }
 void RandGen::updateBlackTiles(void)
 {
