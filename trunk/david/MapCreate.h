@@ -32,6 +32,7 @@ public:
     ~MapCreate(void);
 private:
 	RandGen* mRandGen;
+	//RandGen::map map;
 };
 
 #endif // #ifndef __Rand_h_
