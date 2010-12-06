@@ -54,7 +54,7 @@ public:
 	bool launch();
 
 protected:
-
+	bool mKeysReleased;
 };
 
 #endif // #ifndef __g5main_h_
