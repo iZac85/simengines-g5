@@ -27,7 +27,6 @@ g5main::g5main(void)
 g5main::~g5main(void)
 {
 	delete mCEGUI;
-	//delete mMapCreate;
 }
 
 //-------------------------------------------------------------------------------------
@@ -118,7 +117,7 @@ bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 //-------------------------------------------------------------------------------------
 bool g5main::launch()
 {
-	Ogre::Entity* ogreHead1 = mSceneMgr->createEntity("Head1","ogrehead.mesh");
+	/*Ogre::Entity* ogreHead1 = mSceneMgr->createEntity("Head1","ogrehead.mesh");
 
 	Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	headNode->attachObject(ogreHead1);
@@ -127,8 +126,16 @@ bool g5main::launch()
 
 	Ogre::Light* l = mSceneMgr->createLight("MainLight");
 	l->setPosition(20,80,50);
+	*/
+	
 
 	mCEGUI->mLaunch = false;
+
+	// Set up camera
+	mCamera->setPosition(150, 50, 150);
+	mCamera->lookAt(0, 0, 0);
+	mMapCreate = new MapCreate(mSceneMgr);
+	delete mMapCreate;
 	return true;
 }
 
