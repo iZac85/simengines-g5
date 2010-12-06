@@ -79,26 +79,26 @@ void RandGen::split(struct map arena)
 	//Generate exterior walls
 	pos.x=arena.office[0].orig.x;
 	pos.y=arena.office[0].orig.y;
-	wall.x=arena.office[0].dim.x;
+	wall.x=arena.office[0].dim.x-1;
 	wall.y=0;
 	addWall(wall,pos,arena);
 	/*-------------------------------------*/
 	pos.x=arena.office[0].orig.x;
 	pos.y=arena.office[0].orig.y + arena.office[0].dim.y;
-	wall.x=arena.office[0].dim.x;
+	wall.x=arena.office[0].dim.x-1;
 	wall.y=0;
 	addWall(wall,pos,arena);
 	/*-------------------------------------*/
 	pos.x=arena.office[0].orig.x;
 	pos.y=arena.office[0].orig.y;
 	wall.x=0;
-	wall.y=arena.office[0].dim.y;
+	wall.y=arena.office[0].dim.y-1;
 	addWall(wall,pos,arena);
 	/*-------------------------------------*/
 	pos.x=arena.office[0].orig.x + arena.office[0].dim.x;
 	pos.y=arena.office[0].orig.y;
 	wall.x=0;
-	wall.y=arena.office[0].dim.y;
+	wall.y=arena.office[0].dim.y-1;
 	addWall(wall,pos,arena);
 
 	//Generate interior walls
@@ -190,7 +190,7 @@ void RandGen::addWall(struct tile len, struct tile pos, struct map arena)
 	tile p;
 	if (len.x==0)
 	{
-		for(int i=0; i<len.y; i++)
+		for(int i=0; i<=len.y; i++) //-1?
 		{
 			p.x=pos.x;
 			p.y=pos.y + i;
@@ -199,7 +199,7 @@ void RandGen::addWall(struct tile len, struct tile pos, struct map arena)
 	}
 	else
 	{
-		for(int i=0; i<len.x; i++)
+		for(int i=0; i<=len.x; i++)
 		{
 			p.x=pos.x + i;
 			p.y=pos.y;
