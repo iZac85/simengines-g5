@@ -22,12 +22,14 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
     //Fill structures
 	
 	//Dimensions
-	arena.dim.x = dim_x;	//funkar inte struct in struct???
+	room tmp;
+	arena.dim.x = dim_x;
 	arena.dim.y = dim_y;
-	arena.office[0].dim.x  = dim_x;
-	arena.office[0].dim.y  = dim_y;
-	arena.office[0].orig.x = 0;
-	arena.office[0].orig.y = 0;
+	tmp.dim.x  = dim_x;
+	tmp.dim.y  = dim_y;
+	tmp.orig.x = 0;
+	tmp.orig.y = 0;
+	arena.office.push_back(tmp);
 	arena.room_cnt         = 1;
 	arena.room_min_size.x  = room_min_x;
 	arena.room_min_size.y  = room_min_y;
@@ -70,9 +72,8 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 }
 void RandGen::split()
 { 
-	//room tmp_room[2];
 	int k;	//index to active room
-	int wallPos;
+	int wallPos=0;
 	tile wall;
 	tile pos;
 	
@@ -100,82 +101,79 @@ void RandGen::split()
 	wall.x=0;
 	wall.y=arena.office[0].dim.y-1;
 	addWall(wall,pos);
-
+	/*-------------------------------------*/
 	//Generate interior walls
-	/*while(sizeOk(getBiggestRoom()))//Is the biggest room too big? 
+	while(sizeOkForSplitting(getBiggestRoom()))//Is the biggest room too big? room with longest wall?
+	//for(int i=0;i<5;i++)
 	{
 		k = getBiggestRoom();
-		//is x the longest wall?
-		if(arena.office[k].dim.x > arena.office[k].dim.y)
+		wallPos = 0;
+		//is x the longest wall or random selected?
+		if(arena.office[k].dim.x > arena.office[k].dim.y || (arena.office[k].dim.x = arena.office[k].dim.y) && randInt(0,1)==1)
 		{
-			wallPos = randInt(0, arena.office[k].dim.x);
-			//Room too small?
-			if( !(wallPos < arena.room_min_size.x || (arena.office[k].dim.x - wallPos) < arena.room_min_size.x) )
-			{
-				wall.x = 0;
-				wall.y = arena.office[k].dim.y;
-				pos.x = arena.office[k].orig.x + wall.x;
-				pos.y = arena.office[k].orig.y;
-				addWall(wall,pos);
-				arena.room_cnt++;
-			}
-		}
-		//is y the longest wall?
-		else if(arena.office[k].dim.y > arena.office[k].dim.x)
-		{
-			wallPos = randInt(0, arena.office[k].dim.y);
-			//Room too small?
-			if( !(wallPos < arena.room_min_size.y || (arena.office[k].dim.y - wallPos) < arena.room_min_size.y) )
-			{
-				wall.y = 0;
-				wall.x = arena.office[k].dim.y;
-				pos.y = arena.office[k].orig.y + wall.y;
-				pos.x = arena.office[k].orig.x;
-				addWall(wall,pos);
-				arena.room_cnt++;
-			}
-		}
-		//the walls are equal then!
-		else
-		{
-			if(randInt(0,1)==1)//Flip a coine! Does x win?
+			while( (wallPos < arena.room_min_size.x || (arena.office[k].dim.x - wallPos) < arena.room_min_size.x) )
 			{
 				wallPos = randInt(0, arena.office[k].dim.x);
-				//Room too small?
-				if( !(wallPos < arena.room_min_size.x || (arena.office[k].dim.x - wallPos) < arena.room_min_size.x) )
-				{
-					wall.x = 0;
-					wall.y = arena.office[k].dim.y;
-					pos.x = arena.office[k].orig.x + wall.x;
-					pos.y = arena.office[k].orig.y;
-					addWall(wall,pos);
-					arena.room_cnt++;
-				}
 			}
-			//y winns
-			else
+			wall.x = 0;
+			wall.y = arena.office[k].dim.y-1;
+			pos.x = arena.office[k].orig.x + wallPos;
+			pos.y = arena.office[k].orig.y;
+		}
+		//is y the longest wall or random selected?
+		else
+		{
+			while( (wallPos < arena.room_min_size.y || (arena.office[k].dim.y - wallPos) < arena.room_min_size.y) )
 			{
 				wallPos = randInt(0, arena.office[k].dim.y);
-				//Room too small?
-				if( !(wallPos < arena.room_min_size.y || (arena.office[k].dim.y - wallPos) < arena.room_min_size.y) )
-				{
-					wall.y = 0;
-					wall.x = arena.office[k].dim.y;
-					pos.y = arena.office[k].orig.y + wall.y;
-					pos.x = arena.office[k].orig.x;
-					addWall(wall,pos);
-					arena.room_cnt++;
-				}
 			}
+			wall.x = arena.office[k].dim.x-1;
+			wall.y = 0;
+			pos.x = arena.office[k].orig.x;
+			pos.y = arena.office[k].orig.y + wallPos;
 		}
-	}*/			//End while loop
+		//if(!((wallPos < arena.room_min_size.x || (arena.office[k].dim.x - wallPos) < arena.room_min_size.x) ) || ((wallPos < arena.room_min_size.y || (arena.office[k].dim.y - wallPos) < arena.room_min_size.y) ))//Room too small?
+		//if( !(wallPos < ) )
+		//{
+			addWall(wall,pos);
+			addRoom(k,wall,pos);
+		//}
+	}	//End while loop
+}
+void RandGen::addRoom(int k,struct tile len, struct tile pos)
+{
+	room tmp;
+	
+	if (len.x==0)
+	{
+		//if split in x
+		tmp.dim.x = arena.office[k].dim.x - pos.x;
+		tmp.dim.y = arena.office[k].dim.y;
+		tmp.orig.x = pos.x;
+		tmp.orig.y = arena.office[k].orig.y;
+
+		arena.office[k].dim.x = pos.x - arena.office[k].orig.x;
+	}
+	else if (len.y==0)
+	{
+		//if split in y
+		tmp.dim.x = arena.office[k].dim.x;
+		tmp.dim.y = arena.office[k].dim.y - pos.y;
+		tmp.orig.x = arena.office[k].orig.x;
+		tmp.orig.y =pos.y;
+
+		arena.office[k].dim.y = pos.y - arena.office[k].orig.y;
+	}
+
+	arena.office.push_back(tmp);
+	arena.room_cnt++;
 }
 int RandGen::randInt(int low, int high)
 {
-	//srand ( time(NULL) );
-	//int r = rand() % (high - low + 1) + low;
-	//return r;
-	return 0;
+	srand ( time(NULL) );
+	int r = rand() % (high - low + 1) + low;
+	return r;
+	//return 0;
 }
 void RandGen::updateBlackTiles(void)
 {
@@ -188,30 +186,39 @@ void RandGen::addBlackTile(struct tile pos)
 void RandGen::addWall(struct tile len, struct tile pos)
 {
 	tile p;
-	if (len.x==0)
+	for(int i=0; i<=len.x; i++)		//x
 	{
-		for(int i=0; i<=len.y; i++) //-1?
-		{
-			p.x=pos.x;
-			p.y=pos.y + i;
-			addBlackTile(p);
-		}
-	}
-	else
-	{
-		for(int i=0; i<=len.x; i++)
+		for(int j=0; j<=len.y; j++)	//y
 		{
 			p.x=pos.x + i;
-			p.y=pos.y;
+			p.y=pos.y + j;
+			if( p.x>49 ||p.y>49)
+			{
+				int ost=2;
+			}
 			addBlackTile(p);
 		}
 	}
 }
-bool RandGen::sizeOk(int k)
+bool RandGen::sizeOkForSplitting(int k)
 {
 	//Is the biggest room too big?
-	if( (arena.office[k].dim.x * arena.office[k].dim.y) < arena.room_max_area )return true;
-	else return false;
+	//Size is ok for splitting if the room is bigger than the biggest allowed room
+	if( (arena.office[k].dim.x * arena.office[k].dim.y) > arena.room_max_area )
+	{
+		if( ( arena.office[k].dim.x > (arena.room_min_size.x*2+1)) || (arena.office[k].dim.y > (arena.room_min_size.y*2+1) ) )//room not too small?
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else 
+	{
+		return false;
+	}
 }
 int RandGen::getBiggestRoom()
 {
@@ -222,6 +229,7 @@ int RandGen::getBiggestRoom()
 		if( (arena.office[i].dim.x * arena.office[i].dim.y) > biggest_area)
 		{
 			biggest_index = i;
+			biggest_area = arena.office[i].dim.x * arena.office[i].dim.y;
 		}
 	}
 	return biggest_index;
