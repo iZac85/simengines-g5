@@ -9,7 +9,6 @@
 /************************************/
 
 // INCLUDE
-#include "stdafx.h"
 #include "microTalker.h"
 using namespace std;
 

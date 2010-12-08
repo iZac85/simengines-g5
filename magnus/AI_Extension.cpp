@@ -9,7 +9,6 @@
 /************************************/
 
 // INCLUDE
-#include "stdafx.h"
 #include "AI_Extension.h"
 // NAMESPACE
 using namespace std;
@@ -24,7 +23,6 @@ int DONTFLEERADIUS = 80;				// Dont flee radius
 // How far away the goal node is set
 int SLOWFLEEDIST = 10;					// Flee 10 steps away from current position
 int FASTFLEEDIST = 1;					// Flee 1 step away from current position
-bool updateGoalManual = true;			// A flag that lets you set the goal manually
 bool dontFleeMode = true;
 
 // INSTANCES
@@ -94,10 +92,8 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin
 }
 void Pather::fillPathDeck()
 {
-	if (!pathDeck.empty())
-		pathDeck.clear();
-	if (!pathVector.empty())
-		pathVector.clear();
+	pathDeck.clear();
+	//pathVector.clear();
 	pathVector = mTalker->returnPath();
 	for (int i = 0; i < pathVector.size(); i++)
 	{
@@ -114,7 +110,7 @@ void Pather::flee()
 	{
 		// Flee fast
 		dontFleeMode = false;
-		return(fleeFast());
+		fleeFast();
 		
 	}
 	else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
@@ -129,9 +125,9 @@ void Pather::flee()
 		dontFleeMode = true;
 		dontFlee();
 	}
-
 	pathPlanning();
 	fillPathDeck();
+
 }
 int Pather::checkQuadrant()
 {
@@ -669,7 +665,7 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 {
 
 	// Update Robot position
-	robot.currentPos.x = robPosX; 
+	robot.currentPos.x = robPosX;
 	robot.currentPos.y = robPosY;
 	// Update Player position
 	player.currentPos.x = playerPosX; 
@@ -703,6 +699,7 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	// Else take the next position in path
 	else
 	{
+
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
