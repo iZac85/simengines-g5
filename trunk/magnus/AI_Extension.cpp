@@ -709,8 +709,6 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 
 	}
 
-	//mNodeList.push_back( Ogre::Vector3((float)goalNode.x,0.0f,(float)goalNode.y));
-
 
 
 }
