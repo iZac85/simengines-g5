@@ -55,7 +55,8 @@ public:
 		bool threeDSettingsActive;
 		int threeDsettingsDoorCnt;
 		bool threeDsettingsFurnitureEn;
-		int threeDsettingsRoomSize;
+		int threeDsettingsMaxRoomSize;
+		int threeDsettingsMinRoomSize;
 		int threeDSettingsArenaSizeX;
 		int threeDSettingsArenaSizeY;
 	};
@@ -87,7 +88,8 @@ protected:
 	bool arenaSizeYChanged(const CEGUI::EventArgs &e);
 
 	bool doorsCntChanged(const CEGUI::EventArgs &e);
-	bool roomSizeChanged(const CEGUI::EventArgs &e);
+	bool roomSizeMaxChanged(const CEGUI::EventArgs &e);
+	bool roomSizeMinChanged(const CEGUI::EventArgs &e);
 	bool furnitureEnableChanged(const CEGUI::EventArgs &e);
 
 	//-----------VARIABLES------------//
@@ -95,6 +97,17 @@ protected:
 	char keyBuffer;
 	bool aiSettingsBtns[3];
 	bool physSettingsBtns[3];
+
+	//-----------CONSTANTS------------//
+
+	static const int ARENA_SIZE_MAX_VALUE = 999;
+	static const int ARENA_SIZE_MIN_VALUE = 30;
+
+	static const int DOOR_CNT_MAX = 4;
+	static const int DOOR_CNT_MIN = 2;
+
+	static const int MAX_ROOM_SIZE = 100; //% OLD VALUE = 998001;
+	static const int MIN_ROOM_SIZE = 1; //% OLD VALUE = 16;
 
 	//-----------CEGUI POINTERS------------//
 
@@ -111,14 +124,19 @@ protected:
 	CEGUI::Window* furnitureWindow;
 
 	CEGUI::Checkbox* furnitureEnable;
+
 	CEGUI::Spinner* doorsCnt;
-	CEGUI::Spinner* roomSize;
+	CEGUI::Spinner* roomSizeMax;
+	CEGUI::Spinner* roomSizeMin;
 	CEGUI::Spinner* arenaSizeX;
 	CEGUI::Spinner* arenaSizeY;
+
 	CEGUI::Slider* arenaSizeXslider;
 	CEGUI::Slider* arenaSizeYslider;
+
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
+
 	CEGUI::RadioButton* aiSettingsOp1Btn;
 	CEGUI::RadioButton* aiSettingsOp2Btn;
 	CEGUI::RadioButton* aiSettingsOp3Btn;
@@ -132,6 +150,8 @@ protected:
 
 	void stringToFloat(CEGUI::String&, float&);
 	void floatToString(float&, CEGUI::String&);
+	
+	float calcSliderValue(bool, float);
 
 };
 

@@ -122,6 +122,7 @@
     <ClInclude Include="..\..\magnus\AI_Extension.h" />
     <ClInclude Include="..\..\magnus\micropather.h" />
     <ClInclude Include="..\..\magnus\microTalker.h" />
+    <ClInclude Include="..\..\magnus\OgreDemo.h" />
     <ClInclude Include="..\..\magnus\stdafx.h" />
     <ClInclude Include="..\..\suvash\include\OBBox.h" />
     <ClInclude Include="..\..\suvash\include\OgreBulletProg.h" />
@@ -136,6 +137,7 @@
     <ClCompile Include="..\..\magnus\AI_Extension.cpp" />
     <ClCompile Include="..\..\magnus\micropather.cpp" />
     <ClCompile Include="..\..\magnus\microTalker.cpp" />
+    <ClCompile Include="..\..\magnus\OgreDemo.cpp" />
     <ClCompile Include="..\..\magnus\stdafx.cpp" />
     <ClCompile Include="..\..\suvash\src\OBBox.cpp" />
     <ClCompile Include="..\..\suvash\src\OgreBulletProg.cpp" />
