@@ -33,10 +33,14 @@ class g5main : public BaseApplication
 public:
     g5main(void);
     virtual ~g5main(void);
+
+protected:
+
 	OgreCEGUI *mCEGUI;
 	MapCreate *mMapCreate;
 
 	void createScene(void);
+	void createCamera(void);
 
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -52,8 +56,6 @@ public:
 	virtual bool mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id );
 
 	bool launch();
-
-protected:
 	bool mKeysReleased;
 };
 

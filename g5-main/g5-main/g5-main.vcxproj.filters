@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\magnus\stdafx.h">
       <Filter>Header Files\magnus</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\magnus\OgreDemo.h">
+      <Filter>Header Files\magnus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\g5main.cpp">
@@ -108,6 +111,9 @@
       <Filter>Source Files\magnus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\magnus\stdafx.cpp">
+      <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\OgreDemo.cpp">
       <Filter>Source Files\magnus</Filter>
     </ClCompile>
   </ItemGroup>
