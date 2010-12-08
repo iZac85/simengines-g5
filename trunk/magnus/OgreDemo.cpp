@@ -85,10 +85,23 @@ void OgreDemo::createScene(void)
 	planeEnt->setMaterialName("Examples/GrassFloor");
 	planeEnt->setCastShadows(false);
 	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(planeEnt);
-     
+
 	// Set the camera to look at our handiwork
-    mCamera->setPosition(100.0f, 50.0f, 400.0f);
-	mCamera->lookAt(100,0,100);
+    mCamera->setPosition(100.0f, 5.0f, 100.0f);
+	mCamera->lookAt(50,0,50);
+}
+void OgreDemo::createCamera(void)
+{
+	// Create the camera
+	mCamera = mSceneMgr->createCamera("PlayerCam");
+
+	// Position it at 500 in Z direction
+	mCamera->setPosition(Ogre::Vector3(0,0,80));
+	// Look back along -Z
+	mCamera->lookAt(Ogre::Vector3(0,0,-300));
+	mCamera->setNearClipDistance(0.1);
+
+	mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 }
 void OgreDemo::createFrameListener(void){
     BaseApplication::createFrameListener();
@@ -106,6 +119,8 @@ bool OgreDemo::nextLocation(void){
 	// PathPlanning and Avoidance
 	Ogre::Vector3 rp = mNode->getPosition();	// RobotPosition
 	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
+	mCamera->setPosition(pp.x,5.0,pp.z);
+	mCameraMan->setTopSpeed(12);
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
@@ -113,9 +128,14 @@ bool OgreDemo::nextLocation(void){
 	mWalkList.pop_front();             // this removes the front of the deque
 	mDirection = mDestination - mNode->getPosition();
 	mDistance = mDirection.normalise();
-    return true;
+    updateCamera();
+	return true;
+
+	
 }
- 
+void OgreDemo::updateCamera()
+{
+}
 bool OgreDemo::frameRenderingQueued(const Ogre::FrameEvent &evt){
     	if (mDirection == Ogre::Vector3::ZERO) {
 		if (nextLocation()) {
@@ -153,7 +173,8 @@ bool OgreDemo::frameRenderingQueued(const Ogre::FrameEvent &evt){
 	mAnimationState->addTime(evt.timeSinceLastFrame);
 	return BaseApplication::frameRenderingQueued(evt);
 }
- 
+
+/*
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
@@ -189,3 +210,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+*/
