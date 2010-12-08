@@ -25,6 +25,7 @@ int DONTFLEERADIUS = 80;				// Dont flee radius
 int SLOWFLEEDIST = 10;					// Flee 10 steps away from current position
 int FASTFLEEDIST = 1;					// Flee 1 step away from current position
 bool updateGoalManual = true;			// A flag that lets you set the goal manually
+bool dontFleeMode = true;
 
 // INSTANCES
 Pather *mPather;
@@ -60,29 +61,13 @@ Pather::~Pather(void)
 }
 
 // Path
-int Pather::pathPlanning()
+void Pather::pathPlanning()
 {
 	int res;
 	res = mTalker->setGoalNode(robot.currentPos.x, robot.currentPos.y, goalNode.x, goalNode.y);
-	return res;
-}
-void Pather::getPath()
-{
-	path = mTalker->returnPath();
-}
-int Pather::pathStatus()
-{
-	// x,y of last element in path
-	int pathEndX, pathEndY;
-	mTalker->NodeToXY(path.back(),&pathEndX, &pathEndY);
-	// Returns 1 if current robot position is equal to the last element of the path vector.
-	if (pathEndX == robot.currentPos.x && pathEndY == robot.currentPos.y)
-		return 1;
-	else
-		return 0;
 }
 
-// Map
+// Map and Path Stack
 void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin)
 {
 
@@ -107,6 +92,19 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin
 	// Create new instance of microTalker
 	mTalker = new microTalker(iMap,map.size.x, map.size.y);
 }
+void Pather::fillPathDeck()
+{
+	if (!pathDeck.empty())
+		pathDeck.clear();
+	if (!pathVector.empty())
+		pathVector.clear();
+	pathVector = mTalker->returnPath();
+	for (int i = 0; i < pathVector.size(); i++)
+	{
+		pathDeck.push_back(pathVector[i]);
+	}
+}
+
 
 // Fleeing Functions
 void Pather::flee()
@@ -115,19 +113,25 @@ void Pather::flee()
 	if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < FASTFLEERADIUS)
 	{
 		// Flee fast
+		dontFleeMode = false;
 		return(fleeFast());
 		
 	}
 	else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
 	{
 		// Flee slow
+		dontFleeMode = false;
 		fleeSlow();
 	}
 	else
 	{
 		// Dont flee
+		dontFleeMode = true;
 		dontFlee();
 	}
+
+	pathPlanning();
+	fillPathDeck();
 }
 int Pather::checkQuadrant()
 {
@@ -137,19 +141,19 @@ int Pather::checkQuadrant()
 
 	if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
 		return 1;
-	else if (player.currentPos.x > robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
+	else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
 		return 2;
-	else if (player.currentPos.x > robot.currentPos.x && player.currentPos.y > robot.currentPos.y) // RightTop 
+	else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
 		return 3;
-	else if (player.currentPos.x < robot.currentPos.x && player.currentPos.y > robot.currentPos.y) // LeftTop
+	else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
 		return 4;
 }
 void Pather::fleeFast()
 {
 	// Flee fast
-	//for (int i = 0; i<8;i++) // Loop through the surrounding neighbours
-	//{
-		switch (1) 
+	for (int i = 1; i<=8;i++) // Loop through the surrounding neighbours
+	{
+		switch (i) 
 		{
 		// Flee Fast Map
 		// -1, 1   0, 1  1, 1
@@ -357,26 +361,22 @@ void Pather::fleeFast()
 				}
 				break;
 		}
-		//if(mTalker->Passable(goalNode.x,goalNode.y))
-		//{
-			// If new goalNode is updated and passable return 1
-			//Passable()????
-
-		//}
-	//}
-	// If the flee algorithm didnt find any good node return 0
-	//return 0;
+		if(mTalker->Passable(goalNode.x,goalNode.y))
+		{
+			break;
+		}
+	}
 }
 void Pather::fleeSlow()
 {
 	// Flee slow
-	//for (int i; i<8;i++) // Loop through the surrounding neighbours
-	//{
+	for (int i = 1; i<=8;i++) // Loop through the surrounding neighbours
+	{
 	 // Rand between 0-100.
 	//srand(time(NULL));
 	// int randFive = rand()%10 + 5;	// random [5,15]
 	// cout << "Rand" << rand()%5 << "\n";
-		switch (1) 
+		switch (i) 
 		{
 		// Flee Fast Map
 		// -1, 1   0, 1  1, 1
@@ -584,11 +584,11 @@ void Pather::fleeSlow()
 				}
 				break;
 		}
-		//if(mTalker->Passable(goalNode.x,goalNode.y))
-		//{
-			// If new goalNode is updated and passable return 1
-		//}
-	//}
+		if(mTalker->Passable(goalNode.x,goalNode.y))
+		{
+			break;
+		}
+	}
 	// If the flee algorithm didnt find any good node return 0
 	//return 0;
 }
@@ -608,6 +608,7 @@ void Pather::dontFlee()
 		}
 	 }
 }
+
 
 // Other Functions
 int Pather::sign(int v)
@@ -630,30 +631,10 @@ int Pather::odd(int v)
 void Pather::AIinit()
 {
 
-	const int MAPXin = 20;
-	const int MAPYin = 20;
 
-	int tempMapArray[MAPXin][MAPYin] =  {{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-										{1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
-										{1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1},
-										{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,1,1,1,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,1,1,1,1,0,0,1,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
-										{1,0,0,0,0,1,1,1,0,0,1,1,1,1,1,1,1,0,0,1},
-										{1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-										{1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-										{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
-
+	// Create a temporary map.
+	const int MAPXin = 200;
+	const int MAPYin = 200;
 
 	std::vector<std::vector<int>> tempMapVector;
 	std::vector<int> rows (MAPXin,5);
@@ -663,20 +644,30 @@ void Pather::AIinit()
 	{
 		for (int j = 0; j<MAPYin; j++)
 		{
-			if (tempMapArray[i][j] == 0)
+			if (i<5 || j<5 || i > 194 || j > 194)
+				tempMapVector[i][j] = 1;
+			else if (i>20 && i<80 && j > 20 && j < 80)
+				tempMapVector[i][j] = 1;
+			else if (i>120 && i<180 && j > 120 && j < 180)
+				tempMapVector[i][j] = 1;
+			else if (i>20 && i<80 && j > 120 && j < 180)
+				tempMapVector[i][j] = 1;
+			else if (i>120 && i<180 && j > 20 && j < 80)
+				tempMapVector[i][j] = 1;
+			else 
 				tempMapVector[i][j] = 0;
 		}
 	}
 
 
 
-
+	// Set the map
 	setMap(tempMapVector,MAPXin,MAPYin);
 }
 // AI per Frame
 Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int playerPosY)
 {
-	int temp;
+
 	// Update Robot position
 	robot.currentPos.x = robPosX; 
 	robot.currentPos.y = robPosY;
@@ -684,12 +675,42 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	player.currentPos.x = playerPosX; 
 	player.currentPos.y = playerPosY;
 
-	goalNode.x = robot.currentPos.x;
-	goalNode.y = robot.currentPos.y;
+	int x,y;
+	// If path deck is empty calculate new path
+	if (pathDeck.empty())	
+	{
+		flee();
+		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		pathDeck.pop_front();
+		return(Ogre::Vector3((float)x,0.0f,(float)y));
+	}
+	// If player is within SLOWFLEERADIUS while the robot is in dontFlee mode
+	else if (dontFleeMode && sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
+	{
+		flee();
+		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		pathDeck.pop_front();
+		return(Ogre::Vector3((float)x,0.0f,(float)y));
+	}
+	// If player is within FASTFLEERADIUS update calculate a new path
+	else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < FASTFLEERADIUS)
+	{
+		flee();
+		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		pathDeck.pop_front();
+		return(Ogre::Vector3((float)x,0.0f,(float)y));
+	}
+	// Else take the next position in path
+	else
+	{
+		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		pathDeck.pop_front();
+		return(Ogre::Vector3((float)x,0.0f,(float)y));
 
-	flee();
+	}
 
-	return Ogre::Vector3((float)goalNode.x,0.0f,(float)goalNode.y);
+	//mNodeList.push_back( Ogre::Vector3((float)goalNode.x,0.0f,(float)goalNode.y));
+
 
 
 }

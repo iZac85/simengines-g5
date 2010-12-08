@@ -4,7 +4,6 @@
 
 Pather *aiPather;
 
-
 //-------------------------------------------------------------------------------------
 OgreDemo::OgreDemo(void)
 {
@@ -25,43 +24,71 @@ void OgreDemo::createScene(void)
     mEntity = mSceneMgr->createEntity("Robot", "robot.mesh");
  
     // Create the scene node
-    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("RobotNode", Ogre::Vector3(0.0f, 0.0f, 0.0f));
+    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("RobotNode", Ogre::Vector3(100.0f, 0.0f, 100.0f));
     mNode->attachObject(mEntity);
 	mNode->setScale(0.1f, 0.1f, 0.1f);
 	//mNode->pitch(Ogre::Degree(90));
 
 	// Set starting position
-	mWalkList.push_back(Ogre::Vector3(1.0f,  0.0f, 1.0f));
+	mWalkList.push_back(Ogre::Vector3(100.0f,  0.0f, 100.0f));
 
     // Create objects so we can see movement
     Ogre::Entity *ent;
     Ogre::SceneNode *node;
  
-    ent = mSceneMgr->createEntity("Knot1", "knot.mesh");
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot1Node", Ogre::Vector3(0.0f, 0.0f,  0.0f));
+    ent = mSceneMgr->createEntity("Knot1", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot1Node", Ogre::Vector3(0.0f, 0.0f,  100.0f));
     node->attachObject(ent);
-    node->setScale(0.01f, 0.01f, 0.01f);
+    node->setScale(0.005f, 0.1f, 2.0f);
  
-    ent = mSceneMgr->createEntity("Knot2", "knot.mesh");
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot2Node", Ogre::Vector3(20.0f, 0.0f,  0.0f));
+    ent = mSceneMgr->createEntity("Knot2", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot2Node", Ogre::Vector3(200.0f, 0.0f,  100.0f));
     node->attachObject(ent);
-    node->setScale(0.01f, 0.01f, 0.01f);
+    node->setScale(0.005f, 0.1f, 2.0f);
  
-    ent = mSceneMgr->createEntity("Knot3", "knot.mesh");
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot3Node", Ogre::Vector3(0.0f, 0.0f, 20.0f));
+    ent = mSceneMgr->createEntity("Knot3", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot3Node", Ogre::Vector3(100.0f, 0.0f, 0.0f));
     node->attachObject(ent);
-    node->setScale(0.01f, 0.01f, 0.01f);
+    node->setScale(2.0f, 0.1f, 0.005f);
 
-	ent = mSceneMgr->createEntity("Knot4", "knot.mesh");
-    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot4Node", Ogre::Vector3(20.0f, 0.0f, 20.0f));
+	ent = mSceneMgr->createEntity("Knot4", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot4Node", Ogre::Vector3(100.0f, 0.0f, 200.0f));
     node->attachObject(ent);
-    node->setScale(0.01f, 0.01f, 0.01f);
+    node->setScale(2.0f, 0.1f, 0.005f);
+
+	ent = mSceneMgr->createEntity("Knot5", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot5Node", Ogre::Vector3(50.0f, 0.0f, 50.0f));
+    node->attachObject(ent);
+    node->setScale(0.5f, 0.1f, 0.5f);
+
+	ent = mSceneMgr->createEntity("Knot6", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot6Node", Ogre::Vector3(150.0f, 0.0f, 150.0f));
+    node->attachObject(ent);
+    node->setScale(0.5f, 0.1f, 0.5f);
+
+	ent = mSceneMgr->createEntity("Knot7", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot7Node", Ogre::Vector3(50.0f, 0.0f, 150.0f));
+    node->attachObject(ent);
+    node->setScale(0.5f, 0.1f, 0.5f);
+
+	ent = mSceneMgr->createEntity("Knot8", "cube.mesh");
+    node = mSceneMgr->getRootSceneNode()->createChildSceneNode("Knot8Node", Ogre::Vector3(150.0f, 0.0f, 50.0f));
+    node->attachObject(ent);
+    node->setScale(0.5f, 0.1f, 0.5f);
+
+	Ogre::Plane plane;
+	plane.normal = Ogre::Vector3::UNIT_Y;
+	plane.d = 0;
+ 
+	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 3000.0f, 3000.0f, 10, 10, true, 1, 100.0f, 100.0f, Ogre::Vector3::UNIT_Z);
+	Ogre::Entity* planeEnt = mSceneMgr->createEntity("plane", "floor");
+	planeEnt->setMaterialName("Examples/GrassFloor");
+	planeEnt->setCastShadows(false);
+	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(planeEnt);
      
 	// Set the camera to look at our handiwork
-    mCamera->setPosition(10.0f, 10.0f, 100.0f);
-    //mCamera->pitch(Ogre::Degree(-30.0f));
-    //mCamera->yaw(Ogre::Degree(-15.0f));
-	mCamera->lookAt(10,0,10);
+    mCamera->setPosition(100.0f, 50.0f, 400.0f);
+	mCamera->lookAt(100,0,100);
 }
 void OgreDemo::createFrameListener(void){
     BaseApplication::createFrameListener();
@@ -76,19 +103,16 @@ void OgreDemo::createFrameListener(void){
 }   
 bool OgreDemo::nextLocation(void){
 
-	int robPos[2];
+	// PathPlanning and Avoidance
+	Ogre::Vector3 rp = mNode->getPosition();	// RobotPosition
+	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
 
-	Ogre::Vector3 rp = mNode->getPosition();
-	Ogre::Vector3 pp = mCamera->getPosition();
-
-	// If walklist is empty and if the robot arrived at destination
-	if (mWalkList.empty() && mDestination == rp)
+	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
-	
-    mDestination = mWalkList.front();  // this gets the front of the deque
-    mWalkList.pop_front();             // this removes the front of the deque
-    mDirection = mDestination - mNode->getPosition();
-    mDistance = mDirection.normalise();
+	mDestination = mWalkList.front();  // this gets the front of the deque
+	mWalkList.pop_front();             // this removes the front of the deque
+	mDirection = mDestination - mNode->getPosition();
+	mDistance = mDirection.normalise();
     return true;
 }
  

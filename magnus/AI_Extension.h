@@ -18,10 +18,8 @@ public:
 		
 		// Functions
         void setMap(std::vector<std::vector<int>>,int,int);
-		int pathPlanning(void);
-		void getPath(void);
+		void pathPlanning(void);
 		void printPath(void);
-		void AImain(std::vector<std::vector<int>>);
 		void AIinit(void);
 		Ogre::Vector3 AIframe(int, int, int, int);
 
@@ -52,6 +50,7 @@ public:
 			vec2_ size;
 		};
 
+		vec2_ vec2;
 		vec2_ goalNode;
 		map_ map;
 		player_ player;
@@ -61,7 +60,8 @@ private:
 
 		// Variables
 		std::vector<std::vector<int>> iMap;
-		std::vector<void*> path;
+		std::vector<void*> pathVector;
+		std::deque<void*> pathDeck;
 
 		// Functions
 		void printRobotPos(void);
@@ -74,7 +74,7 @@ private:
 		void fleeFast(void);
 		void fleeSlow(void);
 		void dontFlee(void);
-		int pathStatus(void);
+		void fillPathDeck(void);
 
 };
 
