@@ -28,18 +28,19 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
-	mRandGen->generateMap(450,450);
+	mRandGen->generateMap(dim_x,dim_y);
 
 	Ogre::Entity* wallEnt[2];
 	Ogre::Entity* floorEnt;
 	Ogre::Entity* boxEnt[10];
 	std::vector<Ogre::Entity*> wallEntDyn;
+	Ogre::SceneNode* mFloorNode;
 
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
 
-	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 450.0f, 450.0f, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, dim_x, dim_y, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
 	//Ogre::MeshManager::getSingleton().createPresfabCube();
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
@@ -66,14 +67,15 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	wallEnt[1]->setMaterialName("WallMat2");
 	wallEnt[1]->setCastShadows(false);
 
-	wallEntDyn.push_back(mSceneMgr->createEntity("wall1", "cube.mesh"));
-	wallEntDyn[0]->setMaterialName("WallMat1");
+	//wallEntDyn.push_back(mSceneMgr->createEntity("wall1", "cube.mesh"));
+	//wallEntDyn[0]->setMaterialName("WallMat1");
 
-
-	mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(floorEnt);		//The Floor!
+	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_x/2));
+	mFloorNode->attachObject(floorEnt);
+	//mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(floorEnt);		//The Floor!
 	Ogre::StaticGeometry* sg = mSceneMgr->createStaticGeometry("Walls");
-	const int MaxWalls = 10;
-	const int Dim = 50.0f;
+	//const int MaxWalls = 10;
+	//const int Dim = 50.0f;
 
 	for(int i = 0; i < dim_x; i++)		//x
 	{		
@@ -81,17 +83,18 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 		{
 			if(mRandGen->arena.blackTile[i][j]==1)
 			{
-				Ogre::Vector3 pos(i, 20, j);
-				Ogre::Vector3 scale(0.1, 0.5, 0.1);
+				Ogre::Vector3 pos(i, 1, j);
+				Ogre::Vector3 scale(0.01, 0.03, 0.01); //y=height
 				Ogre::Quaternion one, orientation;
 			
-				if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
-				else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
-		
+				//if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
+				//else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
+				one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
 				orientation =  one;
 		
-				if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(wallEnt[0], pos, orientation, scale);
-				else sg->addEntity(wallEnt[1], pos, orientation, scale);
+				//if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(wallEnt[0], pos, orientation, scale);
+				//else sg->addEntity(wallEnt[1], pos, orientation, scale);
+				sg->addEntity(wallEnt[0], pos, orientation, scale);
 
 				sg->build();
 			}
