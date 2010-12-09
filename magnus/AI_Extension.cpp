@@ -111,18 +111,18 @@ void Pather::flee()
 		fleeFast();
 	
 	}
-	else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
-	{
+	//else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
+	//{
 		// Flee slow
 		dontFleeMode = false;
 		fleeSlow();
-	}
-	else
-	{
-		// Dont flee
-		dontFleeMode = true;
-		dontFlee();
-		}
+	//}
+	//else
+	//{
+	//	// Dont flee
+	//	dontFleeMode = true;
+	//	dontFlee();
+	//	}
 	
 	fillPathDeck();
 
