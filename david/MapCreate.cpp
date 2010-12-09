@@ -35,7 +35,7 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	std::vector<Ogre::Entity*> mWallEnt;
 	
 	std::vector<Ogre::SceneNode*> mWallNode;
-	Ogre::SceneNode* mFloorNode;
+	//Ogre::SceneNode* mFloorNode;
 	Ogre::SceneNode* mTmpNode;
 
 	std::vector<Ogre::TextureUnitState*> mWallTexture;
@@ -62,6 +62,7 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	mfloorEnt = mSceneMgr->createEntity("floor1", "floor");
 	mfloorEnt->setMaterialName("FloorMat");
 
+	//mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
 	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
 	mFloorNode->attachObject(mfloorEnt);
 	
@@ -94,4 +95,9 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 MapCreate::~MapCreate(void)
 {
 	delete mRandGen;
+}
+
+Ogre::SceneNode* MapCreate::returnFloorNode()
+{
+	return mFloorNode;
 }
