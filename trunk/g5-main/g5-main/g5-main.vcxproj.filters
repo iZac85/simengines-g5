@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\magnus\OgreDemo.h">
       <Filter>Header Files\magnus</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\suvash\include\BulletInitWorld.h">
+      <Filter>Header Files\suvash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\g5main.cpp">
@@ -109,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="..\..\magnus\OgreDemo.cpp">
       <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\suvash\src\BulletInitWorld.cpp">
+      <Filter>Source Files\suvash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -94,6 +94,10 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		//mCEGUI->frameRenderingQueued(evt);
 		//return true;
 	}
+
+
+	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
+
 	return BaseApplication::frameRenderingQueued(evt);
 }
 //-------------------------------------------------------------------------------------
@@ -116,6 +120,25 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 	if(!mKeysReleased)
 	{
 		mCEGUI->keyReleased(arg);
+		return true;
+	}
+	if (arg.key == OIS::KC_B){//&& mTimeUntilNextToggle <=0){
+
+		// starting position of the box
+		Ogre::Vector3 position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
+		Ogre::Vector3 speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
+
+
+		OBBox *box = new OBBox(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "cube.mesh");
+
+		mBulletWorld->mNumEntitiesInstanced++;				
+		//mTimeUntilNextToggle = 0.5;
+
+		// push the created objects to the dequese
+		mBulletWorld->mShapes.push_back(box->sceneBoxShape);
+		mBulletWorld->mBodies.push_back(box->defaultBody);				
+		//mTimeUntilNextToggle = 0.5;
+
 		return true;
 	}
 	return BaseApplication::keyReleased(arg);
@@ -175,6 +198,14 @@ bool g5main::launch()
 	mCamera->setPosition(150, 200, 150);
 	mCamera->lookAt(0, 0, 0);
 	mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 12, 12, mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
+
+	//Create the Physics world
+	mBulletWorld = new BulletInitWorld(mSceneMgr,
+									   mMapCreate->returnFloorNode(),
+									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
+								       mCEGUI->extensionSettings.threeDSettingsArenaSizeY,
+									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);
+
 	delete mMapCreate;
 	return true;
 }
