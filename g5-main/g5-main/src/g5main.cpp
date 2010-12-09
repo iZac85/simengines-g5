@@ -174,7 +174,7 @@ bool g5main::launch()
 	// Set up camera
 	mCamera->setPosition(150, 200, 150);
 	mCamera->lookAt(0, 0, 0);
-	mMapCreate = new MapCreate(mSceneMgr);
+	mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 12, 12, mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
 	delete mMapCreate;
 	return true;
 }
