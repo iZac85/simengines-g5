@@ -66,6 +66,10 @@ private:
 	bool sizeOkForSplitting(int k);
 	int getBiggestRoom(void);
 	void addRoom(int k,struct tile len, struct tile pos);
+	void isWallsInterior(tile dim, tile pos);
+	void wallHasDoor(void);
+	void updateWalls(void);
+	void removeBlackTile(void);
 };
 
 #endif

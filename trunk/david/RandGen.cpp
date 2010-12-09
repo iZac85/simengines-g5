@@ -233,29 +233,44 @@ void RandGen::doors(void)
 	{
 		for( int i = 0; i < arena.room[k].door.cnt ;i++)
 		{
-			int wallNum = randInt(0,3); //which wall? 
-			arena.room[k].orig;
-			arena.room[k].dim;
-			//get wall in room from room dim and orig
-			//is wall interior?
-			//does it have a door allready?
-			//rand pos
-			//get wall in arena 
-			//update wall in arena
+			//int wallPos = randInt();//rand pos
+			isWallsInterior(arena.room[k].dim, arena.room[k].orig);		//is wall interior?
+			wallHasDoor();			//does it have a door already?
+			updateWalls();			//update walls
+			removeBlackTile();		//update black tiles in arena
 		}
 	}
-	
+}
+void RandGen::isWallsInterior(tile dim, tile pos)
+{
+
+}
+void RandGen::wallHasDoor(void)
+{
+
+}
+void RandGen::updateWalls(void)
+{
+
+}
+void RandGen::removeBlackTile(void)
+{
+
 }
 void RandGen::desk(void)
 {
+
 }
 void RandGen::chair(void)
 {
+
 }
 void RandGen::shelf(void)
 {
+
 }
 void RandGen::painting(void)
 {
+
 }
 

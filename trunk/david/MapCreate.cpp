@@ -48,7 +48,7 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
 
-	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, dim_x, dim_y, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
+	//Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, dim_x, dim_y, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture1 = mat1->getTechnique(0)->getPass(0)->createTextureUnitState("MRAMOR6X6.jpg");
@@ -59,12 +59,13 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	Ogre::MaterialPtr mat3 = Ogre::MaterialManager::getSingleton().create("WallMat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture3 = mat3->getTechnique(0)->getPass(0)->createTextureUnitState("KAMEN320x240.jpg");
 	
-	mfloorEnt = mSceneMgr->createEntity("floor1", "floor");
+	mfloorEnt = mSceneMgr->createEntity("floor1", "cube.mesh");
 	mfloorEnt->setMaterialName("FloorMat");
 
 	//mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
-	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
+	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, -0.5, dim_y/2));
 	mFloorNode->attachObject(mfloorEnt);
+	mFloorNode->setScale(0.01 * dim_x, 0.01, 0.01 * dim_y);
 	
 	for(int i = 0; i < mRandGen->arena.wall_cnt; i++)
 	{
