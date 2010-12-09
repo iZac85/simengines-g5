@@ -133,8 +133,11 @@ void OgreCEGUI::createScene(void)
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 
 	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+	//CEGUI::SchemeManager::getSingleton().create("OgreTray.scheme");
+	CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
+	CEGUI::SchemeManager::getSingleton().create("AquaLookSkin.scheme");
 
-	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+	CEGUI::System::getSingleton().setDefaultMouseCursor("AquaLook", "MouseArrow");
 	
 	//------------------------LOAD THE CEGUI LAYOUT---------------------//
 	Wmgr = CEGUI::WindowManager::getSingletonPtr();
@@ -151,7 +154,7 @@ void OgreCEGUI::createScene(void)
 	//------------------------LOAD GUI OBJECTS AND CONNECT EVENTS---------------------//
 
 	//Load root window
-	rootWindow = (CEGUI::Window*)Wmgr->getWindow("Root");
+	rootWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI");
 
 	//Load buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
@@ -165,17 +168,18 @@ void OgreCEGUI::createScene(void)
 
 	//Load text fields for 3D settings
 	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
-	roomSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSize");
+	roomSizeMaxWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSizeMax");
+	roomSizeMinWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSizeMin");
 	doorCntWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/DoorCnt");
 	furnitureWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/FurnitureEn");
 
 	//Load the sliders that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeXslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeXSlider");
 	arenaSizeXslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXsliderChanged, this));
-	arenaSizeXslider->setRotation(CEGUI::Vector3(0,0,90));
+	//arenaSizeXslider->setRotation(CEGUI::Vector3(0,0,90));
 	arenaSizeYslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeYSlider");
 	arenaSizeYslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYsliderChanged, this));
-	arenaSizeYslider->setRotation(CEGUI::Vector3(0,0,90));
+	//arenaSizeYslider->setRotation(CEGUI::Vector3(0,0,90));
 
 	//Load the edit boxes that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeX = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeX");
@@ -208,14 +212,14 @@ void OgreCEGUI::createScene(void)
 	roomSizeMax->setCurrentValue(MAX_ROOM_SIZE/2);
 
 	//Input field for setting the minimum room size (in % of the arena size), limited to between 1-100.
-	roomSizeMin->setMaximumValue(MAX_ROOM_SIZE);
+	roomSizeMin->setMaximumValue(ARENA_SIZE_MAX_VALUE);
 	roomSizeMin->setMinimumValue(MIN_ROOM_SIZE);
 	roomSizeMin->setCurrentValue(MIN_ROOM_SIZE);
 
 	//Store the init values in extensionSettings 
 	int arenaArea = extensionSettings.threeDSettingsArenaSizeX*extensionSettings.threeDSettingsArenaSizeY;
 	extensionSettings.threeDsettingsMaxRoomSize = (float(MAX_ROOM_SIZE/2)/100) * arenaArea;
-	extensionSettings.threeDsettingsMinRoomSize = (float(MIN_ROOM_SIZE)/100) * arenaArea;
+	extensionSettings.threeDsettingsMinRoomSize = MIN_ROOM_WIDTH;
 
 	//Input field for setting the number of doors per room limited to between DOOR_CNT_MIN = 2 and DOOR_CNT_MAX = 4
 	doorsCnt->setMaximumValue(DOOR_CNT_MAX);
@@ -229,7 +233,8 @@ void OgreCEGUI::createScene(void)
 
 	//Hide the fields for 3D settings as default
 	arenaSizeWindow->setVisible(false);
-	roomSizeWindow->setVisible(false);
+	roomSizeMaxWindow->setVisible(false);
+	roomSizeMinWindow->setVisible(false);
 	doorCntWindow->setVisible(false);
 	furnitureWindow->setVisible(false);
 	extensionSettings.threeDSettingsActive = false;
@@ -359,10 +364,10 @@ bool OgreCEGUI::furnitureEnableChanged(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::roomSizeMaxChanged(const CEGUI::EventArgs &e)
 {
-	int currentMinValue = roomSizeMin->getCurrentValue();
 	int currentMaxValue = roomSizeMax->getCurrentValue();
-	if (currentMaxValue < currentMinValue) currentMaxValue = currentMinValue;
-	roomSizeMax->setCurrentValue(currentMaxValue);
+	//int currentMinValue = roomSizeMin->getCurrentValue();
+	//if (currentMaxValue < currentMinValue) currentMaxValue = currentMinValue;
+	//roomSizeMax->setCurrentValue(currentMaxValue);
 	updateRoomSize(1, currentMaxValue);
 	return true;
 }
@@ -370,19 +375,30 @@ bool OgreCEGUI::roomSizeMaxChanged(const CEGUI::EventArgs &e)
 bool OgreCEGUI::roomSizeMinChanged(const CEGUI::EventArgs &e)
 {
 	int currentMinValue = roomSizeMin->getCurrentValue();
-	int currentMaxValue = roomSizeMax->getCurrentValue();
-	if (currentMinValue > currentMaxValue) currentMinValue = currentMaxValue;
-	roomSizeMin->setCurrentValue(currentMinValue);
+	int arenaSizeXval = arenaSizeX->getCurrentValue();
+	int arenaSizeYval = arenaSizeY->getCurrentValue();
+	if (currentMinValue > arenaSizeXval || currentMinValue > arenaSizeYval)
+	{
+		if (arenaSizeXval < arenaSizeYval) currentMinValue = arenaSizeXval;
+		else currentMinValue = arenaSizeYval;
+		roomSizeMin->setCurrentValue(currentMinValue);
+	}
 	updateRoomSize(0, currentMinValue);
 	return true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 {
+	int currentMinRoomValue = roomSizeMin->getCurrentValue();
 	float currentSpinnerValue = (arenaSizeX->getCurrentValue());
 	float newSpinnerValue = calcSliderValue(false, currentSpinnerValue);
 	arenaSizeXslider->setCurrentValue(newSpinnerValue);
 	extensionSettings.threeDSettingsArenaSizeX = int(currentSpinnerValue);
+	if (currentMinRoomValue > currentSpinnerValue)
+	{
+		currentMinRoomValue = currentSpinnerValue;
+		roomSizeMin->setCurrentValue(currentMinRoomValue);
+	}
 	updateRoomSize(0, roomSizeMin->getCurrentValue());
 	updateRoomSize(1, roomSizeMax->getCurrentValue());
 	return true;
@@ -390,10 +406,16 @@ bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::arenaSizeYChanged(const CEGUI::EventArgs &e)
 {
+	int currentMinRoomValue = roomSizeMin->getCurrentValue();
 	float currentSpinnerValue = (arenaSizeY->getCurrentValue());
 	float newSpinnerValue = calcSliderValue(false, currentSpinnerValue);
 	arenaSizeYslider->setCurrentValue(newSpinnerValue);
 	extensionSettings.threeDSettingsArenaSizeY = int(currentSpinnerValue);
+	if (currentMinRoomValue > currentSpinnerValue)
+	{
+		currentMinRoomValue = currentSpinnerValue;
+		roomSizeMin->setCurrentValue(currentMinRoomValue);
+	}
 	updateRoomSize(0, roomSizeMin->getCurrentValue());
 	updateRoomSize(1, roomSizeMax->getCurrentValue());
 	return true;
@@ -435,7 +457,8 @@ bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 	{
 		arenaSizeWindow->setVisible(true);
 		extensionSettings.threeDSettingsActive = true;
-		roomSizeWindow->setVisible(true);
+		roomSizeMaxWindow->setVisible(true);
+		roomSizeMinWindow->setVisible(true);
 		doorCntWindow->setVisible(true);
 		furnitureWindow->setVisible(true);
 	}
@@ -443,7 +466,8 @@ bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 	{
 		arenaSizeWindow->setVisible(false);
 		extensionSettings.threeDSettingsActive = false;
-		roomSizeWindow->setVisible(false);
+		roomSizeMaxWindow->setVisible(false);
+		roomSizeMinWindow->setVisible(false);
 		doorCntWindow->setVisible(false);
 		furnitureWindow->setVisible(false);
 	}
@@ -629,9 +653,16 @@ void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::updateRoomSize(int max_min ,int currentVal)
 {
-	int arenaArea = extensionSettings.threeDSettingsArenaSizeX*extensionSettings.threeDSettingsArenaSizeY;
+	int arenaSizeXval = extensionSettings.threeDSettingsArenaSizeX;
+	int arenaSizeYval = extensionSettings.threeDSettingsArenaSizeY;
+	int arenaArea = arenaSizeXval * arenaSizeYval;
 	if (max_min == 1) extensionSettings.threeDsettingsMaxRoomSize = (float(currentVal)/100) * arenaArea;
-	else if (max_min == 0) extensionSettings.threeDsettingsMinRoomSize = (float(currentVal)/100) * arenaArea;
+	else if (max_min == 0)
+	{
+		if (currentVal == 1) currentVal = MIN_ROOM_WIDTH;
+		currentVal = currentVal*10;	//Convert the meters into decimeters
+		extensionSettings.threeDsettingsMinRoomSize = currentVal;
+	}
 }
 //-------------------------------------------------------------------------------------
 /*
