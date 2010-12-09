@@ -59,10 +59,10 @@ Pather::~Pather(void)
 }
 
 // Path
-void Pather::pathPlanning()
+int Pather::pathPlanning()
 {
-	int res;
-	res = mTalker->setGoalNode(robot.currentPos.x, robot.currentPos.y, goalNode.x, goalNode.y);
+
+	return(mTalker->setGoalNode(robot.currentPos.x, robot.currentPos.y, goalNode.x, goalNode.y));
 }
 
 // Map and Path Stack
@@ -84,21 +84,15 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin
 				iMap[i][j] = 0;
 		}
 	}
-
-	//printMap();
-
 	// Create new instance of microTalker
 	mTalker = new microTalker(iMap,map.size.x, map.size.y);
 }
 void Pather::fillPathDeck()
 {
 
-	int x,y;
 	pathDeck.clear();
-	//pathVector.clear();
 	pathVector = mTalker->returnPath();
-	mTalker->NodeToXY( pathDeck.front(), &x, &y );
-	for (int i = 1; i < pathVector.size(); i++)
+	for (int i = 0; i < pathVector.size(); i++)
 	{
 		pathDeck.push_back(pathVector[i]);
 	}
@@ -108,14 +102,14 @@ void Pather::fillPathDeck()
 // Fleeing Functions
 void Pather::flee()
 {
-	/*
+
 	// Check if inside the critical radius, if inside flee fast else flee slow
 	if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < FASTFLEERADIUS)
 	{
 		// Flee fast
 		dontFleeMode = false;
 		fleeFast();
-		
+	
 	}
 	else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
 	{
@@ -125,12 +119,11 @@ void Pather::flee()
 	}
 	else
 	{
-		*/
 		// Dont flee
 		dontFleeMode = true;
 		dontFlee();
-	//}
-	pathPlanning();
+		}
+	
 	fillPathDeck();
 
 }
@@ -362,7 +355,7 @@ void Pather::fleeFast()
 				}
 				break;
 		}
-		if(mTalker->Passable(goalNode.x,goalNode.y))
+		if(mTalker->Passable(goalNode.x,goalNode.y) == 1  && pathPlanning() == 0)
 		{
 			break;
 		}
@@ -585,13 +578,11 @@ void Pather::fleeSlow()
 				}
 				break;
 		}
-		if(mTalker->Passable(goalNode.x,goalNode.y))
+		if(mTalker->Passable(goalNode.x,goalNode.y) == 1 && pathPlanning() == 0)
 		{
 			break;
 		}
 	}
-	// If the flee algorithm didnt find any good node return 0
-	//return 0;
 }
 void Pather::dontFlee()
 {
@@ -602,14 +593,12 @@ void Pather::dontFlee()
 		srand(time(NULL));
 		goalNode.x = (int)(rand()%map.size.x);
 		goalNode.y = (int)(rand()%map.size.y);
-		if (mTalker->Passable(goalNode.x,goalNode.y))
+		if (mTalker->Passable(goalNode.x,goalNode.y) == 1 && pathPlanning() == 0)
 		{
-			// If a goal node is found and passable return 1
 			pass = false;
 		}
 	 }
 }
-
 
 // Other Functions
 int Pather::sign(int v)
@@ -626,7 +615,6 @@ int Pather::odd(int v)
 	else
 		return 1;
 }
-
 
 // AI Initialization
 void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
@@ -658,11 +646,9 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	{
 		flee();
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
-		if(!pathDeck.empty())
-			pathDeck.pop_front();
+		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
-/*
 	// If player is within SLOWFLEERADIUS while the robot is in dontFlee mode
 	else if (dontFleeMode && sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
 	{
@@ -679,14 +665,12 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
-	*/
 	// Else take the next position in path
 	else
 	{
 
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
-		if (!pathDeck.empty())
-			pathDeck.pop_front();
+		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 
 	}

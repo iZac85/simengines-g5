@@ -27,7 +27,7 @@ microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYi
 	
 
 	// Initialize 2dVector
-	std::vector<int> rows_ (mapG.size.x,5);
+	std::vector<int> rows_ (mapG.size.x,1);
 	gMap = vector<std::vector<int>> (mapG.size.y,rows_);
 
 	// Copy the map to the class global map 2d vector
@@ -39,8 +39,8 @@ microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYi
 
 		}
 	}    
-	rob.pos.x = 0;
-	rob.pos.y = 0;
+	//rob.pos.x = 0;
+	//rob.pos.y = 0;
 	micro = new MicroPather(this, 20);
 	myPather = new Pather();
 

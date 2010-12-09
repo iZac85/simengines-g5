@@ -18,7 +18,7 @@ public:
 		
 		// Functions
         void setMap(std::vector<std::vector<int>>,int,int);
-		void pathPlanning(void);
+		int pathPlanning(void);
 		void printPath(void);
 		void AIinit(std::vector<std::vector<int>>);
 		Ogre::Vector3 AIframe(int, int, int, int);
