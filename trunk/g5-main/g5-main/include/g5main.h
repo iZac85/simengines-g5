@@ -40,6 +40,7 @@ protected:
 
 	OgreCEGUI *mCEGUI;
 	MapCreate *mMapCreate;
+	Animation *mAnimation;
 
 	void createScene(void);
 	void createCamera(void);
