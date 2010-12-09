@@ -72,11 +72,11 @@
     <ClInclude Include="..\..\magnus\microTalker.h">
       <Filter>Header Files\magnus</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\magnus\OgreDemo.h">
-      <Filter>Header Files\magnus</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\suvash\include\BulletInitWorld.h">
       <Filter>Header Files\suvash</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\magnus\Animation.h">
+      <Filter>Header Files\magnus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,11 +110,11 @@
     <ClCompile Include="..\..\magnus\microTalker.cpp">
       <Filter>Source Files\magnus</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\magnus\OgreDemo.cpp">
-      <Filter>Source Files\magnus</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\suvash\src\BulletInitWorld.cpp">
       <Filter>Source Files\suvash</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\magnus\Animation.cpp">
+      <Filter>Source Files\magnus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
