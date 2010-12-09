@@ -33,7 +33,7 @@ public:
 	Ogre::SceneNode* mFloorNode;
 
 	std::vector<Ogre::SceneNode*> mWallNode;
-
+	std::vector<std::vector<int>> map;
 	Ogre::SceneNode* returnFloorNode();
 	std::vector<Ogre::SceneNode*> returnWallNodeVec();
 
