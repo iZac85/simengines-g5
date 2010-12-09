@@ -196,6 +196,8 @@ void OgreCEGUI::createScene(void)
 	roomSizeMin->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::roomSizeMinChanged, this));
 	furnitureEnable = (CEGUI::Checkbox*)Wmgr->getWindow("3DSettingsFurnitureEn");
 	furnitureEnable->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::furnitureEnableChanged, this));
+	threeDSettingsEnable = (CEGUI::Checkbox*)Wmgr->getWindow("3DSettingsEnable");
+	threeDSettingsEnable->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsEnableChanged, this));
 
 	//----Set init values and value limits for the input fields----//
 	//Input fields for setting the arena size as x and y, ARENA_SIZE_MIN_VALUE = 30, ARENA_SIZE_MAX_VALUE = 999
@@ -239,14 +241,8 @@ void OgreCEGUI::createScene(void)
 	furnitureWindow->setVisible(false);
 	extensionSettings.threeDSettingsActive = false;
 
-	//Load the radiobuttons for 3D settings and connect the events of each button changing to their corresponding functions (threeDSettingsXBtnChanged), X=On,Off
-	threeDSettingsOnBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOn");
-	threeDSettingsOnBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsOnBtnChanged, this));
-	threeDSettingsOffBtn = (CEGUI::RadioButton*)Wmgr->getWindow("3DSettingsOff");
-	threeDSettingsOffBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsOffBtnChanged, this));
-
 	//Set the "off" value as default for 3D settings
-	threeDSettingsOffBtn -> setSelected(true); 
+	threeDSettingsEnable->setSelected(false); 
 
 	//Load the radiobuttons for AI settings and connect the events of each button changing to their corresponding functions (aiSettingsOpXBtnChanged), X=1,2,3
 	aiSettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp1");
@@ -437,23 +433,9 @@ bool OgreCEGUI::arenaSizeYsliderChanged(const CEGUI::EventArgs &e)
 	return true;
 }
 //-------------------------------------------------------------------------------------
-float OgreCEGUI::calcSliderValue(bool sliderToSpinner, float currentValue)
+bool OgreCEGUI::threeDSettingsEnableChanged(const CEGUI::EventArgs &e)
 {
-	float newValue;
-	if (sliderToSpinner)
-	{
-		return newValue = ARENA_SIZE_MIN_VALUE + ((currentValue) * (ARENA_SIZE_MAX_VALUE - ARENA_SIZE_MIN_VALUE));
-	}
-	else
-	{
-		// Interpolate from arena size (between 55 and 999) to slider value (between 0 and 1) ((x - x1)(y2 - y1)) / (x2 - x1)
-		return newValue  = (currentValue - ARENA_SIZE_MIN_VALUE)/(ARENA_SIZE_MAX_VALUE - ARENA_SIZE_MIN_VALUE); 
-	}
-}
-//-------------------------------------------------------------------------------------
-bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
-{
-	if (threeDSettingsOnBtn->isSelected())
+	if (threeDSettingsEnable->isSelected())
 	{
 		arenaSizeWindow->setVisible(true);
 		extensionSettings.threeDSettingsActive = true;
@@ -471,11 +453,6 @@ bool OgreCEGUI::threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 		doorCntWindow->setVisible(false);
 		furnitureWindow->setVisible(false);
 	}
-	return true;
-}
-//-------------------------------------------------------------------------------------
-bool OgreCEGUI::threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e)
-{
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -555,6 +532,20 @@ bool OgreCEGUI::physSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
 		physSettingsBtns[2] = false;
 	}
 	return true;
+}
+//-------------------------------------------------------------------------------------
+float OgreCEGUI::calcSliderValue(bool sliderToSpinner, float currentValue)
+{
+	float newValue;
+	if (sliderToSpinner)
+	{
+		return newValue = ARENA_SIZE_MIN_VALUE + ((currentValue) * (ARENA_SIZE_MAX_VALUE - ARENA_SIZE_MIN_VALUE));
+	}
+	else
+	{
+		// Interpolate from arena size (between 55 and 999) to slider value (between 0 and 1) ((x - x1)(y2 - y1)) / (x2 - x1)
+		return newValue  = (currentValue - ARENA_SIZE_MIN_VALUE)/(ARENA_SIZE_MAX_VALUE - ARENA_SIZE_MIN_VALUE); 
+	}
 }
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)

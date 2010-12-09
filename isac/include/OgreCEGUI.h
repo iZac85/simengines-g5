@@ -78,9 +78,6 @@ protected:
 	bool physSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
 	bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
 
-	bool threeDSettingsOnBtnChanged(const CEGUI::EventArgs &e);
-	bool threeDSettingsOffBtnChanged(const CEGUI::EventArgs &e);
-
 	bool arenaSizeXsliderChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYsliderChanged(const CEGUI::EventArgs &e);
 
@@ -91,6 +88,7 @@ protected:
 	bool roomSizeMaxChanged(const CEGUI::EventArgs &e);
 	bool roomSizeMinChanged(const CEGUI::EventArgs &e);
 	bool furnitureEnableChanged(const CEGUI::EventArgs &e);
+	bool threeDSettingsEnableChanged(const CEGUI::EventArgs &e);
 
 	//-----------FUNCTIONS------------//
 
@@ -133,6 +131,7 @@ protected:
 	CEGUI::Window* furnitureWindow;
 
 	CEGUI::Checkbox* furnitureEnable;
+	CEGUI::Checkbox* threeDSettingsEnable;
 
 	CEGUI::Spinner* doorsCnt;
 	CEGUI::Spinner* roomSizeMax;
