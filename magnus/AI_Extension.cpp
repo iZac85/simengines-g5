@@ -28,7 +28,7 @@ bool dontFleeMode = true;
 // INSTANCES
 Pather *mPather;
 microTalker *mTalker;
-OgreDemo *mOgreDemo = new OgreDemo();
+Animation *mOgreDemo = new Animation();
 
 /*
 1. if(mapSet == 0)
@@ -73,8 +73,8 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin
 	map.size.y = MAPYin;
 
 	// Initialize map
-	std::vector<int> rows (map.size.x,1);
-	iMap = vector<vector<int>> (map.size.y,rows);
+	//std::vector<int> rows (map.size.x,1);
+	//iMap = vector<vector<int>> (map.size.y,rows);
 
 	for (int i = 0; i<map.size.x; i++)
 	{
@@ -92,10 +92,13 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin
 }
 void Pather::fillPathDeck()
 {
+
+	int x,y;
 	pathDeck.clear();
 	//pathVector.clear();
 	pathVector = mTalker->returnPath();
-	for (int i = 0; i < pathVector.size(); i++)
+	mTalker->NodeToXY( pathDeck.front(), &x, &y );
+	for (int i = 1; i < pathVector.size(); i++)
 	{
 		pathDeck.push_back(pathVector[i]);
 	}
@@ -105,6 +108,7 @@ void Pather::fillPathDeck()
 // Fleeing Functions
 void Pather::flee()
 {
+	/*
 	// Check if inside the critical radius, if inside flee fast else flee slow
 	if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < FASTFLEERADIUS)
 	{
@@ -121,10 +125,11 @@ void Pather::flee()
 	}
 	else
 	{
+		*/
 		// Dont flee
 		dontFleeMode = true;
 		dontFlee();
-	}
+	//}
 	pathPlanning();
 	fillPathDeck();
 
@@ -624,40 +629,16 @@ int Pather::odd(int v)
 
 
 // AI Initialization
-void Pather::AIinit()
+void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
 {
 
+	MAPXin = tempMapVector.size();
+	MAPYin = tempMapVector[0].size();
 
-	// Create a temporary map.
-	const int MAPXin = 200;
-	const int MAPYin = 200;
+	// Initialize map
+	std::vector<int> rows (MAPXin,1);
+	iMap = vector<vector<int>> (MAPYin,rows);
 
-	std::vector<std::vector<int>> tempMapVector;
-	std::vector<int> rows (MAPXin,5);
-	tempMapVector = vector<vector<int>> (MAPYin,rows);
-
-	for (int i = 0; i<MAPXin; i++)
-	{
-		for (int j = 0; j<MAPYin; j++)
-		{
-			if (i<5 || j<5 || i > 194 || j > 194)
-				tempMapVector[i][j] = 1;
-			else if (i>20 && i<80 && j > 20 && j < 80)
-				tempMapVector[i][j] = 1;
-			else if (i>120 && i<180 && j > 120 && j < 180)
-				tempMapVector[i][j] = 1;
-			else if (i>20 && i<80 && j > 120 && j < 180)
-				tempMapVector[i][j] = 1;
-			else if (i>120 && i<180 && j > 20 && j < 80)
-				tempMapVector[i][j] = 1;
-			else 
-				tempMapVector[i][j] = 0;
-		}
-	}
-
-
-
-	// Set the map
 	setMap(tempMapVector,MAPXin,MAPYin);
 }
 // AI per Frame
@@ -677,9 +658,11 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	{
 		flee();
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
-		pathDeck.pop_front();
+		if(!pathDeck.empty())
+			pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
+/*
 	// If player is within SLOWFLEERADIUS while the robot is in dontFlee mode
 	else if (dontFleeMode && sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
 	{
@@ -696,12 +679,14 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
+	*/
 	// Else take the next position in path
 	else
 	{
 
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
-		pathDeck.pop_front();
+		if (!pathDeck.empty())
+			pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 
 	}

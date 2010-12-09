@@ -1,25 +1,26 @@
-#ifndef __OgreDemo_h_
-#define __OgreDemo_h_
+#ifndef __Animation_h_
+#define __Animation_h_
  
 #include "BaseApplication.h"
 #include <deque>
- 
-class OgreDemo : public BaseApplication
+#include <vector>
+
+class Animation
 {
 public:
-    OgreDemo(void);
-    virtual ~OgreDemo(void);
+	Animation(void);
+    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*);
+    ~Animation(void);
 
-	void createCamera(void);
+	void AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera);
+	void UpdateAnimation(const Ogre::FrameEvent &evt,Ogre::SceneManager*, Ogre::Camera*);
 
 protected:
-     virtual void createScene(void);
-     virtual void createFrameListener(void);
-     virtual bool nextLocation(void);
-     virtual bool frameRenderingQueued(const Ogre::FrameEvent &evt);
-	 void updateCamera(void);
+
+     bool NextLocation(Ogre::Camera*);
+ 
      
-		 Ogre::Real mDistance;                  // The distance the object has left to travel
+	 Ogre::Real mDistance;                  // The distance the object has left to travel
      Ogre::Vector3 mDirection;              // The direction the object is moving	
 	 Ogre::Vector3 mDestination;            // The destination the object is moving towards
 	 Ogre::Real mWalkSpeed;                 // The speed at which the object is moving
@@ -32,10 +33,14 @@ protected:
      Ogre::SceneNode *mNode;                // The SceneNode that the Entity is attached to
 	 Ogre::Entity *ent2;
 	 Ogre::SceneNode *node2;
+	 bool robotAlive;
+	 bool robotDead;
+	 int animSpeedUp;
+	 float deathAnimationTime;
  
  
  
  
 };
  
-#endif // #ifndef __OgreDemo_h_
+#endif // #ifndef __Animation_h_
