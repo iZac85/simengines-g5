@@ -28,7 +28,6 @@ distribution.
 #pragma warning( disable : 4530 )	// Exception handler isn't used
 #endif
 
-#include "stdafx.h"
 #include <vector>
 #include <memory.h>
 #include <stdio.h>
