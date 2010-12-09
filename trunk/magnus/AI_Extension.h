@@ -7,7 +7,7 @@
 #include <time.h>
 #include <iostream>
 #include "microTalker.h"
-#include "OgreDemo.h"
+#include "Animation.h"
 
 class Pather
 {
@@ -20,7 +20,7 @@ public:
         void setMap(std::vector<std::vector<int>>,int,int);
 		void pathPlanning(void);
 		void printPath(void);
-		void AIinit(void);
+		void AIinit(std::vector<std::vector<int>>);
 		Ogre::Vector3 AIframe(int, int, int, int);
 
 		// Structs
@@ -75,6 +75,9 @@ private:
 		void fleeSlow(void);
 		void dontFlee(void);
 		void fillPathDeck(void);
+
+		int MAPXin;
+		int MAPYin;
 
 };
 
