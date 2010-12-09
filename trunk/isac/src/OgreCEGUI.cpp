@@ -274,73 +274,73 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
-	mLaunch = true;
+	//mLaunch = true;
 	//rootWindow->destroy();
-	 CEGUI::String aiSettingsString;
-	 if (aiSettingsBtns[0] == 1) 
-	 {
-		 aiSettingsString = "Hard";
-		 extensionSettings.aiSettings = 2;
-	 }
-	 else if (aiSettingsBtns[1] == 1)
-	 {
-		 aiSettingsString = "Easy";
-		 extensionSettings.aiSettings = 1;
-	 }
-	 else 
-	 {
-		 aiSettingsString = "off";
-		 extensionSettings.aiSettings = 0;
-	 }
+	//CEGUI::String aiSettingsString;
+	//if (aiSettingsBtns[0] == 1) 
+	//{
+	//	aiSettingsString = "Hard";
+	//	extensionSettings.aiSettings = 2;
+	//}
+	//else if (aiSettingsBtns[1] == 1)
+	//{
+	//	aiSettingsString = "Easy";
+	//	extensionSettings.aiSettings = 1;
+	//}
+	// else 
+	// {
+	//	 aiSettingsString = "off";
+	//	 extensionSettings.aiSettings = 0;
+	// }
 
-	 CEGUI::String physSettingsString;
-	 if (physSettingsBtns[0] == 1) 
-	 {
-		 physSettingsString = "Realistic";
-		 extensionSettings.physSettings = 2;
-	 }
-	 else if (physSettingsBtns[1] == 1) 
-	 {
-		 physSettingsString = "Arcade";
-		 extensionSettings.physSettings = 1;
-	 }
-	 else 
-	 {
-		 physSettingsString = "off";
-		 extensionSettings.physSettings = 0;
-	 }
+	// CEGUI::String physSettingsString;
+	// if (physSettingsBtns[0] == 1) 
+	// {
+	//	 physSettingsString = "Realistic";
+	//	 extensionSettings.physSettings = 2;
+	// }
+	// else if (physSettingsBtns[1] == 1) 
+	// {
+	//	 physSettingsString = "Arcade";
+	//	 extensionSettings.physSettings = 1;
+	// }
+	// else 
+	// {
+	//	 physSettingsString = "off";
+	//	 extensionSettings.physSettings = 0;
+	// }
 
-	 CEGUI::String threeDSettings;
-	 if(extensionSettings.threeDSettingsActive == false) threeDSettings = "off";
-	 else
-	 {
-		 CEGUI::String furnitureEn;
-		 if (extensionSettings.threeDsettingsFurnitureEn == true) furnitureEn = "Activate";
-		 else furnitureEn = "Inactivate";
+	// CEGUI::String threeDSettings;
+	// if(extensionSettings.threeDSettingsActive == false) threeDSettings = "off";
+	// else
+	// {
+	//	 CEGUI::String furnitureEn;
+	//	 if (extensionSettings.threeDsettingsFurnitureEn == true) furnitureEn = "Activate";
+	//	 else furnitureEn = "Inactivate";
 
-		 CEGUI::String doorCntString;
-		 float doorCntFloat = float(extensionSettings.threeDsettingsDoorCnt);
-		 floatToString(doorCntFloat, doorCntString);
+	//	 CEGUI::String doorCntString;
+	//	 float doorCntFloat = float(extensionSettings.threeDsettingsDoorCnt);
+	//	 floatToString(doorCntFloat, doorCntString);
 
-		 CEGUI::String maxRoomSizeString;
-		 float maxRoomSizeFloat = float(extensionSettings.threeDsettingsMaxRoomSize);
-		 floatToString(maxRoomSizeFloat, maxRoomSizeString);
+	//	 CEGUI::String maxRoomSizeString;
+	//	 float maxRoomSizeFloat = float(extensionSettings.threeDsettingsMaxRoomSize);
+	//	 floatToString(maxRoomSizeFloat, maxRoomSizeString);
 
-		 CEGUI::String minRoomSizeString;
-		 float minRoomSizeFloat = float(extensionSettings.threeDsettingsMinRoomSize);
-		 floatToString(minRoomSizeFloat, minRoomSizeString);
+	//	 CEGUI::String minRoomSizeString;
+	//	 float minRoomSizeFloat = float(extensionSettings.threeDsettingsMinRoomSize);
+	//	 floatToString(minRoomSizeFloat, minRoomSizeString);
 
-		 CEGUI::String arenaSizeXString;
-		 float arenaSizeXfloat = float(extensionSettings.threeDSettingsArenaSizeX);
-		 floatToString(arenaSizeXfloat, arenaSizeXString);
+	//	 CEGUI::String arenaSizeXString;
+	//	 float arenaSizeXfloat = float(extensionSettings.threeDSettingsArenaSizeX);
+	//	 floatToString(arenaSizeXfloat, arenaSizeXString);
 
-		 CEGUI::String arenaSizeYString;
-		 float arenaSizeYfloat = float(extensionSettings.threeDSettingsArenaSizeY);
-		 floatToString(arenaSizeYfloat, arenaSizeYString);
+	//	 CEGUI::String arenaSizeYString;
+	//	 float arenaSizeYfloat = float(extensionSettings.threeDSettingsArenaSizeY);
+	//	 floatToString(arenaSizeYfloat, arenaSizeYString);
 
-		 threeDSettings = "Arena size = " + arenaSizeXString + " x " + arenaSizeYString + ", Room size: MIN = " + minRoomSizeString + ", MAX = " + maxRoomSizeString + ", DoorsCnt = " + doorCntString + ", Furniture = " + furnitureEn;
-	 }
-	 infoBox->setText("Demo launch with AI: " + aiSettingsString + ", Physics: " + physSettingsString + ", 3D settings: " + threeDSettings);
+	//	 threeDSettings = "Arena size = " + arenaSizeXString + " x " + arenaSizeYString + ", Room size: MIN = " + minRoomSizeString + ", MAX = " + maxRoomSizeString + ", DoorsCnt = " + doorCntString + ", Furniture = " + furnitureEn;
+	// }
+	// infoBox->setText("Demo launch with AI: " + aiSettingsString + ", Physics: " + physSettingsString + ", 3D settings: " + threeDSettings);
 	return true;
 }
 //-------------------------------------------------------------------------------------
