@@ -112,8 +112,10 @@ protected:
 	static const int DOOR_CNT_MAX = 4;
 	static const int DOOR_CNT_MIN = 2;
 
-	static const int MAX_ROOM_SIZE = 100; //% OLD VALUE = 998001;
-	static const int MIN_ROOM_SIZE = 1; //% OLD VALUE = 16;
+	static const int MAX_ROOM_SIZE = 100; //%, OLD VALUE = 998001;
+	static const int MIN_ROOM_SIZE = 1; //meters, OLD VALUE = 16;
+
+	static const int MIN_ROOM_WIDTH = 12;
 
 	//-----------CEGUI POINTERS------------//
 
@@ -125,7 +127,8 @@ protected:
 	CEGUI::Window* infoBox;
 	CEGUI::Window* rootWindow;
 	CEGUI::Window* arenaSizeWindow;
-	CEGUI::Window* roomSizeWindow;
+	CEGUI::Window* roomSizeMaxWindow;
+	CEGUI::Window* roomSizeMinWindow;
 	CEGUI::Window* doorCntWindow;
 	CEGUI::Window* furnitureWindow;
 
