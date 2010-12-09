@@ -91,7 +91,7 @@ void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 
 void BulletInitWorld::addWalls(std::vector<Ogre::SceneNode*> ogreWallNodeVec)
 {
-	for (int i=0; i < ogreWallNodeVec.size(); i++)
+	for (int i=0; i < (int)ogreWallNodeVec.size(); i++)
 	{
 		Ogre::AxisAlignedBox wallBoundingB = ogreWallNodeVec[i]->getAttachedObject(0)->getBoundingBox();
 		Ogre::Vector3 wallSizeB = wallBoundingB.getSize();
