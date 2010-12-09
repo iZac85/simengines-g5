@@ -28,77 +28,66 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
-	mRandGen->generateMap(dim_x,dim_y);
+	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 
-	Ogre::Entity* wallEnt[2];
-	Ogre::Entity* floorEnt;
-	Ogre::Entity* boxEnt[10];
-	std::vector<Ogre::Entity*> wallEntDyn;
+	Ogre::Entity* mfloorEnt;
+	Ogre::Entity* mTmpEnt;
+	std::vector<Ogre::Entity*> mWallEnt;
+	
+	std::vector<Ogre::SceneNode*> mWallNode;
 	Ogre::SceneNode* mFloorNode;
+	Ogre::SceneNode* mTmpNode;
+
+	std::vector<Ogre::TextureUnitState*> mWallTexture;
+	Ogre::TextureUnitState* mTmpTex;
+
+	std::vector<Ogre::MaterialPtr> mWallMtl;
+	Ogre::MaterialPtr mTmpMtl;
 
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
 
 	Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, dim_x, dim_y, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
-	//Ogre::MeshManager::getSingleton().createPresfabCube();
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture1 = mat1->getTechnique(0)->getPass(0)->createTextureUnitState("MRAMOR6X6.jpg");
-	//mat1->setCullingMode(Ogre::CullingMode::CULL_NONE);
 
 	Ogre::MaterialPtr mat2 = Ogre::MaterialManager::getSingleton().create("WallMat1", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture2 = mat2->getTechnique(0)->getPass(0)->createTextureUnitState("RustedMetal.jpg");
-	//mat2->setCullingMode(Ogre::CullingMode::CULL_NONE);
 
 	Ogre::MaterialPtr mat3 = Ogre::MaterialManager::getSingleton().create("WallMat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture3 = mat3->getTechnique(0)->getPass(0)->createTextureUnitState("KAMEN320x240.jpg");
-	//mat3->setCullingMode(Ogre::CullingMode::CULL_NONE);
 	
-	floorEnt = mSceneMgr->createEntity("floor1", "floor");
-	floorEnt->setMaterialName("FloorMat");
-	floorEnt->setCastShadows(false);
+	mfloorEnt = mSceneMgr->createEntity("floor1", "floor");
+	mfloorEnt->setMaterialName("FloorMat");
+
+	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
+	mFloorNode->attachObject(mfloorEnt);
 	
-	wallEnt[0] = mSceneMgr->createEntity("wall1", "cube.mesh");
-	wallEnt[0]->setMaterialName("WallMat1");
-	wallEnt[0]->setCastShadows(false);
-	
-	wallEnt[1] = mSceneMgr->createEntity("wall2", "cube.mesh");
-	wallEnt[1]->setMaterialName("WallMat2");
-	wallEnt[1]->setCastShadows(false);
-
-	//wallEntDyn.push_back(mSceneMgr->createEntity("wall1", "cube.mesh"));
-	//wallEntDyn[0]->setMaterialName("WallMat1");
-
-	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_x/2));
-	mFloorNode->attachObject(floorEnt);
-	//mSceneMgr->getRootSceneNode()->createChildSceneNode()->attachObject(floorEnt);		//The Floor!
-	Ogre::StaticGeometry* sg = mSceneMgr->createStaticGeometry("Walls");
-	//const int MaxWalls = 10;
-	//const int Dim = 50.0f;
-
-	for(int i = 0; i < dim_x; i++)		//x
-	{		
-		for(int j = 0; j < dim_y; j++)	//y
+	for(int i = 0; i < mRandGen->arena.wall_cnt; i++)
+	{
+		mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+		int r = mRandGen->randInt(0,1);
+		switch (r)
 		{
-			if(mRandGen->arena.blackTile[i][j]==1)
-			{
-				Ogre::Vector3 pos(i, 1, j);
-				Ogre::Vector3 scale(0.01, 0.03, 0.01); //y=height
-				Ogre::Quaternion one, orientation;
-			
-				//if(Ogre::Math::RangeRandom(0, 1) > 0.5) one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
-				//else one.FromAngleAxis(Ogre::Degree(90), Ogre::Vector3::UNIT_Y);
-				one.FromAngleAxis(Ogre::Degree(0), Ogre::Vector3::UNIT_Y);
-				orientation =  one;
-		
-				//if (Ogre::Math::RangeRandom(0, 1) > 0.5) sg->addEntity(wallEnt[0], pos, orientation, scale);
-				//else sg->addEntity(wallEnt[1], pos, orientation, scale);
-				sg->addEntity(wallEnt[0], pos, orientation, scale);
-
-				sg->build();
-			}
+			case 0: 
+				//mat2 = Ogre::MaterialManager::getSingleton().create();
+				//tuisTexture2 = mat2->getTechnique(0)->getPass(0)->createTextureUnitState("RustedMetal.jpg");
+				mTmpEnt->setMaterialName("WallMat1");
+				break;
+			case 1: 
+				mTmpEnt->setMaterialName("WallMat2");
+				break;
 		}
+		
+		mWallEnt.push_back(mTmpEnt);
+
+		mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+		mTmpNode->attachObject(mWallEnt[i]);
+		mTmpNode->setScale(0.01 * mRandGen->arena.wall[i].dim.x ,0.2, 0.01 * mRandGen->arena.wall[i].dim.y);
+		mTmpNode->setPosition(mRandGen->arena.wall[i].pos.x+0.5,10,mRandGen->arena.wall[i].pos.y+0.5);
+		mWallNode.push_back(mTmpNode) ;
 	}
 }
 //-------------------------------------------------------------------------------------
