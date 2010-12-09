@@ -274,8 +274,8 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
-	//mLaunch = true;
-	//rootWindow->destroy();
+	mLaunch = true;
+	rootWindow->destroy();
 	//CEGUI::String aiSettingsString;
 	//if (aiSettingsBtns[0] == 1) 
 	//{
