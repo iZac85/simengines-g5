@@ -179,7 +179,7 @@ Y=</Property>
                             <Property Name="MaximumValue" Value="32767" />
                             <Property Name="MinimumValue" Value="-32768" />
                             <Property Name="ClippedByParent" Value="False" />
-                            <Property Name="UnifiedAreaRect" Value="{{1.02615,0},{-0.149764,0},{2.26899,0},{1.29182,0}}" />
+                            <Property Name="UnifiedAreaRect" Value="{{1.02615,0},{-0.149764,0},{2.20307,0},{1.29182,0}}" />
                         </Window>
                     </Window>
                     <Window Type="TaharezLook/StaticText" Name="OgreCEGUI/RoomSizeMin" >

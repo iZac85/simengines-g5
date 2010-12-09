@@ -92,6 +92,12 @@ protected:
 	bool roomSizeMinChanged(const CEGUI::EventArgs &e);
 	bool furnitureEnableChanged(const CEGUI::EventArgs &e);
 
+	//-----------FUNCTIONS------------//
+
+	void floatToString(float&, CEGUI::String&);
+	float calcSliderValue(bool, float);
+	void updateRoomSize(int, int);
+
 	//-----------VARIABLES------------//
 
 	char keyBuffer;
@@ -145,13 +151,6 @@ protected:
 	CEGUI::RadioButton* physSettingsOp3Btn;
 	CEGUI::RadioButton* threeDSettingsOnBtn;
 	CEGUI::RadioButton* threeDSettingsOffBtn;
-
-	//-----------FUNCTIONS------------//
-
-	void stringToFloat(CEGUI::String&, float&);
-	void floatToString(float&, CEGUI::String&);
-	
-	float calcSliderValue(bool, float);
 
 };
 
