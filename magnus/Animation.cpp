@@ -78,7 +78,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		mAnimationState->setEnabled(true);
 		robotDead = true;
 		animSpeedUp = 1;
-		deathAnimationTime = time(NULL)+10;
+		//deathAnimationTime = time(NULL)+10;
 		}
 	}
 	else if (robotAlive)
