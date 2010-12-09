@@ -32,7 +32,10 @@ public:
 	Ogre::Entity* floorEnt;
 	Ogre::SceneNode* mFloorNode;
 
+	std::vector<Ogre::SceneNode*> mWallNode;
+
 	Ogre::SceneNode* returnFloorNode();
+	std::vector<Ogre::SceneNode*> returnWallNodeVec();
 
     MapCreate(Ogre::SceneManager* mSceneMgr,
 			  int dim_x=50,
