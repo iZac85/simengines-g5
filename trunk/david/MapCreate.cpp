@@ -90,6 +90,7 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 		mTmpNode->setPosition(mRandGen->arena.wall[i].pos.x+0.5,10,mRandGen->arena.wall[i].pos.y+0.5);
 		mWallNode.push_back(mTmpNode) ;
 	}
+	map = mRandGen->arena.blackTile;
 }
 //-------------------------------------------------------------------------------------
 MapCreate::~MapCreate(void)
