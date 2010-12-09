@@ -17,7 +17,7 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
 	// we need the bounding box of the box to be able to set the size of the Bullet-box
  	Ogre::AxisAlignedBox boundingB = entity->getBoundingBox();
 	sizeB = boundingB.getSize(); sizeB /= 2.0f; // only the half needed
- 	sizeB *= 0.95f;	// Bullet margin is a bit bigger so we need a smaller size
+ 	sizeB *= 0.98f;	// Bullet margin is a bit bigger so we need a smaller size
  							// (Bullet 2.76 Physics SDK Manual page 18)
 
 	//Set material

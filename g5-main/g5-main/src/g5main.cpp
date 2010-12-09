@@ -209,6 +209,7 @@ bool g5main::launch()
 	//Create the Physics world
 	mBulletWorld = new BulletInitWorld(mSceneMgr,
 									   mMapCreate->returnFloorNode(),
+									   mMapCreate->returnWallNodeVec(),
 									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
 								       mCEGUI->extensionSettings.threeDSettingsArenaSizeY,
 									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);

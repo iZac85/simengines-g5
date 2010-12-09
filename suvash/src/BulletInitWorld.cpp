@@ -3,6 +3,7 @@
 
 BulletInitWorld::BulletInitWorld(Ogre::SceneManager* mSceneMgr, 
 								 Ogre::SceneNode* ogreFloorNode,
+								 std::vector<Ogre::SceneNode*> ogreWallNodeVec,
 								 Ogre::Real dimx,
 								 Ogre::Real dimy,
 								 Ogre::Real dimz )
@@ -16,6 +17,7 @@ BulletInitWorld::BulletInitWorld(Ogre::SceneManager* mSceneMgr,
 	this->debugBoxBullet(true);
 
 	this->addFloor(ogreFloorNode);
+	this->addWalls(ogreWallNodeVec);
 }
 
 
@@ -30,14 +32,15 @@ void BulletInitWorld::initWorld()
 	mNumEntitiesInstanced = 0;
 
 	//Define some bulletworld bounds for now
-	Ogre::Vector3 minBound = Ogre::Vector3(-0.5*bulletWorldX, -0.5*bulletWorldY, -0.5*bulletWorldZ);
-	Ogre::Vector3 maxBound = Ogre::Vector3( 0.5*bulletWorldX,  0.5*bulletWorldY,  0.5*bulletWorldZ);
+	Ogre::Vector3 minBound = Ogre::Vector3(0, 0, 0);
+	Ogre::Vector3 maxBound = Ogre::Vector3( bulletWorldX, bulletWorldY, bulletWorldZ);
 
 
 	//Start Bullet
 	gravityVector = Ogre::Vector3(0,-9.81,0);
 	bounds = Ogre::AxisAlignedBox(minBound, maxBound);
 	mWorld = new OgreBulletDynamics::DynamicsWorld(ogreSceneMgr, bounds, gravityVector);
+	//mWorld->
 
 }
 
@@ -50,7 +53,7 @@ void BulletInitWorld::debugBoxBullet(bool debugFlag)
 		debugDrawer->setDrawWireframe(true);	// we want to see the Bullet containers
 
 		mWorld->setDebugDrawer(debugDrawer);
-		mWorld->setShowDebugShapes(true);		// enable it if you want to see the Bullet containers
+		mWorld->setShowDebugShapes(false);		// enable it if you want to see the Bullet containers
 
 		//Create a node and attach it to the Ogre Scene
 		Ogre::SceneNode *node = ogreSceneMgr->getRootSceneNode()->createChildSceneNode("debugDrawer", Ogre::Vector3::ZERO);
@@ -61,24 +64,56 @@ void BulletInitWorld::debugBoxBullet(bool debugFlag)
 void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 {
 	Ogre::AxisAlignedBox floorBoundingB = ogreFloorNode->getAttachedObject(0)->getBoundingBox();
-	Ogre::Vector3 floor1SizeB = floorBoundingB.getSize();
-	//floorSizeB /= 2.0f;
-	//floorSizeB *= 0.95f;
-	
-	Ogre::Vector3 floorSizeB(25, 2, 25);
+	Ogre::Vector3 floorSizeB = floorBoundingB.getSize();
+	// Don't ask me why i do the following
+	floorSizeB /= 2.0f;
+	floorSizeB *= 0.98f;
 
+	floorSizeB.x *= ogreFloorNode->getScale().x;
+	floorSizeB.y *= ogreFloorNode->getScale().y;
+	floorSizeB.z *= ogreFloorNode->getScale().z;
+	
+	ogreFloorNode->showBoundingBox(true);
+	
 	// add collision detection to it
-	OgreBulletCollisions::CollisionShape *Shape;
-	Shape = new OgreBulletCollisions::StaticPlaneCollisionShape(Ogre::Vector3(0,1,0), 0); // (normal vector, distance)
+	OgreBulletCollisions::CollisionShape *floorShape = new OgreBulletCollisions::BoxCollisionShape(floorSizeB);
+	//Shape = new OgreBulletCollisions::StaticPlaneCollisionShape(Ogre::Vector3(0,1,0), 0); // (normal vector, distance)
 
 	// a body is needed for the shape
-	OgreBulletDynamics::RigidBody *defaultPlaneBody = new OgreBulletDynamics::RigidBody("BasePlane", mWorld);
-	defaultPlaneBody->setStaticShape(Shape, 0.1, 0.8);// (shape, restitution, friction)
+	OgreBulletDynamics::RigidBody *defaultFloorBody = new OgreBulletDynamics::RigidBody("BasePlane", mWorld);
+	defaultFloorBody->setStaticShape(floorShape, 0.1, 0.8,ogreFloorNode->getPosition());// (shape, restitution, friction)
 
 	// push the created objects to the deques
-	mShapes.push_back(Shape);
-	mBodies.push_back(defaultPlaneBody);
+	mShapes.push_back(floorShape);
+	mBodies.push_back(defaultFloorBody);
 
+}
+
+void BulletInitWorld::addWalls(std::vector<Ogre::SceneNode*> ogreWallNodeVec)
+{
+	for (int i=0; i < ogreWallNodeVec.size(); i++)
+	{
+		Ogre::AxisAlignedBox wallBoundingB = ogreWallNodeVec[i]->getAttachedObject(0)->getBoundingBox();
+		Ogre::Vector3 wallSizeB = wallBoundingB.getSize();
+		wallSizeB /= 2.0f;
+		wallSizeB *= 0.98f;
+
+		wallSizeB.x *= ogreWallNodeVec[i]->getScale().x;
+		wallSizeB.y *= ogreWallNodeVec[i]->getScale().y;
+		wallSizeB.z *= ogreWallNodeVec[i]->getScale().z;
+
+		ogreWallNodeVec[i]->showBoundingBox(true);
+
+		OgreBulletCollisions::BoxCollisionShape *wallBoxShape = new OgreBulletCollisions::BoxCollisionShape(wallSizeB);
+		
+		OgreBulletDynamics::RigidBody *defaultWallBody = new OgreBulletDynamics::RigidBody(
+															"wallRigid" + Ogre::StringConverter::toString(i), 
+															mWorld);
+		defaultWallBody->setStaticShape(wallBoxShape, 0.1, 0.8, ogreWallNodeVec[i]->getPosition());
+
+		mShapes.push_back(wallBoxShape);
+		 mBodies.push_back(defaultWallBody);
+	}
 }
 
 void BulletInitWorld::run()

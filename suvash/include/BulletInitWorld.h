@@ -34,9 +34,15 @@ public:
 	void initWorld();
 	void debugBoxBullet(bool);
 	void addFloor(Ogre::SceneNode*);
+	void addWalls(std::vector<Ogre::SceneNode*>);
 	void run();
 
-	BulletInitWorld(Ogre::SceneManager*, Ogre::SceneNode*, Ogre::Real, Ogre::Real, Ogre::Real);
+	BulletInitWorld(Ogre::SceneManager*,
+					Ogre::SceneNode*,
+					std::vector<Ogre::SceneNode*>,
+					Ogre::Real, 
+					Ogre::Real, 
+					Ogre::Real);
 
 	~BulletInitWorld(void);
 };

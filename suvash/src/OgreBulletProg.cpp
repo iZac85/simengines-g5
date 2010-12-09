@@ -281,11 +281,11 @@ void OgreBulletProg::windowClosed(Ogre::RenderWindow* rw)
         {
             mInputManager->destroyInputObject( mMouse );
             mInputManager->destroyInputObject( mKeyboard );
- 
-            OIS::InputManager::destroyInputSystem(mInputManager);
-            mInputManager = 0;
-        }
-    }
+
+			OIS::InputManager::destroyInputSystem(mInputManager);
+			mInputManager = 0;
+		}
+	}
 }
 
 bool OgreBulletProg::frameRenderingQueued(const Ogre::FrameEvent& evt)
