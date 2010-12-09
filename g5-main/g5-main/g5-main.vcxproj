@@ -123,6 +123,7 @@
     <ClInclude Include="..\..\magnus\micropather.h" />
     <ClInclude Include="..\..\magnus\microTalker.h" />
     <ClInclude Include="..\..\magnus\OgreDemo.h" />
+    <ClInclude Include="..\..\suvash\include\BulletInitWorld.h" />
     <ClInclude Include="..\..\suvash\include\OBBox.h" />
     <ClInclude Include="..\..\suvash\include\OgreBulletProg.h" />
     <ClInclude Include="include\BaseApplication.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="..\..\magnus\micropather.cpp" />
     <ClCompile Include="..\..\magnus\microTalker.cpp" />
     <ClCompile Include="..\..\magnus\OgreDemo.cpp" />
+    <ClCompile Include="..\..\suvash\src\BulletInitWorld.cpp" />
     <ClCompile Include="..\..\suvash\src\OBBox.cpp" />
     <ClCompile Include="..\..\suvash\src\OgreBulletProg.cpp" />
     <ClCompile Include="src\BaseApplication.cpp" />
