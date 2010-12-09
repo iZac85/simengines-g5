@@ -34,7 +34,7 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	Ogre::Entity* mTmpEnt;
 	std::vector<Ogre::Entity*> mWallEnt;
 	
-	std::vector<Ogre::SceneNode*> mWallNode;
+	//std::vector<Ogre::SceneNode*> mWallNode;
 	//Ogre::SceneNode* mFloorNode;
 	Ogre::SceneNode* mTmpNode;
 
@@ -100,4 +100,9 @@ MapCreate::~MapCreate(void)
 Ogre::SceneNode* MapCreate::returnFloorNode()
 {
 	return mFloorNode;
+}
+
+std::vector<Ogre::SceneNode*> MapCreate::returnWallNodeVec()
+{
+	return mWallNode;
 }
