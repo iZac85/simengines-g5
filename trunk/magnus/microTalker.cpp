@@ -27,13 +27,13 @@ microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYi
 	
 
 	// Initialize 2dVector
-	std::vector<int> rows_ (mapG.size.x,1);
-	gMap = vector<std::vector<int>> (mapG.size.y,rows_);
+	std::vector<int> rows_ (mapG.size.y,1);
+	gMap = vector<std::vector<int>> (mapG.size.x,rows_);
 
 	// Copy the map to the class global map 2d vector
-	for (int i=0; i<mapG.size.y; i++)
+	for (int i=0; i<mapG.size.x; i++)
 	{
-		for (int j=0; j<mapG.size.x; j++)
+		for (int j=0; j<mapG.size.y; j++)
 		{
 			gMap[i][j] = map[i][j];
 
@@ -92,11 +92,6 @@ int microTalker::setGoalNode(int x, int y, int nx, int ny)	// Set new goal node
 	{
 		float totalCost;
 		result = micro->Solve( XYToNode( rob.pos.x, rob.pos.y ), XYToNode( nx, ny ), &path, &totalCost );
-		if ( result == MicroPather::SOLVED ) 
-		{
-			rob.pos.x = nx;
-			rob.pos.y = ny;
-		}
 	}
 	return result;
 }

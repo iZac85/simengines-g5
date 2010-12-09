@@ -14,7 +14,6 @@
 using namespace std;
 using namespace micropather;
 
-
 // CONSTANTS
 // Critical radius within which a certain fleeing algorithm is called
 int SLOWFLEERADIUS = 40;				// Flee slow radius
@@ -92,7 +91,7 @@ void Pather::fillPathDeck()
 
 	pathDeck.clear();
 	pathVector = mTalker->returnPath();
-	for (int i = 0; i < pathVector.size(); i++)
+	for (int i = 1; i < pathVector.size(); i++)
 	{
 		pathDeck.push_back(pathVector[i]);
 	}
@@ -112,11 +111,12 @@ void Pather::flee()
 	
 	}
 	//else if (sqrt((float)((player.currentPos.x-robot.currentPos.x)*(player.currentPos.x-robot.currentPos.x) + (player.currentPos.y-robot.currentPos.y)*(player.currentPos.y-robot.currentPos.y))) < SLOWFLEERADIUS)
-	//{
+	else
+	{
 		// Flee slow
 		dontFleeMode = false;
 		fleeSlow();
-	//}
+	}
 	//else
 	//{
 	//	// Dont flee
@@ -624,8 +624,8 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
 	MAPYin = tempMapVector[0].size();
 
 	// Initialize map
-	std::vector<int> rows (MAPXin,1);
-	iMap = vector<vector<int>> (MAPYin,rows);
+	std::vector<int> rows (MAPYin,1);
+	iMap = vector<vector<int>> (MAPXin,rows);
 
 	setMap(tempMapVector,MAPXin,MAPYin);
 }

@@ -103,7 +103,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 				Ogre::Vector3 src = mNode->getOrientation() * -Ogre::Vector3::UNIT_Z;
 				if ((1.0f + src.dotProduct(mDirection)) < 0.0001f) 
 				{
-					mNode->yaw(Ogre::Degree(180));						
+					mNode->yaw(Ogre::Degree(180));		
 				}
 				else
 				{
