@@ -35,6 +35,10 @@ public:
 
 	virtual void createFrameListener(void);
 
+	//Functions for loading the menus
+	void ShowIngameMenu(void);
+	void ShowMainMenu(void);
+
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
@@ -60,15 +64,20 @@ public:
 		int threeDSettingsArenaSizeX;
 		int threeDSettingsArenaSizeY;
 	};
-
 	settings extensionSettings;
+
+	bool showMainMenu;
 
 protected:
 
-	//-----------BUTTON FUNCTIONS------------//
+	//-----------EVENT SUBSCRIBERS------------//
 
 	bool quit(const CEGUI::EventArgs &e);
 	bool launchDemo(const CEGUI::EventArgs &e);
+
+	bool inGameQuitBtnClicked(const CEGUI::EventArgs &e);
+	bool inGameReturnBtnClicked(const CEGUI::EventArgs &e);
+	bool inGameCloseBtnClicked(const CEGUI::EventArgs &e);
 
 	bool aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
 	bool aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
@@ -101,6 +110,7 @@ protected:
 	char keyBuffer;
 	bool aiSettingsBtns[3];
 	bool physSettingsBtns[3];
+	bool ingameMenuAlreadyLoaded;
 
 	//-----------CONSTANTS------------//
 
@@ -122,8 +132,13 @@ protected:
 
 	//-----------CEGUI OBJECTS------------//
 
+	CEGUI::Window *ingameMenuRoot;
+	CEGUI::Window *mainMenuRoot;
+
+	CEGUI::Window* mainMenuRootWindow;
+	CEGUI::Window* ingameMenuRootWindow;
+
 	CEGUI::Window* infoBox;
-	CEGUI::Window* rootWindow;
 	CEGUI::Window* arenaSizeWindow;
 	CEGUI::Window* roomSizeMaxWindow;
 	CEGUI::Window* roomSizeMinWindow;
@@ -145,15 +160,17 @@ protected:
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
 
+	//Buttons for the Ingame Menu
+	CEGUI::PushButton* inGameQuitBtn;
+	CEGUI::PushButton* inGameReturnBtn;
+	CEGUI::PushButton* inGameCloseBtn;
+
 	CEGUI::RadioButton* aiSettingsOp1Btn;
 	CEGUI::RadioButton* aiSettingsOp2Btn;
 	CEGUI::RadioButton* aiSettingsOp3Btn;
 	CEGUI::RadioButton* physSettingsOp1Btn;
 	CEGUI::RadioButton* physSettingsOp2Btn;
 	CEGUI::RadioButton* physSettingsOp3Btn;
-	CEGUI::RadioButton* threeDSettingsOnBtn;
-	CEGUI::RadioButton* threeDSettingsOffBtn;
-
 };
 
 #endif // #ifndef __OgreCEGUI_h_
