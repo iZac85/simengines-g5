@@ -403,6 +403,7 @@ bool OgreCEGUI::inGameReturnBtnClicked(const CEGUI::EventArgs &e)
 {
 	ingameMenuRootWindow->destroy();
 	ingameMenuAlreadyLoaded = false;
+	ingameMenuVisible = false;
 	showMainMenu = true;
 	return true;
 }
