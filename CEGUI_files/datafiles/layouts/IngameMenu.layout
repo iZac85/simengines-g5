@@ -2,14 +2,20 @@
 
 <GUILayout >
     <Window Type="DefaultWindow" Name="IngameMenuRoot" >
-        <Property Name="Alpha" Value="0.5" />
         <Property Name="ClippedByParent" Value="False" />
-        <Property Name="UnifiedAreaRect" Value="{{-0.000781243,0},{0.00299402,0},{0.999219,0},{1.00299,0}}" />
+        <Property Name="UnifiedAreaRect" Value="{{-0,0},{0,0},{1,0},{1,0}}" />
+        <Window Type="Vanilla/FrameWindow" Name="IngameMenuBackground" >
+            <Property Name="Alpha" Value="0.6" />
+            <Property Name="TitlebarFont" Value="BlueHighway-12" />
+            <Property Name="TitlebarEnabled" Value="True" />
+            <Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+        </Window>
         <Window Type="AquaLook/FrameWindow" Name="IngameMenu" >
+            <Property Name="AlwaysOnTop" Value="True" />
             <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="InheritsAlpha" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{-0.0285061,0},{-0.013006,0},{0.216165,0},{0.402994,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{-0.0206936,0},{-0.0324672,0},{0.229446,0},{0.404491,0}}" />
             <Property Name="VerticalAlignment" Value="Centre" />
             <Property Name="HorizontalAlignment" Value="Centre" />
             <Window Type="AquaLook/Titlebar" Name="InGameMenuTitleBar" >
@@ -21,15 +27,15 @@
             </Window>
             <Window Type="AquaLook/Button" Name="InGameReturnBtn" >
                 <Property Name="Text" Value="Return to Main Menu" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.648284,0},{0.96,0},{0.780231,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.324411,0},{0.96,0},{0.456358,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameQuitBtn" >
                 <Property Name="Text" Value="Quit Game" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.857273,0},{0.96,0},{0.99353,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.461428,0},{0.96,0},{0.597685,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameCloseBtn" >
-                <Property Name="Text" Value="Return to Game" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.749824,0},{0.96,0},{0.920655,0}}" />
+                <Property Name="Text" Value="Close" />
+                <Property Name="UnifiedAreaRect" Value="{{0.253514,0},{0.857782,0},{0.739679,0},{1.02861,0}}" />
             </Window>
         </Window>
     </Window>

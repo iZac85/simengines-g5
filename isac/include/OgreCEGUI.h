@@ -67,6 +67,7 @@ public:
 	settings extensionSettings;
 
 	bool showMainMenu;
+	bool ingameMenuVisible;
 
 protected:
 
@@ -115,7 +116,7 @@ protected:
 	//-----------CONSTANTS------------//
 
 	static const int ARENA_SIZE_MAX_VALUE = 999;
-	static const int ARENA_SIZE_MIN_VALUE = 30;
+	static const int ARENA_SIZE_MIN_VALUE = 100;
 
 	static const int DOOR_CNT_MAX = 4;
 	static const int DOOR_CNT_MIN = 2;
