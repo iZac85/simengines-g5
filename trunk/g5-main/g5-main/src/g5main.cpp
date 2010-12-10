@@ -75,7 +75,6 @@ void g5main::createFrameListener(void)
 	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
 	mRoot->addFrameListener(this);
-	//mCEGUI->createFrameListener();
 }
 //-------------------------------------------------------------------------------------
 bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
@@ -89,10 +88,12 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		if(mCEGUI->mLaunch) launch();
 
 		if(mCEGUI->showMainMenu)
-		{ 
+		{
+			g5main::createFrameListener();
 			mCEGUI->ShowMainMenu();
 			mCEGUI->showMainMenu = false;
 		}
+		if(!(mCEGUI->ingameMenuVisible)) mKeysReleased = true;
 
 		//Need to capture/update each device
 		mKeyboard->capture();
@@ -114,10 +115,6 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 	if(!mKeysReleased)
 	{
 		mCEGUI->keyPressed(arg);
-		//if (arg.key == OIS::KC_ESCAPE)
-		//{
-		//	mCEGUI->mShutDown = true;
-		//}
 		return true;
 	}
 	if (arg.key == OIS::KC_ESCAPE) 
@@ -193,17 +190,6 @@ bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 //-------------------------------------------------------------------------------------
 bool g5main::launch()
 {
-	/*Ogre::Entity* ogreHead1 = mSceneMgr->createEntity("Head1","ogrehead.mesh");
-
-	Ogre::SceneNode* headNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-	headNode->attachObject(ogreHead1);
-
-	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-
-	Ogre::Light* l = mSceneMgr->createLight("MainLight");
-	l->setPosition(20,80,50);
-	*/
-
 	mCEGUI->mLaunch = false;
 	mKeysReleased = true;
 

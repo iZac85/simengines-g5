@@ -70,8 +70,12 @@ bool OgreCEGUI::frameRenderingQueued(const Ogre::FrameEvent& evt)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg )
 {
+	if (arg.key == OIS::KC_ESCAPE && ingameMenuVisible)
+	{
+		ingameMenuRootWindow->setVisible(false);
+		ingameMenuVisible = false;
+	}
     CEGUI::System &sys = CEGUI::System::getSingleton();
-	keyBuffer = arg.key;
 	sys.injectKeyDown(arg.key);
 	sys.injectChar(arg.text);
 	return true;
@@ -202,10 +206,8 @@ void OgreCEGUI::createScene(void)
 	//Load the sliders that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeXslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeXSlider");
 	arenaSizeXslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXsliderChanged, this));
-	//arenaSizeXslider->setRotation(CEGUI::Vector3(0,0,90));
 	arenaSizeYslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeYSlider");
 	arenaSizeYslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYsliderChanged, this));
-	//arenaSizeYslider->setRotation(CEGUI::Vector3(0,0,90));
 
 	//Load the edit boxes that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeX = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeX");
@@ -237,7 +239,7 @@ void OgreCEGUI::createScene(void)
 	//Input field for setting the maximum room size (in % of the arena size), limited to between 1-100.
 	roomSizeMax->setMaximumValue(MAX_ROOM_SIZE);
 	roomSizeMax->setMinimumValue(MIN_ROOM_SIZE);
-	roomSizeMax->setCurrentValue(MAX_ROOM_SIZE/2);
+	roomSizeMax->setCurrentValue(MAX_ROOM_SIZE/5);
 
 	//Input field for setting the minimum room size (in % of the arena size), limited to between 1-100.
 	roomSizeMin->setMaximumValue(ARENA_SIZE_MAX_VALUE);
@@ -304,8 +306,8 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
 	mLaunch = true;
-	mainMenuRootWindow->destroy();
-	//mainMenuRootWindow->setVisible(false);
+	//mainMenuRootWindow->destroy();
+	mainMenuRootWindow->setVisible(false);
 	//CEGUI::String aiSettingsString;
 	//if (aiSettingsBtns[0] == 1) 
 	//{
@@ -376,7 +378,8 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::ShowMainMenu(void)
 {
-	CEGUI::System::getSingleton().setGUISheet(mainMenuRoot);
+	//CEGUI::System::getSingleton().setGUISheet(mainMenuRoot);
+	mainMenuRootWindow->setVisible(true);
 }
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::ShowIngameMenu(void)
@@ -387,6 +390,7 @@ void OgreCEGUI::ShowIngameMenu(void)
 		CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
 		ingameMenuAlreadyLoaded = true;
 	}
+	ingameMenuVisible = true;
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::inGameQuitBtnClicked(const CEGUI::EventArgs &e)
@@ -406,6 +410,7 @@ bool OgreCEGUI::inGameReturnBtnClicked(const CEGUI::EventArgs &e)
 bool OgreCEGUI::inGameCloseBtnClicked(const CEGUI::EventArgs &e)
 {
 	ingameMenuRootWindow->setVisible(false);
+	ingameMenuVisible = false;
 	return true;
 }
 //-------------------------------------------------------------------------------------
