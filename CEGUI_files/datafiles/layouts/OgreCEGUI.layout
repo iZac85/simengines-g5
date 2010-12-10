@@ -12,7 +12,7 @@
             <Property Name="UnifiedMinSize" Value="{{0.1,0},{0.1,0}}" />
             <Property Name="ClippedByParent" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.00234375,0},{0.0149477,0},{0.996875,0},{1.00447,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0015625,0},{0.0224328,0},{0.996094,0},{0.999977,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
@@ -132,14 +132,14 @@ Y=</Property>
                         <Property Name="MaximumValue" Value="1" />
                         <Property Name="ClickStepSize" Value="0.01" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{2.05509,0},{0.362631,0},{4.4247,0},{0.985248,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{2.05509,0},{0.362631,0},{4.32464,0},{0.985248,0}}" />
                     </Window>
                     <Window Type="AquaLook/SliderHoriz" Name="3DSettingsArenaSizeYSlider" >
                         <Property Name="CurrentValue" Value="0" />
                         <Property Name="MaximumValue" Value="1" />
                         <Property Name="ClickStepSize" Value="0.01" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{2.05712,0},{1.56762,0},{4.42672,0},{2.19023,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{2.05712,0},{1.56762,0},{4.32666,0},{2.19023,0}}" />
                     </Window>
                     <Window Type="AquaLook/Spinner" Name="3DSettingsASizeY" >
                         <Property Name="Font" Value="BlueHighway-10" />
