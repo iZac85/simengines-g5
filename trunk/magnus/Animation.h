@@ -30,10 +30,10 @@ protected:
  
      Ogre::AnimationState *mAnimationState; // The current animation state of the object
  
-     Ogre::Entity *mEntity;                 // The Entity we are animating
-     Ogre::SceneNode *mNode;                // The SceneNode that the Entity is attached to
-	 Ogre::Entity *ent2;
-	 Ogre::SceneNode *node2;
+     Ogre::Entity *ninjaEntity;                 // The Entity we are animating
+     Ogre::SceneNode *ninjaNode;                // The SceneNode that the Entity is attached to
+	 Ogre::Entity *arrowEntity;
+	 Ogre::SceneNode *arrowNode;
 	 bool robotAlive;
 	 bool robotDead;
 	 int animSpeedUp;
