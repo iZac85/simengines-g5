@@ -37,6 +37,12 @@ protected:
 	 bool robotDead;
 	 int animSpeedUp;
 	 float deathAnimationTime;
+
+	 Ogre::Quaternion mOrientSrc;               // Initial orientation
+	 Ogre::Quaternion mOrientDest;              // Destination orientation
+	 Ogre::Real mRotProgress;                   // How far we've interpolated
+	 Ogre::Real mRotFactor;                     // Interpolation step
+	 bool mRotating;
  
  
  

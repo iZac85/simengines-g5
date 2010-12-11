@@ -8,6 +8,7 @@
 #include <iostream>
 #include "microTalker.h"
 #include "Animation.h"
+#include <algorithm>
 
 class Pather
 {
@@ -67,7 +68,7 @@ private:
 		void printRobotPos(void);
 		void printPlayerPos(void);
 		void printMap(void);
-		void flee(void);
+		void flee(int);
 		int checkQuadrant(void);
 		int sign(int);
 		int odd(int);
@@ -75,6 +76,7 @@ private:
 		void fleeSlow(void);
 		void dontFlee(void);
 		void fillPathDeck(void);
+		bool lineOfSight(void);
 
 		int MAPXin;
 		int MAPYin;
