@@ -105,6 +105,7 @@ protected:
 	void floatToString(float&, CEGUI::String&);
 	float calcSliderValue(bool, float);
 	void updateRoomSize(int, int);
+	int checkMinPercentRoomSize(int, int);
 
 	//-----------VARIABLES------------//
 
@@ -116,7 +117,7 @@ protected:
 	//-----------CONSTANTS------------//
 
 	static const int ARENA_SIZE_MAX_VALUE = 999;
-	static const int ARENA_SIZE_MIN_VALUE = 100;
+	static const int ARENA_SIZE_MIN_VALUE = 3;
 
 	static const int DOOR_CNT_MAX = 4;
 	static const int DOOR_CNT_MIN = 2;
@@ -124,7 +125,7 @@ protected:
 	static const int MAX_ROOM_SIZE = 100; //%, OLD VALUE = 998001;
 	static const int MIN_ROOM_SIZE = 1; //meters, OLD VALUE = 16;
 
-	static const int MIN_ROOM_WIDTH = 12;
+	static const int MIN_ROOM_WIDTH = 14;
 
 	//-----------CEGUI POINTERS------------//
 

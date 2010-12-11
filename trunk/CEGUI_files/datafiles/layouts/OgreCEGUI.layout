@@ -12,7 +12,7 @@
             <Property Name="UnifiedMinSize" Value="{{0.1,0},{0.1,0}}" />
             <Property Name="ClippedByParent" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.0015625,0},{0.0224328,0},{0.996094,0},{0.999977,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0039136,0},{0.0299178,0},{0.998445,0},{0.995486,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
@@ -97,7 +97,7 @@
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/3DSettings" >
                 <Property Name="Font" Value="BlueHighway-12" />
                 <Property Name="Text" Value="Custom 3D settings" />
-                <Property Name="HorzExtent" Value="166" />
+                <Property Name="HorzExtent" Value="165" />
                 <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
@@ -183,7 +183,7 @@ Y=</Property>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/DoorCnt" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Doors per room:" />
-                    <Property Name="HorzExtent" Value="139" />
+                    <Property Name="HorzExtent" Value="138" />
                     <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
@@ -203,7 +203,7 @@ Y=</Property>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/FurnitureEn" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Furniture enabled" />
-                    <Property Name="HorzExtent" Value="146" />
+                    <Property Name="HorzExtent" Value="145" />
                     <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
@@ -255,7 +255,7 @@ Y=</Property>
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="ClippedByParent" Value="False" />
                 <Property Name="DraggingEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{-0.00719215,0},{-0.029731,0},{1.00825,0},{0.0108917,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-0.00640414,0},{-0.0378891,0},{1.00904,0},{0.0348929,0}}" />
             </Window>
         </Window>
     </Window>
