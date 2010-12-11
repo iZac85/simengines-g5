@@ -102,7 +102,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		return true;
 	}
 	// AI
-	//if (mCEGUI->extensionSettings.aiSettings == 1)
+	if (mCEGUI->extensionSettings.aiSettings == 1)
 	mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 
 	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
@@ -201,8 +201,8 @@ bool g5main::launch()
 
 
 	// AI
-	//if (mCEGUI->extensionSettings.aiSettings == 1)
-	mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera);
+	if (mCEGUI->extensionSettings.aiSettings == 1)
+	mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings);
 
 	//Create the Physics world
 	mBulletWorld = new BulletInitWorld(mSceneMgr,
