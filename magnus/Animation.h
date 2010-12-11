@@ -9,7 +9,7 @@ class Animation
 {
 public:
 	Animation(void);
-    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*);
+    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*,int);
     ~Animation(void);
 
 	void AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera);
@@ -43,7 +43,8 @@ protected:
 	 Ogre::Real mRotProgress;                   // How far we've interpolated
 	 Ogre::Real mRotFactor;                     // Interpolation step
 	 bool mRotating;
- 
+	
+	 int fogLevel;
  
  
  

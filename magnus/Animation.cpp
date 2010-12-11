@@ -10,8 +10,10 @@ Pather *aiPather;
 Animation::Animation(void)
 {
 }
-Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera, int difficulty)
 {
+	fogLevel = difficulty;
+
 	aiPather = new Pather();
 	aiPather->AIinit(tempMap);
 	AnimationInit(mSceneMgr, mCamera);
@@ -37,6 +39,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	mWalkSpeed = 15;
 	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
+
 }
 bool Animation::NextLocation(Ogre::Camera* mCamera){
 
@@ -74,12 +77,12 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		if (!robotDead)
 		{
 		// Set Idle animation                     
-		mAnimationState = mEntity->getAnimationState("Death2");
+		mAnimationState = mEntity->getAnimationState("Death1");
 		mAnimationState->setLoop(false);
 		mAnimationState->setEnabled(true);
 		robotDead = true;
 		animSpeedUp = 1;
-		//deathAnimationTime = time(NULL)+10;
+		mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.7), 0.0001 ,5, 60);
 		}
 	}
 	else if (robotAlive)
@@ -138,4 +141,20 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 	}  // if mRotating
 
 	mAnimationState->addTime(evt.timeSinceLastFrame*animSpeedUp);		//*2 to speed up animation
+
+
+	//Enable Fog
+	if(robotAlive){
+		Ogre::Vector3 pp = mCamera->getPosition();
+		if (pp.y<80)
+		{
+			if (fogLevel == 1)
+				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.4), 0.0001 ,10, 100);
+			else if (fogLevel == 2)
+				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.6), 0.0001 ,5, 60);
+		}
+		else
+			mSceneMgr->setFog(Ogre::FOG_NONE);
+	}
+
 }
