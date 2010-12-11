@@ -20,6 +20,7 @@ microTalker::microTalker()
 }
 microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYin)
 {
+
 	// Set the map size in a global struct
 	mapG.size.x = MAPXin;
 	mapG.size.y = MAPYin;
@@ -41,7 +42,7 @@ microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYi
 	}    
 	//rob.pos.x = 0;
 	//rob.pos.y = 0;
-	micro = new MicroPather(this, 20);
+	micro = new MicroPather(this, 10);
 	myPather = new Pather();
 
 
@@ -87,7 +88,7 @@ int microTalker::setGoalNode(int x, int y, int nx, int ny)	// Set new goal node
 	rob.pos.x = x;
 	rob.pos.y = y;
 
-	int result = 0;
+	int result = 1;
 	if ( Passable( nx, ny ) == 1 )
 	{
 		float totalCost;

@@ -28,12 +28,13 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
     mEntity = mSceneMgr->createEntity("Robot", "ninja.mesh");
 	robotAlive = true;
 	robotDead = false;
+	mRotating = false;
  
     // Create the scene node
     mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("RobotNode", Ogre::Vector3(10.0f, 0.0f, 10.0f));
     mNode->attachObject(mEntity);
-	mNode->setScale(0.03f, 0.03f, 0.03f);
-	mWalkSpeed = 10;
+	mNode->setScale(0.09f, 0.09f, 0.09f);
+	mWalkSpeed = 15;
 	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
 }
@@ -103,12 +104,17 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 				Ogre::Vector3 src = mNode->getOrientation() * -Ogre::Vector3::UNIT_Z;
 				if ((1.0f + src.dotProduct(mDirection)) < 0.0001f) 
 				{
-					mNode->yaw(Ogre::Degree(180));		
+					mNode->yaw(Ogre::Degree(180));	
 				}
-				else
+				else if (mRotating == false)
 				{
 					Ogre::Quaternion quat = src.getRotationTo(mDirection);
-					mNode->rotate(quat);
+					//mNode->rotate(quat);
+					mRotating = true;
+					mRotFactor = 1.0f / 50.0f;
+					mOrientSrc = mNode->getOrientation();
+					mOrientDest = quat * mOrientSrc;           // We want dest orientation, not a relative rotation (quat)
+					mRotProgress = 0;
 				} // else
 			}//else
 		}
@@ -117,5 +123,19 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 			mNode->translate(mDirection * move);
 		} // else
 	} // if
+	if(mRotating)                                // Process timed rotation
+	{
+		mRotProgress += mRotFactor;
+		if(mRotProgress>1)
+		{
+			mRotating = false;
+		}
+		else
+		{
+			Ogre::Quaternion delta = Ogre::Quaternion::Slerp(mRotProgress, mOrientSrc, mOrientDest, true);
+			mNode->setOrientation(delta);
+		}
+	}  // if mRotating
+
 	mAnimationState->addTime(evt.timeSinceLastFrame*animSpeedUp);		//*2 to speed up animation
 }
