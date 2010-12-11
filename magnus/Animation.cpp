@@ -28,39 +28,54 @@ Animation::~Animation(void)
 //-------------------------------------------------------------------------------------
 void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-    // Create the entity
-    mEntity = mSceneMgr->createEntity("Robot", "ninja.mesh");
-	robotAlive = true;
-	robotDead = false;
-	mRotating = false;
- 
-    // Create the scene node
-    mNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("RobotNode", Ogre::Vector3(10.0f, 0.0f, 10.0f));
-    mNode->attachObject(mEntity);
-	mNode->setScale(0.09f, 0.09f, 0.09f);
+	// Enable shadows
+	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+
+    // Create robot entity
+    ninjaEntity = mSceneMgr->createEntity("Ninja", "ninja.mesh");
+    ninjaNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("NinjaNode", Ogre::Vector3(10.0f, 0.0f, 10.0f));
+    ninjaNode->attachObject(ninjaEntity);
+	ninjaNode->setScale(0.09f, 0.09f, 0.09f);
+
+	ninjaEntity->setCastShadows(true);
 	mWalkSpeed = 15;
 	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
+
+	// Create arrow entity inc node
+	arrowEntity = mSceneMgr->createEntity("Arrow", "knot.mesh");
+	arrowEntity->setCastShadows(false);
+	arrowNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ArrowNode",Ogre::Vector3(0.0f,0.0f,0.0f));
+	arrowNode->attachObject(arrowEntity);
+	arrowNode->setScale(0.01f,0.01f,0.01f);
+
+
+
+	// Set variables
+	robotAlive = true;
+	robotDead = false;
+	mRotating = false;
+
 
 }
 bool Animation::NextLocation(Ogre::Camera* mCamera){
 
 	// PathPlanning and Avoidance
-	Ogre::Vector3 rp = mNode->getPosition();	// RobotPosition
+	Ogre::Vector3 rp = ninjaNode->getPosition();	// RobotPosition
 	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
 	mDestination = mWalkList.front();  // this gets the front of the deque
 	mWalkList.pop_front();             // this removes the front of the deque
-	mDirection = mDestination - mNode->getPosition();
+	mDirection = mDestination - ninjaNode->getPosition();
 	mDistance = mDirection.normalise();
 	return true;
 }
 void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-	Ogre::Vector3 deathDist = mNode->getPosition() - mCamera->getPosition();
-	if(deathDist < Ogre::Vector3(5,40,5) && deathDist > Ogre::Vector3(-5,-5,-5))	// RobotPosition
+	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCamera->getPosition();
+	if(deathDist < Ogre::Vector3(10,40,10) && deathDist > Ogre::Vector3(-10,-40,-10))	// RobotPosition
 		robotAlive = false;
 
     if (mDirection == Ogre::Vector3::ZERO) 
@@ -68,7 +83,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		if (NextLocation(mCamera) && robotAlive) 
 		{
 			// Set walking animation
-			mAnimationState = mEntity->getAnimationState("Walk");
+			mAnimationState = ninjaEntity->getAnimationState("Walk");
 			mAnimationState->setLoop(true);
 			mAnimationState->setEnabled(true);
 			animSpeedUp = 2;
@@ -79,7 +94,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		if (!robotDead)
 		{
 		// Set Idle animation                     
-		mAnimationState = mEntity->getAnimationState("Death2");
+		mAnimationState = ninjaEntity->getAnimationState("Death2");
 		mAnimationState->setLoop(false);
 		mAnimationState->setEnabled(true);
 		robotDead = true;
@@ -93,23 +108,23 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		mDistance -= move;
 		if (mDistance <= 0.0f)
 		{                 
-			mNode->setPosition(mDestination);
+			ninjaNode->setPosition(mDestination);
 			mDirection = Ogre::Vector3::ZERO;				
 			// Set animation based on if the robot has another point to walk to. 
 			if (!NextLocation(mCamera))
 			{
 				// Set Idle animation                     
-				mAnimationState = mEntity->getAnimationState("Idle1");
+				mAnimationState = ninjaEntity->getAnimationState("Idle1");
 				mAnimationState->setLoop(true);
 				mAnimationState->setEnabled(true);
 			}
 			else
 			{
 				// Rotation Code will go here later
-				Ogre::Vector3 src = mNode->getOrientation() * -Ogre::Vector3::UNIT_Z;
+				Ogre::Vector3 src = ninjaNode->getOrientation() * -Ogre::Vector3::UNIT_Z;
 				if ((1.0f + src.dotProduct(mDirection)) < 0.0001f) 
 				{
-					mNode->yaw(Ogre::Degree(180));	
+					ninjaNode->yaw(Ogre::Degree(180));	
 				}
 				else if (mRotating == false)
 				{
@@ -117,7 +132,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 					//mNode->rotate(quat);
 					mRotating = true;
 					mRotFactor = 1.0f / 50.0f;
-					mOrientSrc = mNode->getOrientation();
+					mOrientSrc = ninjaNode->getOrientation();
 					mOrientDest = quat * mOrientSrc;           // We want dest orientation, not a relative rotation (quat)
 					mRotProgress = 0;
 				} // else
@@ -125,7 +140,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		}
 		else
 		{
-			mNode->translate(mDirection * move);
+			ninjaNode->translate(mDirection * move);
 		} // else
 	} // if
 	if(mRotating)                                // Process timed rotation
@@ -138,7 +153,7 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		else
 		{
 			Ogre::Quaternion delta = Ogre::Quaternion::Slerp(mRotProgress, mOrientSrc, mOrientDest, true);
-			mNode->setOrientation(delta);
+			ninjaNode->setOrientation(delta);
 		}
 	}  // if mRotating
 
