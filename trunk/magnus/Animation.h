@@ -4,6 +4,7 @@
 #include "BaseApplication.h"
 #include <deque>
 #include <vector>
+#include <algorithm>
 
 class Animation
 {
@@ -45,7 +46,8 @@ protected:
 	 bool mRotating;
 	
 	 int fogLevel;
- 
+	 float mapSizeX;
+	 float mapSizeY;
  
  
 };

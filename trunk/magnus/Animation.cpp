@@ -13,6 +13,8 @@ Animation::Animation(void)
 Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera, int difficulty)
 {
 	fogLevel = difficulty;
+	mapSizeX = tempMap.size();
+	mapSizeY = tempMap[0].size();
 
 	aiPather = new Pather();
 	aiPather->AIinit(tempMap);
@@ -58,7 +60,7 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
 	Ogre::Vector3 deathDist = mNode->getPosition() - mCamera->getPosition();
-	if(deathDist < Ogre::Vector3(5,5,5) && deathDist > Ogre::Vector3(-5,-5,-5))	// RobotPosition
+	if(deathDist < Ogre::Vector3(5,40,5) && deathDist > Ogre::Vector3(-5,-5,-5))	// RobotPosition
 		robotAlive = false;
 
     if (mDirection == Ogre::Vector3::ZERO) 
@@ -77,12 +79,12 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		if (!robotDead)
 		{
 		// Set Idle animation                     
-		mAnimationState = mEntity->getAnimationState("Death1");
+		mAnimationState = mEntity->getAnimationState("Death2");
 		mAnimationState->setLoop(false);
 		mAnimationState->setEnabled(true);
 		robotDead = true;
 		animSpeedUp = 1;
-		mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.7), 0.0001 ,5, 60);
+		mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.8), 0.001 ,1, max(mapSizeX,mapSizeY)/8);
 		}
 	}
 	else if (robotAlive)
@@ -149,9 +151,9 @@ void Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		if (pp.y<80)
 		{
 			if (fogLevel == 1)
-				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.4), 0.0001 ,10, 100);
+				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.3), 0.001 ,10, max(mapSizeX,mapSizeY));
 			else if (fogLevel == 2)
-				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.6), 0.0001 ,5, 60);
+				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.8), 0.001 ,1, max(mapSizeX,mapSizeY)/4);
 		}
 		else
 			mSceneMgr->setFog(Ogre::FOG_NONE);
