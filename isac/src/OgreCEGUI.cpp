@@ -239,7 +239,7 @@ void OgreCEGUI::createScene(void)
 	//Input field for setting the maximum room size (in % of the arena size), limited to between 1-100.
 	roomSizeMax->setMaximumValue(MAX_ROOM_SIZE);
 	roomSizeMax->setMinimumValue(MIN_ROOM_SIZE);
-	roomSizeMax->setCurrentValue(MAX_ROOM_SIZE/5);
+	roomSizeMax->setCurrentValue(MAX_ROOM_SIZE/4);
 
 	//Input field for setting the minimum room size (in % of the arena size), limited to between 1-100.
 	roomSizeMin->setMaximumValue(ARENA_SIZE_MAX_VALUE);
@@ -248,7 +248,8 @@ void OgreCEGUI::createScene(void)
 
 	//Store the init values in extensionSettings 
 	int arenaArea = extensionSettings.threeDSettingsArenaSizeX*extensionSettings.threeDSettingsArenaSizeY;
-	extensionSettings.threeDsettingsMaxRoomSize = (float(MAX_ROOM_SIZE/2)/100) * arenaArea;
+	int currRoomSizeMax = roomSizeMax->getCurrentValue();
+	extensionSettings.threeDsettingsMaxRoomSize = (float(currRoomSizeMax)/100) * (arenaArea); //Convert arena area to dm
 	extensionSettings.threeDsettingsMinRoomSize = MIN_ROOM_WIDTH;
 
 	//Input field for setting the number of doors per room limited to between DOOR_CNT_MIN = 2 and DOOR_CNT_MAX = 4
@@ -280,9 +281,9 @@ void OgreCEGUI::createScene(void)
 	aiSettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("AISettingsOp3");
 	aiSettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsOp3BtnChanged, this));
 
-	//Set the "off" value as default for AI settings
-	aiSettingsOp3Btn -> setSelected(true);
-	extensionSettings.aiSettings = 0;
+	//Set the "Easy" value as default for AI settings
+	aiSettingsOp2Btn -> setSelected(true);
+	extensionSettings.aiSettings = 1;
 
 	//Load the radiobuttons for Physics settings and connect the events of each button changing to their corresponding functions (physSettingsOpXBtnChanged), X=1,2,3
 	physSettingsOp1Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp1");
@@ -292,9 +293,9 @@ void OgreCEGUI::createScene(void)
 	physSettingsOp3Btn = (CEGUI::RadioButton*)Wmgr->getWindow("PhysSettingsOp3");
 	physSettingsOp3Btn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::physSettingsOp3BtnChanged, this));
 
-	//Set the "off" value as default for Physics settings
-	physSettingsOp3Btn -> setSelected(true);
-	extensionSettings.physSettings = 0;
+	//Set the "Arcade" value as default for Physics settings
+	physSettingsOp2Btn -> setSelected(true);
+	extensionSettings.physSettings = 1;
 	}
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
@@ -308,71 +309,71 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	mLaunch = true;
 	//mainMenuRootWindow->destroy();
 	mainMenuRootWindow->setVisible(false);
-	//CEGUI::String aiSettingsString;
-	//if (aiSettingsBtns[0] == 1) 
-	//{
-	//	aiSettingsString = "Hard";
-	//	extensionSettings.aiSettings = 2;
-	//}
-	//else if (aiSettingsBtns[1] == 1)
-	//{
-	//	aiSettingsString = "Easy";
-	//	extensionSettings.aiSettings = 1;
-	//}
-	// else 
-	// {
-	//	 aiSettingsString = "off";
-	//	 extensionSettings.aiSettings = 0;
-	// }
+	/*CEGUI::String aiSettingsString;
+	if (aiSettingsBtns[0] == 1) 
+	{
+	aiSettingsString = "Hard";
+	extensionSettings.aiSettings = 2;
+	}
+	else if (aiSettingsBtns[1] == 1)
+	{
+	aiSettingsString = "Easy";
+	extensionSettings.aiSettings = 1;
+	}
+	else 
+	{
+	aiSettingsString = "off";
+	extensionSettings.aiSettings = 0;
+	}
 
-	// CEGUI::String physSettingsString;
-	// if (physSettingsBtns[0] == 1) 
-	// {
-	//	 physSettingsString = "Realistic";
-	//	 extensionSettings.physSettings = 2;
-	// }
-	// else if (physSettingsBtns[1] == 1) 
-	// {
-	//	 physSettingsString = "Arcade";
-	//	 extensionSettings.physSettings = 1;
-	// }
-	// else 
-	// {
-	//	 physSettingsString = "off";
-	//	 extensionSettings.physSettings = 0;
-	// }
+	CEGUI::String physSettingsString;
+	if (physSettingsBtns[0] == 1) 
+	{
+	physSettingsString = "Realistic";
+	extensionSettings.physSettings = 2;
+	}
+	else if (physSettingsBtns[1] == 1) 
+	{
+	physSettingsString = "Arcade";
+	extensionSettings.physSettings = 1;
+	}
+	else 
+	{
+	physSettingsString = "off";
+	extensionSettings.physSettings = 0;
+	}
 
-	// CEGUI::String threeDSettings;
-	// if(extensionSettings.threeDSettingsActive == false) threeDSettings = "off";
-	// else
-	// {
-	//	 CEGUI::String furnitureEn;
-	//	 if (extensionSettings.threeDsettingsFurnitureEn == true) furnitureEn = "Activate";
-	//	 else furnitureEn = "Inactivate";
+	CEGUI::String threeDSettings;
+	if(extensionSettings.threeDSettingsActive == false) threeDSettings = "off";
+	else
+	{
+	CEGUI::String furnitureEn;
+	if (extensionSettings.threeDsettingsFurnitureEn == true) furnitureEn = "Activate";
+	else furnitureEn = "Inactivate";
 
-	//	 CEGUI::String doorCntString;
-	//	 float doorCntFloat = float(extensionSettings.threeDsettingsDoorCnt);
-	//	 floatToString(doorCntFloat, doorCntString);
+	CEGUI::String doorCntString;
+	float doorCntFloat = float(extensionSettings.threeDsettingsDoorCnt);
+	floatToString(doorCntFloat, doorCntString);
 
-	//	 CEGUI::String maxRoomSizeString;
-	//	 float maxRoomSizeFloat = float(extensionSettings.threeDsettingsMaxRoomSize);
-	//	 floatToString(maxRoomSizeFloat, maxRoomSizeString);
+	CEGUI::String maxRoomSizeString;
+	float maxRoomSizeFloat = float(extensionSettings.threeDsettingsMaxRoomSize);
+	floatToString(maxRoomSizeFloat, maxRoomSizeString);
 
-	//	 CEGUI::String minRoomSizeString;
-	//	 float minRoomSizeFloat = float(extensionSettings.threeDsettingsMinRoomSize);
-	//	 floatToString(minRoomSizeFloat, minRoomSizeString);
+	CEGUI::String minRoomSizeString;
+	float minRoomSizeFloat = float(extensionSettings.threeDsettingsMinRoomSize);
+	floatToString(minRoomSizeFloat, minRoomSizeString);
 
-	//	 CEGUI::String arenaSizeXString;
-	//	 float arenaSizeXfloat = float(extensionSettings.threeDSettingsArenaSizeX);
-	//	 floatToString(arenaSizeXfloat, arenaSizeXString);
+	CEGUI::String arenaSizeXString;
+	float arenaSizeXfloat = float(extensionSettings.threeDSettingsArenaSizeX);
+	floatToString(arenaSizeXfloat, arenaSizeXString);
 
-	//	 CEGUI::String arenaSizeYString;
-	//	 float arenaSizeYfloat = float(extensionSettings.threeDSettingsArenaSizeY);
-	//	 floatToString(arenaSizeYfloat, arenaSizeYString);
+	CEGUI::String arenaSizeYString;
+	float arenaSizeYfloat = float(extensionSettings.threeDSettingsArenaSizeY);
+	floatToString(arenaSizeYfloat, arenaSizeYString);
 
-	//	 threeDSettings = "Arena size = " + arenaSizeXString + " x " + arenaSizeYString + ", Room size: MIN = " + minRoomSizeString + ", MAX = " + maxRoomSizeString + ", DoorsCnt = " + doorCntString + ", Furniture = " + furnitureEn;
-	// }
-	// infoBox->setText("Demo launch with AI: " + aiSettingsString + ", Physics: " + physSettingsString + ", 3D settings: " + threeDSettings);
+	threeDSettings = "Arena size = " + arenaSizeXString + " x " + arenaSizeYString + ", Room size: MIN = " + minRoomSizeString + ", MAX = " + maxRoomSizeString + ", DoorsCnt = " + doorCntString + ", Furniture = " + furnitureEn;
+	}
+	infoBox->setText("Demo launch with AI: " + aiSettingsString + ", Physics: " + physSettingsString + ", 3D settings: " + threeDSettings);*/
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -434,6 +435,12 @@ bool OgreCEGUI::roomSizeMaxChanged(const CEGUI::EventArgs &e)
 	//int currentMinValue = roomSizeMin->getCurrentValue();
 	//if (currentMaxValue < currentMinValue) currentMaxValue = currentMinValue;
 	//roomSizeMax->setCurrentValue(currentMaxValue);
+	int lowestMaxRoomSize = checkMinPercentRoomSize((arenaSizeX->getCurrentValue()), (arenaSizeY->getCurrentValue()));
+	if (currentMaxValue < lowestMaxRoomSize) 
+	{
+		roomSizeMax->setCurrentValue(lowestMaxRoomSize);
+		currentMaxValue = lowestMaxRoomSize;
+	}
 	updateRoomSize(1, currentMaxValue);
 	return true;
 }
@@ -456,15 +463,19 @@ bool OgreCEGUI::roomSizeMinChanged(const CEGUI::EventArgs &e)
 bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 {
 	int currentMinRoomValue = roomSizeMin->getCurrentValue();
+	int currentMaxRoomValue = roomSizeMax->getCurrentValue();
 	float currentSpinnerValue = (arenaSizeX->getCurrentValue());
+	float arenaSizeYCurrVal = (arenaSizeY->getCurrentValue());
 	float newSpinnerValue = calcSliderValue(false, currentSpinnerValue);
 	arenaSizeXslider->setCurrentValue(newSpinnerValue);
-	extensionSettings.threeDSettingsArenaSizeX = int(currentSpinnerValue);
+	extensionSettings.threeDSettingsArenaSizeX = int(currentSpinnerValue * 10);
 	if (currentMinRoomValue > currentSpinnerValue)
 	{
 		currentMinRoomValue = currentSpinnerValue;
 		roomSizeMin->setCurrentValue(currentMinRoomValue);
 	}
+	int lowestMaxRoomSize = checkMinPercentRoomSize(currentSpinnerValue, arenaSizeYCurrVal);
+	if (currentMaxRoomValue < lowestMaxRoomSize) roomSizeMax->setCurrentValue(lowestMaxRoomSize);
 	updateRoomSize(0, roomSizeMin->getCurrentValue());
 	updateRoomSize(1, roomSizeMax->getCurrentValue());
 	return true;
@@ -473,15 +484,19 @@ bool OgreCEGUI::arenaSizeXChanged(const CEGUI::EventArgs &e)
 bool OgreCEGUI::arenaSizeYChanged(const CEGUI::EventArgs &e)
 {
 	int currentMinRoomValue = roomSizeMin->getCurrentValue();
+	int currentMaxRoomValue = roomSizeMax->getCurrentValue();
 	float currentSpinnerValue = (arenaSizeY->getCurrentValue());
+	float arenaSizeXCurrVal = (arenaSizeX->getCurrentValue());
 	float newSpinnerValue = calcSliderValue(false, currentSpinnerValue);
 	arenaSizeYslider->setCurrentValue(newSpinnerValue);
-	extensionSettings.threeDSettingsArenaSizeY = int(currentSpinnerValue);
+	extensionSettings.threeDSettingsArenaSizeY = int(currentSpinnerValue * 10);
 	if (currentMinRoomValue > currentSpinnerValue)
 	{
 		currentMinRoomValue = currentSpinnerValue;
 		roomSizeMin->setCurrentValue(currentMinRoomValue);
 	}
+	int lowestMaxRoomSize = checkMinPercentRoomSize(arenaSizeXCurrVal, currentSpinnerValue);
+	if (currentMaxRoomValue < lowestMaxRoomSize) roomSizeMax->setCurrentValue(lowestMaxRoomSize);
 	updateRoomSize(0, roomSizeMin->getCurrentValue());
 	updateRoomSize(1, roomSizeMax->getCurrentValue());
 	return true;
@@ -619,7 +634,7 @@ float OgreCEGUI::calcSliderValue(bool sliderToSpinner, float currentValue)
 	}
 	else
 	{
-		// Interpolate from arena size (between 55 and 999) to slider value (between 0 and 1) ((x - x1)(y2 - y1)) / (x2 - x1)
+		// Interpolate from arena size (between 30 and 999) to slider value (between 0 and 1) ((x - x1)(y2 - y1)) / (x2 - x1)
 		return newValue  = (currentValue - ARENA_SIZE_MIN_VALUE)/(ARENA_SIZE_MAX_VALUE - ARENA_SIZE_MIN_VALUE); 
 	}
 }
@@ -723,13 +738,23 @@ void OgreCEGUI::updateRoomSize(int max_min ,int currentVal)
 	int arenaSizeXval = extensionSettings.threeDSettingsArenaSizeX;
 	int arenaSizeYval = extensionSettings.threeDSettingsArenaSizeY;
 	int arenaArea = arenaSizeXval * arenaSizeYval;
-	if (max_min == 1) extensionSettings.threeDsettingsMaxRoomSize = (float(currentVal)/100) * arenaArea;
+	if (max_min == 1) extensionSettings.threeDsettingsMaxRoomSize = (float(currentVal)/100) * (arenaArea);
 	else if (max_min == 0)
 	{
 		if (currentVal == 1) currentVal = MIN_ROOM_WIDTH;
 		currentVal = currentVal*10;	//Convert the meters into decimeters
 		extensionSettings.threeDsettingsMinRoomSize = currentVal;
 	}
+}
+//-------------------------------------------------------------------------------------
+int OgreCEGUI::checkMinPercentRoomSize(int aSizeX, int aSizeY)
+{
+	int arenaArea = aSizeX * aSizeY * 100;
+	for (int i = 1; i <= 100; i++)
+	{
+		if ((float (i)/100) * (arenaArea) >= 200) return i;
+	}
+	return 100;
 }
 //-------------------------------------------------------------------------------------
 /*
