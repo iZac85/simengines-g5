@@ -38,11 +38,11 @@ public:
 	std::vector<Ogre::SceneNode*> returnWallNodeVec();
 
     MapCreate(Ogre::SceneManager* mSceneMgr,
-			  int dim_x=50,
-			  int dim_y=50,
-			  int room_min_x=4,
-			  int room_min_y=4,
-			  int room_max_area=25,
+			  int dim_x=150,
+			  int dim_y=150,
+			  int room_min_x=14,
+			  int room_min_y=14,
+			  int room_max_area=200,
 			  int door_cnt=2,
 			  bool furniture_enable=0,
 			  int desk_cnt=1,
