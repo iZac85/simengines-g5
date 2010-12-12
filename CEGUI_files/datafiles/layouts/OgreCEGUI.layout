@@ -112,19 +112,17 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0043152,0},{1.08226,0},{0.564216,0},{1.97943,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0043152,0},{1.08226,0},{0.564216,0},{2.07813,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/StaticText" Name="OgreCEGUI/ArenaSizeXoY" >
                         <Property Name="Font" Value="BlueHighway-12" />
-                        <Property Name="Text" >X=
- 
-Y=</Property>
-                        <Property Name="HorzExtent" Value="21" />
-                        <Property Name="VertExtent" Value="47.025" />
+                        <Property Name="Text" Value="(meters)" />
+                        <Property Name="HorzExtent" Value="73" />
+                        <Property Name="VertExtent" Value="15.675" />
                         <Property Name="AlwaysOnTop" Value="True" />
                         <Property Name="FrameEnabled" Value="False" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.954741,0},{-0.59746,0},{1.22368,0},{2.81243,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{-0.0033279,0},{0.591795,0},{0.740083,0},{1.5571,0}}" />
                         <Property Name="BackgroundEnabled" Value="False" />
                     </Window>
                     <Window Type="AquaLook/SliderHoriz" Name="3DSettingsArenaSizeXSlider" >
@@ -159,6 +157,18 @@ Y=</Property>
                         <Property Name="ClippedByParent" Value="False" />
                         <Property Name="UnifiedAreaRect" Value="{{1.26304,0},{0.0850047,0},{1.97253,0},{1.17499,0}}" />
                     </Window>
+                    <Window Type="AquaLook/StaticText" Name="OgreCEGUI/ArenaSizeXoY1" >
+                        <Property Name="Text" >X=
+ 
+Y=</Property>
+                        <Property Name="HorzExtent" Value="21" />
+                        <Property Name="VertExtent" Value="47.025" />
+                        <Property Name="AlwaysOnTop" Value="True" />
+                        <Property Name="FrameEnabled" Value="False" />
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.00474,0},{-0.54746,0},{1.27368,0},{2.86243,0}}" />
+                        <Property Name="BackgroundEnabled" Value="False" />
+                    </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/RoomSizeMax" >
                     <Property Name="Font" Value="BlueHighway-12" />
@@ -188,7 +198,7 @@ Y=</Property>
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0205827,0},{5.73553,0},{0.913549,0},{6.34346,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0103651,0},{4.74858,0},{0.903331,0},{5.35651,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="3DSettingsDoorCnt" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -208,32 +218,12 @@ Y=</Property>
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0192102,0},{6.68009,0},{1.00552,0},{7.53922,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.0141014,0},{5.69314,0},{1.00041,0},{6.55227,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Checkbox" Name="3DSettingsFurnitureEn" >
                         <Property Name="Font" Value="DejaVuSans-10" />
                         <Property Name="ClippedByParent" Value="False" />
                         <Property Name="UnifiedAreaRect" Value="{{0.893577,0},{-0.087871,0},{1.0406,0},{0.935336,0}}" />
-                    </Window>
-                </Window>
-                <Window Type="AquaLook/StaticText" Name="OgreCEGUI/RoomSizeMin" >
-                    <Property Name="Font" Value="BlueHighway-12" />
-                    <Property Name="Text" Value="Smallest room width (m):" />
-                    <Property Name="HorzExtent" Value="216" />
-                    <Property Name="VertExtent" Value="15.675" />
-                    <Property Name="AlwaysOnTop" Value="True" />
-                    <Property Name="FrameEnabled" Value="False" />
-                    <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.0174082,0},{4.45726,0},{1.4185,0},{5.43895,0}}" />
-                    <Property Name="BackgroundEnabled" Value="False" />
-                    <Window Type="AquaLook/Spinner" Name="3DSettingsRoomSizeMin" >
-                        <Property Name="Font" Value="BlueHighway-10" />
-                        <Property Name="StepSize" Value="1" />
-                        <Property Name="CurrentValue" Value="0" />
-                        <Property Name="MaximumValue" Value="32767" />
-                        <Property Name="MinimumValue" Value="-32768" />
-                        <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.88416,0},{-0.0478061,0},{1.22819,0},{0.96986,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/Checkbox" Name="3DSettingsEnable" >
