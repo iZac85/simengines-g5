@@ -44,6 +44,7 @@ protected:
 
 	void createScene(void);
 	void createCamera(void);
+	void clearScene(void);
 
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -62,7 +63,9 @@ protected:
 	BulletInitWorld *mBulletWorld;
 
 	bool launch();
-	bool mKeysReleased;
+	bool mGuiActive;
+	bool mainMenuActive;
+	bool firstRun;
 };
 
 #endif // #ifndef __g5main_h_
