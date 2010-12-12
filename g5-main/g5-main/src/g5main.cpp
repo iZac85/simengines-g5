@@ -41,9 +41,8 @@ void g5main::createCamera(void)
 	mCamera = mSceneMgr->createCamera("PlayerCam");
 
 	// Position it at 500 in Z direction
-	mCamera->setPosition(Ogre::Vector3(0,0,80));
-	// Look back along -Z
-	mCamera->lookAt(Ogre::Vector3(0,0,-300));
+	mCamera->setPosition(30, 50, 200);
+	mCamera->lookAt(25, 0, 25);
 	mCamera->setNearClipDistance(0.1);
 
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
@@ -102,7 +101,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		return true;
 	}
 	// AI
-	if (mCEGUI->extensionSettings.aiSettings == 1)
+	if (mCEGUI->extensionSettings.aiSettings != 0)
 	mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 
 	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
@@ -194,14 +193,10 @@ bool g5main::launch()
 	mKeysReleased = true;
 
 	BaseApplication::createFrameListener();
-	// Set up camera
-	mCamera->setPosition(30, 50, 200);
-	mCamera->lookAt(25, 0, 25);
 	mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 12, 12, mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
 
-
 	// AI
-	if (mCEGUI->extensionSettings.aiSettings == 1)
+	if (mCEGUI->extensionSettings.aiSettings != 0)
 	mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings);
 
 	//Create the Physics world
