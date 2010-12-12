@@ -10,17 +10,14 @@
 
 // INCLUDE
 #include "AI_Extension.h"
-// NAMESPACE
 using namespace std;
 using namespace micropather;
 
 // CONSTANTS
-// Critical radius within which a certain fleeing algorithm is called
-int SLOWFLEERADIUS = 80;				// Flee slow radius
-int FASTFLEERADIUS = 20;					// Flee fast radius
-// How far away the goal node is set
-int SLOWFLEEDIST = 10;					// Flee 10 steps away from current position
-int FASTFLEEDIST = 1;					// Flee 1 step away from current position
+int SLOWFLEERADIUS = 80;
+int FASTFLEERADIUS = 20;
+int SLOWFLEEDIST = 10;
+int FASTFLEEDIST = 1;
 int DONTFLEEDIST = 100;
 bool DONTFLEEACTIVE = true;
 
@@ -47,7 +44,7 @@ Pather::~Pather(void)
 {
 }
 
-// Path
+// Path Planning
 int Pather::pathPlanning()
 {
 
@@ -55,20 +52,19 @@ int Pather::pathPlanning()
 }
 
 // Map and Path Stack
-void Pather::setMap(std::vector<std::vector<int>> tempMap,int MAPXin, int MAPYin)
+void Pather::setMap(std::vector<std::vector<int>> tempMap)
 {
+	// Map Size
+	map.size.x = tempMap.size();
+	map.size.y = tempMap[0].size();
 
-	map.size.x = MAPXin;
-	map.size.y = MAPYin;
+	// Initialize map
+	std::vector<int> rows (map.size.y,1);
+	iMap = vector<vector<int>> (map.size.x,rows);
 
-	for (int i = 0; i<map.size.x; i++)
-	{
-		for (int j = 0; j<map.size.y; j++)
-		{
-			if (tempMap[i][j] == 0)
-				iMap[i][j] = 0;
-		}
-	}
+	// Copy Map
+	iMap = tempMap;
+
 	// Create new instance of microTalker
 	mTalker = new microTalker(iMap,map.size.x, map.size.y);
 }
@@ -554,8 +550,6 @@ void Pather::fleeSlow()
 void Pather::dontFlee()
 {
 
-	//fleeSlow();
-	
 	 bool pass = true;
 
 	 int maxX = min(robot.currentPos.x + DONTFLEEDIST,map.size.x);
@@ -565,8 +559,6 @@ void Pather::dontFlee()
 
 	 while(pass)
 	 {
-		// Rand
-		srand(time(NULL));
 		goalNode.x = rand()%(maxX-minX+1) + minX;
 		goalNode.y = rand()%(maxY-minY+1) + minY;	
 		if (mTalker->Passable(goalNode.x,goalNode.y) == 1 && pathPlanning() == 0)
@@ -582,36 +574,13 @@ bool Pather::lineOfSight()
 	return true;
 }
 
-// Other Functions
-int Pather::sign(int v)
-{
-	// Return sign of int
-	return v > 0 ? 1 : (v < 0 ? -1 : 0);
-}
-int Pather::odd(int v)
-{
-	// If even return 0
-	if (v%2 == 0)
-		return 0;
-	// If odd return 1
-	else
-		return 1;
-}
-
 // AI Initialization
 void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
 {
+	setMap(tempMapVector);
 
-	MAPXin = tempMapVector.size();
-	MAPYin = tempMapVector[0].size();
-
-	// Initialize map
-	std::vector<int> rows (MAPYin,1);
-	iMap = vector<vector<int>> (MAPXin,rows);
-
-	setMap(tempMapVector,MAPXin,MAPYin);
-
-
+	// Rand
+	srand(time(NULL));
 }
 // AI per Frame
 Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int playerPosY)

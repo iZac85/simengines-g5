@@ -2,6 +2,7 @@
 #define __Animation_h_
  
 #include "BaseApplication.h"
+#include "AI_Extension.h"
 #include <deque>
 #include <vector>
 #include <algorithm>
@@ -13,12 +14,16 @@ public:
     Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*,int);
     ~Animation(void);
 
+	// Functions
 	void AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera);
 	void UpdateAnimation(const Ogre::FrameEvent &evt,Ogre::SceneManager*, Ogre::Camera*);
 
-protected:
-
+private:
+	 // Functions
      bool NextLocation(Ogre::Camera*);
+	 void updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
+	 void updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
+	 void updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
  
      
 	 Ogre::Real mDistance;                  // The distance the object has left to travel
@@ -39,12 +44,23 @@ protected:
 	 int animSpeedUp;
 	 float deathAnimationTime;
 
+	 // Ninja
 	 Ogre::Quaternion mOrientSrc;               // Initial orientation
 	 Ogre::Quaternion mOrientDest;              // Destination orientation
 	 Ogre::Real mRotProgress;                   // How far we've interpolated
 	 Ogre::Real mRotFactor;                     // Interpolation step
 	 bool mRotating;
-	
+
+	 // Arrow
+	 Ogre::Vector3 cameraPos;
+	 Ogre::Vector3 cameraDir;
+	 Ogre::Vector3 ninjaPos;
+	 Ogre::Vector3 arrowPos;
+	 Ogre::Vector3 arrowOri;
+	 Ogre::Vector3 arrowDir;
+	 Ogre::Quaternion arrowQuat;
+	 
+	 // Other
 	 int fogLevel;
 	 float mapSizeX;
 	 float mapSizeY;
