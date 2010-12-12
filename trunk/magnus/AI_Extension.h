@@ -17,23 +17,42 @@ public:
     Pather(int,int);
     ~Pather(void);
 		
-		// Functions
-        void setMap(std::vector<std::vector<int>>,int,int);
-		int pathPlanning(void);
-		void printPath(void);
+		// Public Functions
 		void AIinit(std::vector<std::vector<int>>);
 		Ogre::Vector3 AIframe(int, int, int, int);
 
+
+private:
+
+		// Variables
+		std::vector<std::vector<int>> iMap;
+		std::vector<void*> pathVector;
+		std::deque<void*> pathDeck;
+		int MAPXin;
+		int MAPYin;
+
+		// Functions
+		void setMap(std::vector<std::vector<int>>);
+		int pathPlanning(void);
+		void flee(int);
+		int checkQuadrant(void);
+		void fleeFast(void);
+		void fleeSlow(void);
+		void dontFlee(void);
+		void fillPathDeck(void);
+		bool lineOfSight(void);
+
+
 		// Structs
-        struct vec2_
-        {
-            int x;
-            int y;
-        };
+		struct vec2_
+		{
+			int x;
+			int y;
+		};
 		struct goalNode_
 		{
 			vec2_ pos;
-        };
+		};
 		struct robot_
 		{
 			vec2_ currentPos;
@@ -56,30 +75,6 @@ public:
 		map_ map;
 		player_ player;
 		robot_ robot;
-
-private:
-
-		// Variables
-		std::vector<std::vector<int>> iMap;
-		std::vector<void*> pathVector;
-		std::deque<void*> pathDeck;
-
-		// Functions
-		void printRobotPos(void);
-		void printPlayerPos(void);
-		void printMap(void);
-		void flee(int);
-		int checkQuadrant(void);
-		int sign(int);
-		int odd(int);
-		void fleeFast(void);
-		void fleeSlow(void);
-		void dontFlee(void);
-		void fillPathDeck(void);
-		bool lineOfSight(void);
-
-		int MAPXin;
-		int MAPYin;
 
 };
 

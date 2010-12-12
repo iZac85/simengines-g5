@@ -29,15 +29,10 @@ microTalker::microTalker(std::vector<std::vector<int>> map, int MAPXin,int MAPYi
 	std::vector<int> rows_ (mapG.size.y,1);
 	gMap = vector<std::vector<int>> (mapG.size.x,rows_);
 
-	// Copy the map to the class global map 2d vector
-	for (int i=0; i<mapG.size.x; i++)
-	{
-		for (int j=0; j<mapG.size.y; j++)
-		{
-			gMap[i][j] = map[i][j];
+	// Copy Map
+	gMap = map;
 
-		}
-	}    
+	// New instance of micropather (A* Path-Planning) and the Pather class
 	micro = new MicroPather(this, 10);
 	myPather = new Pather();
 
@@ -48,26 +43,21 @@ microTalker::~microTalker()
 	delete micro;
 }
 
-int microTalker::X() // Returns robotposX
+// Path Computation
+int microTalker::setGoalNode(int x, int y, int nx, int ny)	// Set new goal node
 {
-	return rob.pos.x;
-}	
-int microTalker::Y()	// Returns robotposY
-{
-	return rob.pos.y;
-}
-std::vector<void*> microTalker::returnPath()
-{
-	return path;
-}
+	rob.pos.x = x;
+	rob.pos.y = y;
 
-unsigned microTalker::Checksum()
-{
-	return micro->Checksum();
-}
-void microTalker::ClearPath()	// Clear the computed path
-{
-	path.resize(0);
+	ClearPath();
+
+	int result = 1;
+	if ( Passable( nx, ny ) == 1 )
+	{
+		float totalCost;
+		result = micro->Solve( XYToNode( rob.pos.x, rob.pos.y ), XYToNode( nx, ny ), &path, &totalCost );
+	}
+	return result;
 }
 int microTalker::Passable(int nx, int ny)	// Is the node passable/free
 {
@@ -79,18 +69,14 @@ int microTalker::Passable(int nx, int ny)	// Is the node passable/free
 	return 0;
 }
 
-int microTalker::setGoalNode(int x, int y, int nx, int ny)	// Set new goal node
+// Path Functions
+std::vector<void*> microTalker::returnPath()
 {
-	rob.pos.x = x;
-	rob.pos.y = y;
-
-	int result = 1;
-	if ( Passable( nx, ny ) == 1 )
-	{
-		float totalCost;
-		result = micro->Solve( XYToNode( rob.pos.x, rob.pos.y ), XYToNode( nx, ny ), &path, &totalCost );
-	}
-	return result;
+	return path;
+}
+void microTalker::ClearPath()	// Clear the computed path
+{
+	path.resize(0);
 }
 void microTalker::NodeToXY(void* node, int* x, int* y) // Goal node to Pos
 {
@@ -98,10 +84,12 @@ void microTalker::NodeToXY(void* node, int* x, int* y) // Goal node to Pos
 	*y = index/mapG.size.x;
 	*x = index - *y*mapG.size.x;
 }
-void* microTalker::XYToNode(int x, int y) // Pos to Goal node
+void* microTalker::XYToNode(int x, int y)
 {
 	return (void*) (y*mapG.size.x + x);
 }
+
+// Cost Functions
 float microTalker::LeastCostEstimate(void* nodeStart, void* nodeEnd) // Least Cost
 {
 	int xStart, yStart, xEnd, yEnd;
