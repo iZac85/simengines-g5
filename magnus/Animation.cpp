@@ -30,7 +30,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 
     // Create robot entity
     ninjaEntity = mSceneMgr->createEntity("Ninja", "ninja.mesh");
-    ninjaNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("NinjaNode", Ogre::Vector3(10.0f, 0.0f, 10.0f));
+    ninjaNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("NinjaNode");
     ninjaNode->attachObject(ninjaEntity);
 	ninjaNode->setScale(0.09f, 0.09f, 0.09f);
 
@@ -51,6 +51,14 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	robotAlive = true;
 	robotDead = false;
 	mRotating = false;
+
+	// Rand
+	srand(time(NULL));
+
+	// Generate random starting positions
+	mCamera->setPosition(aiPather->randPlayerPos());
+	mCamera->lookAt(aiPather->centerOfMap());
+	ninjaNode->setPosition(aiPather->randNinjaPos());
 
 
 }

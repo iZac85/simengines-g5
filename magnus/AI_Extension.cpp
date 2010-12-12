@@ -79,6 +79,41 @@ void Pather::fillPathDeck()
 	}
 }
 
+// Starting Positions
+Ogre::Vector3 Pather::randPlayerPos()
+{
+	bool pass = true;
+	while(pass)
+	{
+		startPosX = rand()%(map.size.x+1);
+		startPosY = rand()%(map.size.y+1);
+		if (mTalker->Passable(startPosX,startPosY) == 1)
+		{
+			pass = false;
+		}
+	}
+
+	return(Ogre::Vector3(startPosX,10,startPosY));
+}
+Ogre::Vector3 Pather::randNinjaPos()
+{
+	bool pass = true;
+	while(pass)
+	{
+		startPosX = rand()%(map.size.x+1);
+		startPosY = rand()%(map.size.y+1);
+		if (mTalker->Passable(startPosX,startPosY) == 1)
+		{
+			pass = false;
+		}
+	}
+	return(Ogre::Vector3(startPosX,0,startPosY));
+}
+Ogre::Vector3 Pather::centerOfMap()
+{
+	return(Ogre::Vector3(map.size.x/2,2,map.size.y/2));
+}
+
 // Fleeing Functions
 void Pather::flee(int euclDist)
 {
