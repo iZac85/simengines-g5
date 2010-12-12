@@ -20,7 +20,9 @@ public:
 		// Public Functions
 		void AIinit(std::vector<std::vector<int>>);
 		Ogre::Vector3 AIframe(int, int, int, int);
-
+		Ogre::Vector3 randPlayerPos(void);
+		Ogre::Vector3 randNinjaPos(void);
+		Ogre::Vector3 centerOfMap(void);
 
 private:
 
@@ -30,6 +32,8 @@ private:
 		std::deque<void*> pathDeck;
 		int MAPXin;
 		int MAPYin;
+		int startPosX;
+		int startPosY;
 
 		// Functions
 		void setMap(std::vector<std::vector<int>>);
@@ -41,7 +45,6 @@ private:
 		void dontFlee(void);
 		void fillPathDeck(void);
 		bool lineOfSight(void);
-
 
 		// Structs
 		struct vec2_
