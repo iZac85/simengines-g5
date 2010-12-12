@@ -173,6 +173,8 @@ protected:
 	CEGUI::RadioButton* physSettingsOp1Btn;
 	CEGUI::RadioButton* physSettingsOp2Btn;
 	CEGUI::RadioButton* physSettingsOp3Btn;
+
+	//CEGUI::MouseCursor* mMouseCursor;
 };
 
 #endif // #ifndef __OgreCEGUI_h_

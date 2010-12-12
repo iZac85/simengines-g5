@@ -74,6 +74,7 @@ bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg )
 	{
 		ingameMenuRootWindow->setVisible(false);
 		ingameMenuVisible = false;
+		CEGUI::MouseCursor::getSingleton().hide();
 	}
     CEGUI::System &sys = CEGUI::System::getSingleton();
 	sys.injectKeyDown(arg.key);
@@ -145,6 +146,7 @@ void OgreCEGUI::createScene(void)
 	CEGUI::SchemeManager::getSingleton().create("AquaLookSkin.scheme");
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("AquaLook", "MouseArrow");
+	//mMouseCursor->setImage("AquaLook", "MouseArrow");
 	
 	//------------------------LOAD THE CEGUI LAYOUT---------------------//
 
@@ -311,6 +313,7 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	mLaunch = true;
 	//mainMenuRootWindow->destroy();
 	mainMenuRootWindow->setVisible(false);
+	CEGUI::MouseCursor::getSingleton().hide();
 	/*CEGUI::String aiSettingsString;
 	if (aiSettingsBtns[0] == 1) 
 	{
@@ -383,6 +386,7 @@ void OgreCEGUI::ShowMainMenu(void)
 {
 	//CEGUI::System::getSingleton().setGUISheet(mainMenuRoot);
 	mainMenuRootWindow->setVisible(true);
+	CEGUI::MouseCursor::getSingleton().show();
 }
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::ShowIngameMenu(void)
@@ -393,6 +397,7 @@ void OgreCEGUI::ShowIngameMenu(void)
 		CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
 		ingameMenuAlreadyLoaded = true;
 	}
+	CEGUI::MouseCursor::getSingleton().show();
 	ingameMenuVisible = true;
 }
 //-------------------------------------------------------------------------------------
@@ -415,6 +420,7 @@ bool OgreCEGUI::inGameCloseBtnClicked(const CEGUI::EventArgs &e)
 {
 	ingameMenuRootWindow->setVisible(false);
 	ingameMenuVisible = false;
+	CEGUI::MouseCursor::getSingleton().hide();
 	return true;
 }
 //-------------------------------------------------------------------------------------
