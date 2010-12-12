@@ -116,7 +116,7 @@ protected:
 
 	//-----------CONSTANTS------------//
 
-	static const int ARENA_SIZE_MAX_VALUE = 999;
+	static const int ARENA_SIZE_MAX_VALUE = 500;
 	static const int ARENA_SIZE_MIN_VALUE = 3;
 
 	static const int DOOR_CNT_MAX = 4;

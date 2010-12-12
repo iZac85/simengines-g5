@@ -75,6 +75,7 @@ bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg )
 		ingameMenuRootWindow->setVisible(false);
 		ingameMenuVisible = false;
 		CEGUI::MouseCursor::getSingleton().hide();
+		return true;
 	}
     CEGUI::System &sys = CEGUI::System::getSingleton();
 	sys.injectKeyDown(arg.key);
@@ -146,7 +147,6 @@ void OgreCEGUI::createScene(void)
 	CEGUI::SchemeManager::getSingleton().create("AquaLookSkin.scheme");
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("AquaLook", "MouseArrow");
-	//mMouseCursor->setImage("AquaLook", "MouseArrow");
 	
 	//------------------------LOAD THE CEGUI LAYOUT---------------------//
 
@@ -311,7 +311,7 @@ bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
 bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 {
 	mLaunch = true;
-	//mainMenuRootWindow->destroy();
+	//Wmgr->destroyWindow(mainMenuRootWindow);
 	mainMenuRootWindow->setVisible(false);
 	CEGUI::MouseCursor::getSingleton().hide();
 	/*CEGUI::String aiSettingsString;
@@ -384,7 +384,7 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 void OgreCEGUI::ShowMainMenu(void)
 {
-	//CEGUI::System::getSingleton().setGUISheet(mainMenuRoot);
+	CEGUI::System::getSingleton().setGUISheet(mainMenuRoot);
 	mainMenuRootWindow->setVisible(true);
 	CEGUI::MouseCursor::getSingleton().show();
 }
@@ -395,6 +395,7 @@ void OgreCEGUI::ShowIngameMenu(void)
 	else 
 	{
 		CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
+		ingameMenuRootWindow->setVisible(true);
 		ingameMenuAlreadyLoaded = true;
 	}
 	CEGUI::MouseCursor::getSingleton().show();
@@ -409,7 +410,7 @@ bool OgreCEGUI::inGameQuitBtnClicked(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::inGameReturnBtnClicked(const CEGUI::EventArgs &e)
 {
-	ingameMenuRootWindow->destroy();
+	ingameMenuRootWindow->setVisible(false);
 	ingameMenuAlreadyLoaded = false;
 	ingameMenuVisible = false;
 	showMainMenu = true;
