@@ -16,14 +16,15 @@ public:
 
 	// Functions
 	void AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera);
-	void UpdateAnimation(const Ogre::FrameEvent &evt,Ogre::SceneManager*, Ogre::Camera*);
+	bool UpdateAnimation(const Ogre::FrameEvent &evt,Ogre::SceneManager*, Ogre::Camera*);
 
 private:
 	 // Functions
      bool NextLocation(Ogre::Camera*);
 	 void updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
 	 void updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
-	 void updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
+	 bool updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager*, Ogre::Camera*);
+	 virtual void createGrassMesh(void);
  
      
 	 Ogre::Real mDistance;                  // The distance the object has left to travel
@@ -43,6 +44,8 @@ private:
 	 bool robotDead;
 	 int animSpeedUp;
 	 float deathAnimationTime;
+
+	 Ogre::SceneNode *grassNode;
 
 	 // Ninja
 	 Ogre::Quaternion mOrientSrc;               // Initial orientation

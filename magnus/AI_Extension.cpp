@@ -113,6 +113,13 @@ Ogre::Vector3 Pather::centerOfMap()
 {
 	return(Ogre::Vector3(map.size.x/2,2,map.size.y/2));
 }
+bool Pather::inMap(int x, int y)
+{
+	if(x > -60 && y > -60 && x < map.size.x+60 && y < map.size.y+60)
+		return true;
+	else 
+		return false;
+}
 
 // Fleeing Functions
 void Pather::flee(int euclDist)
