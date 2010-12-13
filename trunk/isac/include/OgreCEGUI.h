@@ -143,7 +143,6 @@ protected:
 	CEGUI::Window* infoBox;
 	CEGUI::Window* arenaSizeWindow;
 	CEGUI::Window* roomSizeMaxWindow;
-	//CEGUI::Window* roomSizeMinWindow;
 	CEGUI::Window* doorCntWindow;
 	CEGUI::Window* furnitureWindow;
 
@@ -152,7 +151,6 @@ protected:
 
 	CEGUI::Spinner* doorsCnt;
 	CEGUI::Spinner* roomSizeMax;
-	//CEGUI::Spinner* roomSizeMin;
 	CEGUI::Spinner* arenaSizeX;
 	CEGUI::Spinner* arenaSizeY;
 
@@ -174,7 +172,9 @@ protected:
 	CEGUI::RadioButton* physSettingsOp2Btn;
 	CEGUI::RadioButton* physSettingsOp3Btn;
 
-	//CEGUI::MouseCursor* mMouseCursor;
+	CEGUI::Texture* mainMenuImageTex;
+	CEGUI::Imageset* mainMenuImageSet;
+	CEGUI::DefaultWindow* mainMenuImageWindow;
 };
 
 #endif // #ifndef __OgreCEGUI_h_
