@@ -53,7 +53,7 @@ void BulletInitWorld::debugBoxBullet(bool debugFlag)
 		debugDrawer->setDrawWireframe(true);	// we want to see the Bullet containers
 
 		mWorld->setDebugDrawer(debugDrawer);
-		mWorld->setShowDebugShapes(false);		// enable it if you want to see the Bullet containers
+		mWorld->setShowDebugShapes(true);		// enable it if you want to see the Bullet containers
 
 		//Create a node and attach it to the Ogre Scene
 		Ogre::SceneNode *node = ogreSceneMgr->getRootSceneNode()->createChildSceneNode("debugDrawer", Ogre::Vector3::ZERO);

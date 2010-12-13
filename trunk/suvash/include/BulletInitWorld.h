@@ -35,7 +35,11 @@ public:
 	void debugBoxBullet(bool);
 	void addFloor(Ogre::SceneNode*);
 	void addWalls(std::vector<Ogre::SceneNode*>);
+	
 	void run();
+
+	//Add dynamics object
+	//void addDynObj
 
 	BulletInitWorld(Ogre::SceneManager*,
 					Ogre::SceneNode*,
