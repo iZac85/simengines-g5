@@ -35,9 +35,11 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	ninjaNode->setScale(0.09f, 0.09f, 0.09f);
 
 	ninjaEntity->setCastShadows(true);
-	mWalkSpeed = 15;
+	mWalkSpeed = 5;
 	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
+
+	mSceneMgr->setFog(Ogre::FOG_NONE);
 
 	// Create arrow entity inc node
 	arrowEntity = mSceneMgr->createEntity("Arrow", "cube.mesh");
@@ -50,6 +52,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	robotAlive = true;
 	robotDead = false;
 	mRotating = false;
+	animSpeedUp = 1;
 
 	// Rand
 	srand(time(NULL));
@@ -147,9 +150,14 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	ninjaPos.y = ninjaPos.y+20;
 	arrowDir = ninjaPos - arrowPos;
 	arrowQuat = arrowOri.getRotationTo(arrowDir); 
-	arrowNode->rotate(arrowQuat);
+	//arrowNode->rotate(arrowQuat);
 
 	arrowNode->setPosition(cameraPos+cameraDir*10);
+
+
+	arrowNode->rotate(cameraUp,Ogre::Degree(70),Ogre::Node::TS_WORLD);
+
+
 }
 bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
@@ -249,6 +257,7 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 	// PathPlanning and Avoidance
 	Ogre::Vector3 rp = ninjaNode->getPosition();	// RobotPosition
 	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
+	//mWalkSpeed = aiPather->ninjaSpeed;
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));

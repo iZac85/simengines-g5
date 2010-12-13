@@ -24,6 +24,8 @@ public:
 		Ogre::Vector3 randNinjaPos(void);
 		Ogre::Vector3 centerOfMap(void);
 		bool inMap(int,int);
+		
+		float ninjaSpeed;
 
 private:
 

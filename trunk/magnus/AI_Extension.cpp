@@ -127,15 +127,20 @@ void Pather::flee(int euclDist)
 	if (euclDist < FASTFLEERADIUS)
 	{
 		fleeFast();
+		ninjaSpeed = 15;
 	}
 	else if (euclDist < SLOWFLEERADIUS)
 	{
 		fleeSlow();
+		ninjaSpeed = 15;
 	}
 	else
 	{
 		if (DONTFLEEACTIVE)
+		{
 			dontFlee();
+			ninjaSpeed = 15;
+		}
 		else
 			fleeSlow();
 	}
