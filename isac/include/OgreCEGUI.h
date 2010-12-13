@@ -36,14 +36,14 @@ public:
 	virtual void createFrameListener(void);
 
 	//Functions for loading the menus
-	void ShowIngameMenu(void);
+	void ShowIngameMenu(bool);
 	void ShowMainMenu(void);
 
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
 
 	// OIS::KeyListener
-	virtual bool keyPressed( const OIS::KeyEvent &arg );
+	virtual bool keyPressed( const OIS::KeyEvent &arg, bool );
 	virtual bool keyReleased( const OIS::KeyEvent &arg );
 
 	// OIS::MouseListener
@@ -114,7 +114,7 @@ protected:
 	bool physSettingsBtns[3];
 	bool ingameMenuAlreadyLoaded;
 
-	//-----------CONSTANTS------------//
+//--------------------------CONSTANTS-----------------------------//
 
 	static const int ARENA_SIZE_MAX_VALUE = 500;
 	static const int ARENA_SIZE_MIN_VALUE = 3;
@@ -127,18 +127,17 @@ protected:
 
 	static const int MIN_ROOM_WIDTH = 14;
 
-	//-----------CEGUI POINTERS------------//
+//------------------------CEGUI POINTERS--------------------------//
 
 	CEGUI::OgreRenderer* mRenderer;
 	CEGUI::WindowManager *Wmgr;
 
-	//-----------CEGUI OBJECTS------------//
+//------------------------CEGUI OBJECTS---------------------------//
 
-	CEGUI::Window *ingameMenuRoot;
-	CEGUI::Window *mainMenuRoot;
+//////////////MAIN MENU OBJECTS/////////////////
 
+	CEGUI::Window *mainMenuRoot;	
 	CEGUI::Window* mainMenuRootWindow;
-	CEGUI::Window* ingameMenuRootWindow;
 
 	CEGUI::Window* infoBox;
 	CEGUI::Window* arenaSizeWindow;
@@ -157,20 +156,34 @@ protected:
 	CEGUI::Slider* arenaSizeXslider;
 	CEGUI::Slider* arenaSizeYslider;
 
+	//Buttons for the Main Menu
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
 
-	//Buttons for the Ingame Menu
-	CEGUI::PushButton* inGameQuitBtn;
-	CEGUI::PushButton* inGameReturnBtn;
-	CEGUI::PushButton* inGameCloseBtn;
-
+	//RadioButtons for the Main Menu
 	CEGUI::RadioButton* aiSettingsOp1Btn;
 	CEGUI::RadioButton* aiSettingsOp2Btn;
 	CEGUI::RadioButton* aiSettingsOp3Btn;
 	CEGUI::RadioButton* physSettingsOp1Btn;
 	CEGUI::RadioButton* physSettingsOp2Btn;
 	CEGUI::RadioButton* physSettingsOp3Btn;
+
+/////////////INGAME MENU OBJECTS//////////////
+
+	CEGUI::Window *ingameMenuRoot;
+
+	CEGUI::Window* ingameMenuRootWindow;
+	CEGUI::Window* ingameMenuWindow;
+	CEGUI::Window* GameFinishedWindow;
+
+	//Buttons for the in game Menu
+	CEGUI::PushButton* inGameQuitBtn;
+	CEGUI::PushButton* inGameReturnBtn;
+	CEGUI::PushButton* inGameCloseBtn;
+
+	//Buttons for the GameFinished Menu
+	CEGUI::PushButton* gameFinishedQuitBtn;
+	CEGUI::PushButton* gameFinishedReturnBtn;
 
 	CEGUI::Texture* mainMenuImageTex;
 	CEGUI::Imageset* mainMenuImageSet;
