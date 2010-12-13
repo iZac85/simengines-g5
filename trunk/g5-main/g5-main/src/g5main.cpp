@@ -99,7 +99,11 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
 	if(mWindow->isClosed()) return false;
 
-	if(mCEGUI->mShutDown) return false;
+	if(mCEGUI->mShutDown)
+	{
+		if (mainMenuActive) BaseApplication::createFrameListener();
+		return false;
+	}
 	
 	if(mCEGUI->mLaunch) launch();
 
