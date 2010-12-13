@@ -125,6 +125,7 @@
     <ClInclude Include="..\..\magnus\Animation.h" />
     <ClInclude Include="..\..\suvash\include\BulletInitWorld.h" />
     <ClInclude Include="..\..\suvash\include\OBBox.h" />
+    <ClInclude Include="..\..\suvash\include\OBPlayer.h" />
     <ClInclude Include="..\..\suvash\include\OgreBulletProg.h" />
     <ClInclude Include="include\BaseApplication.h" />
     <ClInclude Include="include\g5main.h" />
@@ -140,6 +141,7 @@
     <ClCompile Include="..\..\magnus\Animation.cpp" />
     <ClCompile Include="..\..\suvash\src\BulletInitWorld.cpp" />
     <ClCompile Include="..\..\suvash\src\OBBox.cpp" />
+    <ClCompile Include="..\..\suvash\src\OBPlayer.cpp" />
     <ClCompile Include="..\..\suvash\src\OgreBulletProg.cpp" />
     <ClCompile Include="src\BaseApplication.cpp" />
     <ClCompile Include="src\g5main.cpp" />

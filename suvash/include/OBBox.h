@@ -13,6 +13,8 @@ class OBBox
 
 public:
 
+	Ogre::SceneNode *node;
+
 	OgreBulletCollisions::BoxCollisionShape* sceneBoxShape;
 	OgreBulletDynamics::RigidBody *defaultBody;
 

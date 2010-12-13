@@ -23,7 +23,7 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
 	//Set material
 	entity->setMaterialName("Examples/RustySteel");
 	//Get the scenenode to attach the entity to
- 	Ogre::SceneNode *node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+ 	node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
  	node->attachObject(entity);
 	//Scaling down the cube/mesh entity
  	node->scale(0.05f, 0.05f, 0.05f);
@@ -44,7 +44,7 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
  		0.8f,			// dynamic body friction
  		1.0f, 			// dynamic bodymass
  		position,		// starting position of the box
- 		Ogre::Quaternion(0,0,0,1));// orientation of the box
+ 		Ogre::Quaternion(0,1,0,1));// orientation of the box
 
 	//Set the shooting speed 
 	defaultBody->setLinearVelocity(speed ); // shooting speed

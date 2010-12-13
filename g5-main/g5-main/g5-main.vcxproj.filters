@@ -78,6 +78,9 @@
     <ClInclude Include="..\..\magnus\Animation.h">
       <Filter>Header Files\magnus</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\suvash\include\OBPlayer.h">
+      <Filter>Header Files\suvash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\g5main.cpp">
@@ -115,6 +118,9 @@
     </ClCompile>
     <ClCompile Include="..\..\magnus\Animation.cpp">
       <Filter>Source Files\magnus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\suvash\src\OBPlayer.cpp">
+      <Filter>Source Files\suvash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
