@@ -73,7 +73,7 @@ void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 	floorSizeB.y *= ogreFloorNode->getScale().y;
 	floorSizeB.z *= ogreFloorNode->getScale().z;
 	
-	ogreFloorNode->showBoundingBox(true);
+	//ogreFloorNode->showBoundingBox(true);
 	
 	// add collision detection to it
 	OgreBulletCollisions::CollisionShape *floorShape = new OgreBulletCollisions::BoxCollisionShape(floorSizeB);
@@ -102,7 +102,7 @@ void BulletInitWorld::addWalls(std::vector<Ogre::SceneNode*> ogreWallNodeVec)
 		wallSizeB.y *= ogreWallNodeVec[i]->getScale().y;
 		wallSizeB.z *= ogreWallNodeVec[i]->getScale().z;
 
-		ogreWallNodeVec[i]->showBoundingBox(true);
+		//ogreWallNodeVec[i]->showBoundingBox(true);
 
 		OgreBulletCollisions::BoxCollisionShape *wallBoxShape = new OgreBulletCollisions::BoxCollisionShape(wallSizeB);
 		
