@@ -69,6 +69,8 @@ protected:
 	OBPlayer *player;
 	bool cameraFPVinUse;
 
+	Ogre::Vector3 mCameraPos;
+	Ogre::Quaternion mCameraOrt;
 
 	bool launch();
 	bool mGuiActive;

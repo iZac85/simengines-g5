@@ -228,11 +228,15 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 		{
 			cameraFPVinUse = false;
 			mWindow->getViewport(0)->setCamera(mCamera);
+			mCamera->setPosition(mCameraPos);
+			mCamera->setOrientation(mCameraOrt);
 		}
 		else
 		{
 			cameraFPVinUse = true;
 			mWindow->getViewport(0)->setCamera(mCameraFPV);
+			mCameraPos = mCamera->getPosition();
+			mCameraOrt = mCamera->getOrientation();
 		}
 
 		return true;
