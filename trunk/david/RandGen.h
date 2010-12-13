@@ -14,8 +14,10 @@ public:
 
 	struct tile
 	{
-		int x;
-		int y;
+		//int x;
+		//int y;
+		float x;
+		float y;
 	};
 	struct furniture
 	{
@@ -24,6 +26,7 @@ public:
 	};
 	struct wall
 	{
+		tile pos3D;
 		tile pos;
 		tile dim;	//m
 		int type; //0 = interior wall, 1 = exterior wall
@@ -76,6 +79,9 @@ private:
 	int getMapWallIndex(tile dim, tile pos);
 	void computeWallJunction(void);
 	void computeWallSegments(int k, tile dim, tile pos, int type);
+	bool doorPossible(int k, int wallNum);
+	void deleteShortWalls(int k);
+	void compute3DWallPos(void);
 };
 
 #endif

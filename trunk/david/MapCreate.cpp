@@ -24,12 +24,11 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	mRandGen = new RandGen();
 	// Set ambient light
     mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-
     // Create a light
     Ogre::Light* l = mSceneMgr->createLight("MainLight");
     l->setPosition(20,80,50);
-	mRandGen->generateMap(dim_x,dim_y,14,14,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
-
+	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+	//mRandGen->generateMap(27,27,14,14,196,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	Ogre::Entity* mfloorEnt;
 	Ogre::Entity* mTmpEnt;
 	std::vector<Ogre::Entity*> mWallEnt;
@@ -44,9 +43,9 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	std::vector<Ogre::MaterialPtr> mWallMtl;
 	Ogre::MaterialPtr mTmpMtl;
 
-	Ogre::Plane plane;
-	plane.normal = Ogre::Vector3::UNIT_Y;
-	plane.d = 0;
+	//Ogre::Plane plane;
+	//plane.normal = Ogre::Vector3::UNIT_Y;
+	//plane.d = 0;
 
 	//Ogre::MeshManager::getSingleton().createPlane("floor", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, dim_x, dim_y, 1, 1, true, 1, 10.0f, 10.0f, Ogre::Vector3::UNIT_Z);
 	//Materials
@@ -62,7 +61,6 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 	mfloorEnt = mSceneMgr->createEntity("floor1", "cube.mesh");
 	mfloorEnt->setMaterialName("FloorMat");
 
-	//mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, 0.0f, dim_y/2));
 	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, -0.5, dim_y/2));
 	mFloorNode->attachObject(mfloorEnt);
 	mFloorNode->setScale(0.01 * dim_x, 0.01, 0.01 * dim_y);
@@ -87,9 +85,17 @@ MapCreate::MapCreate(Ogre::SceneManager* mSceneMgr, int dim_x, int dim_y, int ro
 
 		mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 		mTmpNode->attachObject(mWallEnt[i]);
-		mTmpNode->setScale(0.01 * mRandGen->arena.wall[i].dim.x ,0.2, 0.01 * mRandGen->arena.wall[i].dim.y);
-		mTmpNode->setPosition(mRandGen->arena.wall[i].pos.x+0.5,10,mRandGen->arena.wall[i].pos.y+0.5);
-		mWallNode.push_back(mTmpNode) ;
+		/*if(mRandGen->arena.wall[i].dim.x==1)
+		{
+			mTmpNode->setScale(0.01 * (mRandGen->arena.wall[i].dim.x) ,0.2, 0.01 * (mRandGen->arena.wall[i].dim.y - 2));
+		}
+		else
+		{
+			mTmpNode->setScale(0.01 * (mRandGen->arena.wall[i].dim.x -2 ) ,0.2, 0.01 * (mRandGen->arena.wall[i].dim.y));
+		}*/
+		mTmpNode->setScale(0.01 * (mRandGen->arena.wall[i].dim.x) ,0.2, 0.01 * (mRandGen->arena.wall[i].dim.y));
+		mTmpNode->setPosition(mRandGen->arena.wall[i].pos3D.x,10,mRandGen->arena.wall[i].pos3D.y);
+		mWallNode.push_back(mTmpNode);
 	}
 	map = mRandGen->arena.blackTile;
 }
