@@ -168,11 +168,11 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		gameFinished = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 	}
 
-	if (!gameFinished)
+	if (gameFinished && !mGuiActive)
 	{
-		mCEGUI->ShowIngameMenu();
+		mCEGUI->ShowIngameMenu(gameFinished);
 		mGuiActive = true;
-		gameFinished = false;
+		//gameFinished = false;
 	}
 
 	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
@@ -184,12 +184,12 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 {
 	if(mGuiActive)
 	{
-		mCEGUI->keyPressed(arg);
+		mCEGUI->keyPressed(arg, gameFinished);
 		return true;
 	}
 	if (mGuiActive == false && arg.key == OIS::KC_ESCAPE)
 	{
-		mCEGUI->ShowIngameMenu();
+		mCEGUI->ShowIngameMenu(gameFinished);
 		mGuiActive = true;
 		return true;
 	}

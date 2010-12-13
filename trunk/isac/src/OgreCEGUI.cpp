@@ -68,9 +68,9 @@ bool OgreCEGUI::frameRenderingQueued(const Ogre::FrameEvent& evt)
     return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg )
+bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg, bool gameFinished )
 {
-	if (arg.key == OIS::KC_ESCAPE && ingameMenuVisible)
+	if (arg.key == OIS::KC_ESCAPE && ingameMenuVisible && !gameFinished)
 	{
 		ingameMenuRootWindow->setVisible(false);
 		ingameMenuVisible = false;
@@ -147,10 +147,49 @@ void OgreCEGUI::createScene(void)
 	CEGUI::SchemeManager::getSingleton().create("AquaLookSkin.scheme");
 
 	CEGUI::System::getSingleton().setDefaultMouseCursor("AquaLook", "MouseArrow");
-	
-	//------------------------LOAD THE CEGUI LAYOUT---------------------//
 
-	//OgreCEGUI::loadMainMenu();
+	/////////////////////////INGAME-MENU//////////////////////////
+
+	//-------LOAD THE LAYOUT OF THE MENU---------//
+	try
+	{
+		ingameMenuRoot = Wmgr->getSingleton().loadWindowLayout("IngameMenu.layout");
+	}
+	catch(CEGUI::Exception &e)
+	{
+		OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, e.getMessage().c_str(), "Error Loading Layout!");
+	}
+
+	//----LOAD MENU OBJECTS AND CONNECT EVENTS----//
+
+	//Load in game root window
+	ingameMenuRootWindow = (CEGUI::Window*)Wmgr->getWindow("IngameMenuRoot");
+	ingameMenuWindow = (CEGUI::Window*)Wmgr->getWindow("IngameMenu");
+
+	//Load buttons on the in game menu
+	inGameQuitBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameQuitBtn");
+	inGameQuitBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameQuitBtnClicked, this));
+	inGameReturnBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameReturnBtn");
+	inGameReturnBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameReturnBtnClicked, this));
+	inGameCloseBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameCloseBtn");
+	inGameCloseBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameCloseBtnClicked, this));
+
+	//////////////////////GAME-FINISHED-MENU///////////////////////
+
+	//Load game finished root window
+	GameFinishedWindow = (CEGUI::Window*)Wmgr->getWindow("GameFinished");
+
+	//Load game finished buttons
+	gameFinishedQuitBtn = (CEGUI::PushButton*)Wmgr->getWindow("GameFinishedQuitBtn");
+	gameFinishedQuitBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameQuitBtnClicked, this));
+	gameFinishedReturnBtn = (CEGUI::PushButton*)Wmgr->getWindow("GameFinishedReturnBtn");
+	gameFinishedReturnBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameReturnBtnClicked, this));
+
+	GameFinishedWindow->setVisible(false);
+
+	///////////////////////////MAIN-MENU///////////////////////////
+
+	//-------LOAD THE LAYOUT OF THE MENU---------//
 	try
 	{
 		mainMenuRoot = Wmgr->getSingleton().loadWindowLayout("OgreCEGUI.layout");
@@ -161,30 +200,8 @@ void OgreCEGUI::createScene(void)
 		OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, e.getMessage().c_str(), "Error Loading Layout!");
 	}
 
-	//------------------------LOAD GUI OBJECTS AND CONNECT EVENTS---------------------//
+	//----LOAD MENU OBJECTS AND CONNECT EVENTS----//
 
-	//############-INGAME-MENU-##############//
-	//Load ingame menu layout
-	try
-	{
-		ingameMenuRoot = Wmgr->getSingleton().loadWindowLayout("IngameMenu.layout");
-	}
-	catch(CEGUI::Exception &e)
-	{
-		OGRE_EXCEPT(Ogre::Exception::ERR_INTERNAL_ERROR, e.getMessage().c_str(), "Error Loading Layout!");
-	}
-	//Load ingame root window
-	ingameMenuRootWindow = (CEGUI::Window*)Wmgr->getWindow("IngameMenuRoot");
-
-	//Load buttons on the ingame menu
-	inGameQuitBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameQuitBtn");
-	inGameQuitBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameQuitBtnClicked, this));
-	inGameReturnBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameReturnBtn");
-	inGameReturnBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameReturnBtnClicked, this));
-	inGameCloseBtn = (CEGUI::PushButton*)Wmgr->getWindow("InGameCloseBtn");
-	inGameCloseBtn->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&OgreCEGUI::inGameCloseBtnClicked, this));
-
-	//############-MAIN-MENU-##############//
 	//Load main menu root window
 	mainMenuRootWindow = (CEGUI::Window*)Wmgr->getWindow("Root");
 
@@ -399,17 +416,43 @@ void OgreCEGUI::ShowMainMenu(void)
 	CEGUI::MouseCursor::getSingleton().show();
 }
 //-------------------------------------------------------------------------------------
-void OgreCEGUI::ShowIngameMenu(void)
+void OgreCEGUI::ShowIngameMenu(bool gameFinished)
 {
-	if (ingameMenuAlreadyLoaded) ingameMenuRootWindow->setVisible(true);
-	else 
+	if (!gameFinished)
 	{
-		CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
-		ingameMenuRootWindow->setVisible(true);
-		ingameMenuAlreadyLoaded = true;
+		if (ingameMenuAlreadyLoaded) 
+		{
+			ingameMenuRootWindow->setVisible(true);
+			ingameMenuWindow->setVisible(true);
+			GameFinishedWindow->setVisible(false);
+		}
+		else 
+		{
+			CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
+			ingameMenuRootWindow->setVisible(true);
+			ingameMenuWindow->setVisible(true);
+			GameFinishedWindow->setVisible(false);
+			ingameMenuAlreadyLoaded = true;
+		}
 	}
-	CEGUI::MouseCursor::getSingleton().show();
+	else
+	{
+		if (ingameMenuAlreadyLoaded)
+		{
+			ingameMenuRootWindow->setVisible(true);
+			ingameMenuWindow->setVisible(false);
+			GameFinishedWindow->setVisible(true);
+		}
+		else
+		{
+			CEGUI::System::getSingleton().setGUISheet(ingameMenuRoot);
+			ingameMenuRootWindow->setVisible(true);
+			ingameMenuWindow->setVisible(false);
+			GameFinishedWindow->setVisible(true);
+		}
+	}
 	ingameMenuVisible = true;
+	CEGUI::MouseCursor::getSingleton().show();
 }
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::inGameQuitBtnClicked(const CEGUI::EventArgs &e)
@@ -421,6 +464,7 @@ bool OgreCEGUI::inGameQuitBtnClicked(const CEGUI::EventArgs &e)
 bool OgreCEGUI::inGameReturnBtnClicked(const CEGUI::EventArgs &e)
 {
 	ingameMenuRootWindow->setVisible(false);
+	GameFinishedWindow->setVisible(false);
 	ingameMenuAlreadyLoaded = false;
 	ingameMenuVisible = false;
 	showMainMenu = true;
