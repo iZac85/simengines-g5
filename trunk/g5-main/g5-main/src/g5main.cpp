@@ -302,9 +302,9 @@ bool g5main::launch()
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
 	{
-		mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 14, 14 , mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
+		mMapCreate = new MapCreate(mRoot, mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 14, 14 , mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
 	}
-	else mMapCreate = new MapCreate(mSceneMgr);
+	else mMapCreate = new MapCreate(mRoot, mSceneMgr);
 
 	// AI
 	if (mCEGUI->extensionSettings.aiSettings != 0)
