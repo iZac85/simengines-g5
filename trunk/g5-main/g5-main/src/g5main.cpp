@@ -335,6 +335,7 @@ bool g5main::launch()
 
 	//Adding camera to the box node
 	player->node->attachObject(mCameraFPV);
+	mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,5.7,0));
 
 	delete mMapCreate;
 	return true;
