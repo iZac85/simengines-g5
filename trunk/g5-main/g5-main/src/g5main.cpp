@@ -139,22 +139,22 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
 		if(mKeyboard->isKeyDown(OIS::KC_A))
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * -10.0f);
+			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
 		}
 
 		if(mKeyboard->isKeyDown(OIS::KC_D))
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * 10.0f);
+			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
 		}
 
 		if(mKeyboard->isKeyDown(OIS::KC_W))
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * 10.0f);
+			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
 		}
 
 		if(mKeyboard->isKeyDown(OIS::KC_S))
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * -10.0f);
+			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
 		}
 	}
 
