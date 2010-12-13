@@ -136,7 +136,6 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	if(cameraFPVinUse)
 	{
 		mKeyboard->capture();
-		mMouse->capture();
 
 		if(mKeyboard->isKeyDown(OIS::KC_A))
 		{
@@ -260,6 +259,12 @@ bool g5main::mouseMoved( const OIS::MouseEvent &arg )
 	if(mGuiActive)
 	{
 		mCEGUI->mouseMoved(arg);
+		return true;
+	}
+	if(cameraFPVinUse)
+	{
+		mCameraFPV->yaw(Ogre::Degree(-arg.state.X.rel * 0.25f));
+		mCameraFPV->pitch(Ogre::Degree(-arg.state.Y.rel * 0.25f));
 		return true;
 	}
 	//return true;

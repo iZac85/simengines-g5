@@ -24,7 +24,7 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
 	//entity->setMaterialName("Examples/RustySteel");
 	//Get the scenenode to attach the entity to
  	node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
- 	node->attachObject(entity);
+ 	//node->attachObject(entity);
 	//Scaling down the cube/mesh entity
  	node->scale(0.05f, 0.05f, 0.05f);
 	//Scaling down the bullet entity
@@ -42,7 +42,7 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
  		sceneBoxShape,
  		0.6f,			// dynamic body restitution
  		0.8f,			// dynamic body friction
- 		40.0f, 			// dynamic bodymass
+ 		70.0f, 			// dynamic bodymass
  		position,		// starting position of the box
  		Ogre::Quaternion(1,0,1,0));// orientation of the box
 
