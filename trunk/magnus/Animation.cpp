@@ -25,7 +25,6 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	// Enable shadows
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
-
 	// Disable fog
 	mSceneMgr->setFog(Ogre::FOG_NONE);
 
@@ -67,9 +66,12 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	// Generate random starting positions
 	mCamera->setPosition(aiPather->randPlayerPos());
 	mCamera->lookAt(aiPather->centerOfMap());
-	ninjaNode->setPosition(aiPather->randNinjaPos());
+	while (!mCamera->getPosition().positionCloses(ninjaNode->getPosition(),10))
+	{
+		ninjaNode->setPosition(aiPather->randNinjaPos());
+	}
 
-	// Create Grass
+		// Create Grass
 	createGrassMesh();
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
@@ -121,6 +123,49 @@ bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 
 	return status;
 }
+void Animation::createGrassMesh()
+{
+	//declare all of our grass variables
+	const float width = 25.0f;
+	const float height = 40.0f;
+
+	Ogre::ManualObject grass("GrassObject");
+
+	Ogre::Vector3 vec(width / 2, 0, 0);
+	Ogre::Quaternion rot;
+	rot.FromAngleAxis(Ogre::Degree(60), Ogre::Vector3::UNIT_Y);
+
+	//start defining our manual object
+	grass.begin("Examples/GrassBlades", Ogre::RenderOperation::OT_TRIANGLE_LIST);
+
+	//define the 4 vertices of our quad and set to the texture coordinates
+	for(int i = 0; i < 3; ++i)
+	{
+		grass.position(-vec.x, height, -vec.z);
+		grass.textureCoord(0, 0);
+
+		grass.position(vec.x, height, vec.z);
+		grass.textureCoord(1, 0);
+
+		grass.position(-vec.x, 0, -vec.z);
+		grass.textureCoord(0, 1);
+
+		grass.position(vec.x, 0, vec.z);
+		grass.textureCoord(1, 1);
+
+		int offset = i * 4;
+
+		grass.triangle(offset, offset + 3, offset + 1);
+		grass.triangle(offset, offset + 2, offset + 3);
+
+		//rotate the next quad
+		vec = rot * vec;
+	}
+	grass.end();
+
+	//create an actual mesh out of this object
+	grass.convertToMesh("GrassBladesMesh");
+}
 
 void Animation::updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
@@ -163,7 +208,6 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	
 	arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*3.5+cameraRight*3.5);
 	//arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*Ogre::Viewport->getActualHeight()/0.9+cameraRight*Ogre::Viewport->getActualWidth()/0.9);
-
 
 }
 bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
@@ -225,7 +269,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 					Ogre::Quaternion quat = src.getRotationTo(mDirection);
 					//mNode->rotate(quat);
 					mRotating = true;
-					mRotFactor = 1.0f / 20.0f;
+					mRotFactor = 1.0f / 5.0f;
 					mOrientSrc = ninjaNode->getOrientation();
 					mOrientDest = quat * mOrientSrc;           // We want dest orientation, not a relative rotation (quat)
 					mRotProgress = 0;
@@ -258,7 +302,6 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	else
 		return true;
 }
-
 bool Animation::NextLocation(Ogre::Camera* mCamera){
 
 	// PathPlanning and Avoidance
@@ -273,48 +316,4 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 	mDistance = mDirection.normalise();
 	mWalkSpeed = aiPather->ninjaSpeed;
 	return true;
-}
-
-void Animation::createGrassMesh()
-{
-	//declare all of our grass variables
-	const float width = 25.0f;
-	const float height = 40.0f;
-
-	Ogre::ManualObject grass("GrassObject");
-
-	Ogre::Vector3 vec(width / 2, 0, 0);
-	Ogre::Quaternion rot;
-	rot.FromAngleAxis(Ogre::Degree(60), Ogre::Vector3::UNIT_Y);
-
-	//start defining our manual object
-	grass.begin("Examples/GrassBlades", Ogre::RenderOperation::OT_TRIANGLE_LIST);
-
-	//define the 4 vertices of our quad and set to the texture coordinates
-	for(int i = 0; i < 3; ++i)
-	{
-		grass.position(-vec.x, height, -vec.z);
-		grass.textureCoord(0, 0);
-
-		grass.position(vec.x, height, vec.z);
-		grass.textureCoord(1, 0);
-
-		grass.position(-vec.x, 0, -vec.z);
-		grass.textureCoord(0, 1);
-
-		grass.position(vec.x, 0, vec.z);
-		grass.textureCoord(1, 1);
-
-		int offset = i * 4;
-
-		grass.triangle(offset, offset + 3, offset + 1);
-		grass.triangle(offset, offset + 2, offset + 3);
-
-		//rotate the next quad
-		vec = rot * vec;
-	}
-	grass.end();
-
-	//create an actual mesh out of this object
-	grass.convertToMesh("GrassBladesMesh");
 }
