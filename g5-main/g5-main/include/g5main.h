@@ -65,7 +65,6 @@ protected:
 	bool launch();
 	bool mGuiActive;
 	bool mainMenuActive;
-	bool firstRun;
 };
 
 #endif // #ifndef __g5main_h_
