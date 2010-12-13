@@ -127,19 +127,19 @@ void Pather::flee(int euclDist)
 	if (euclDist < FASTFLEERADIUS)
 	{
 		fleeFast();
-		ninjaSpeed = 15;
+		ninjaSpeed = 30;
 	}
 	else if (euclDist < SLOWFLEERADIUS)
 	{
 		fleeSlow();
-		ninjaSpeed = 15;
+		ninjaSpeed = 20;
 	}
 	else
 	{
 		if (DONTFLEEACTIVE)
 		{
 			dontFlee();
-			ninjaSpeed = 15;
+			ninjaSpeed = 5;
 		}
 		else
 			fleeSlow();
@@ -628,6 +628,8 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
 
 	// Rand
 	srand(time(NULL));
+
+	ninjaSpeed = 5;
 }
 // AI per Frame
 Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int playerPosY)

@@ -25,6 +25,10 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	// Enable shadows
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
+
+	// Disable fog
+	mSceneMgr->setFog(Ogre::FOG_NONE);
+
 	// Enable Sky Dome
 	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
@@ -39,7 +43,10 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
 
-	mSceneMgr->setFog(Ogre::FOG_NONE);
+	// Set idle animation
+	mAnimationState = ninjaEntity->getAnimationState("Idle1");
+	mAnimationState->setLoop(true);
+	mAnimationState->setEnabled(true);
 
 	// Create arrow entity inc node
 	arrowEntity = mSceneMgr->createEntity("Arrow", "cube.mesh");
@@ -149,13 +156,13 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 
 	ninjaPos.y = ninjaPos.y+20;
 	arrowDir = ninjaPos - arrowPos;
-	arrowQuat = arrowOri.getRotationTo(arrowDir); 
-	//arrowNode->rotate(arrowQuat);
+	arrowQuat = arrowOri.getRotationTo(arrowDir);
+	arrowNode->rotate(arrowQuat);
 
-	arrowNode->setPosition(cameraPos+cameraDir*10);
-
-
-	arrowNode->rotate(cameraUp,Ogre::Degree(70),Ogre::Node::TS_WORLD);
+	
+	
+	arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*3.5+cameraRight*3.5);
+	//arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*Ogre::Viewport->getActualHeight()/0.9+cameraRight*Ogre::Viewport->getActualWidth()/0.9);
 
 
 }
@@ -257,7 +264,6 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 	// PathPlanning and Avoidance
 	Ogre::Vector3 rp = ninjaNode->getPosition();	// RobotPosition
 	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
-	//mWalkSpeed = aiPather->ninjaSpeed;
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
@@ -265,6 +271,7 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 	mWalkList.pop_front();             // this removes the front of the deque
 	mDirection = mDestination - ninjaNode->getPosition();
 	mDistance = mDirection.normalise();
+	mWalkSpeed = aiPather->ninjaSpeed;
 	return true;
 }
 
