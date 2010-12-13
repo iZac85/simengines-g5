@@ -45,7 +45,11 @@ void g5main::clearScene(void)
 	mTrayMgr->destroyAllWidgets();
 	mRoot->removeFrameListener(this);
 	if (mCEGUI->extensionSettings.aiSettings != 0) delete mAnimation;
-	if (mCEGUI->extensionSettings.physSettings != 0) delete mBulletWorld;
+	if (mCEGUI->extensionSettings.physSettings != 0)
+	{
+		delete mBulletWorld;
+		delete player;
+	}
 	delete mTrayMgr;
 }
 //-------------------------------------------------------------------------------------
