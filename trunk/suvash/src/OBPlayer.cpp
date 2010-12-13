@@ -44,7 +44,7 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
  		0.8f,			// dynamic body friction
  		40.0f, 			// dynamic bodymass
  		position,		// starting position of the box
- 		Ogre::Quaternion(0,1,0,1));// orientation of the box
+ 		Ogre::Quaternion(1,0,1,0));// orientation of the box
 
 	//Set the shooting speed 
 	defaultBody->setLinearVelocity(speed ); // shooting speed
