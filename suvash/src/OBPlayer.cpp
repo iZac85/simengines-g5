@@ -41,8 +41,8 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
 	defaultBody->setShape(	node,
  		sceneBoxShape,
  		0.6f,			// dynamic body restitution
- 		0.8f,			// dynamic body friction
- 		70.0f, 			// dynamic bodymass
+ 		0.7f,			// dynamic body friction
+ 		42.0f, 			// dynamic bodymass
  		position,		// starting position of the box
  		Ogre::Quaternion(1,0,1,0));// orientation of the box
 
