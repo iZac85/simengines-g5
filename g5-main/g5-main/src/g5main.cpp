@@ -123,8 +123,17 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	mMouse->capture();
 
 	// AI
-	if (mCEGUI->extensionSettings.aiSettings != 0)
-	mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
+	if (mCEGUI->extensionSettings.aiSettings != 0 && mGuiActive == false)
+	{
+		gameFinished = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
+	}
+
+	if (!gameFinished)
+	{
+		mCEGUI->ShowIngameMenu();
+		mGuiActive = true;
+		gameFinished = false;
+	}
 
 	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
 
@@ -218,7 +227,7 @@ bool g5main::launch()
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
 	{
-		mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 12, 12, mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
+		mMapCreate = new MapCreate(mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 14, 14 , mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
 	}
 	else mMapCreate = new MapCreate(mSceneMgr);
 

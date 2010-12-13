@@ -188,6 +188,16 @@ void OgreCEGUI::createScene(void)
 	//Load main menu root window
 	mainMenuRootWindow = (CEGUI::Window*)Wmgr->getWindow("Root");
 
+	//load in a file, replace with your own file
+	//mainMenuImageTex = mRenderer->createTexture("logo.png", "Imagesets");
+
+	////create a new imageset with an image that spans the entire texture
+	//mainMenuImageSet = CEGUI::ImagesetManager::getSingleton().createImageset((CEGUI::utf8*)"MainMenuImageSet",mainMenuImageTex);
+	//set->defineImage("BaseImage",CEGUI::Point(0.0f,0.0f),CEGUI::Size(mainMenuImageTex->getWidth(),mainMenuImageTex->getHeight()),CEGUI::Point(0.0f,0.0f));
+
+	//mainMenuImageWindow = (CEGUI::DefaultWindow*)Wmgr->getWindow("OgreCEGUI/Image");
+	//mainMenuImageWindow->setImage(&set->getImage((CEGUI::utf8*)"BaseImage"));
+
 	//Load main menu buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
 	quitBtn->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&OgreCEGUI::quit, this));
