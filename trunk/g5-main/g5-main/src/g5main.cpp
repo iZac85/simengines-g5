@@ -36,7 +36,6 @@ void g5main::createScene(void)
 	mGuiActive = true;
 	mainMenuActive = true;
 	mCEGUI->createScene();
-	//mMapCreate = new MapCreate(mSceneMgr);// fel ställe
 }
 //-------------------------------------------------------------------------------------
 void g5main::clearScene(void)
@@ -217,12 +216,6 @@ bool g5main::launch()
 	mCEGUI->mLaunch = false;
 	mGuiActive = false;
 	mainMenuActive = false;
-
-	//if (!firstRun)
-	//{
-		//BaseApplication::chooseSceneManager();
-		//g5main::createCamera();
-	//}
 
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
