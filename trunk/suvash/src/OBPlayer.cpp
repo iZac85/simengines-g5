@@ -13,7 +13,7 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
  			meshName);			    
  	entity->setCastShadows(true);
 
-	Ogre::Vector3 sizeB = Ogre::Vector3::ZERO;
+	sizeB = Ogre::Vector3::ZERO;
 	// we need the bounding box of the box to be able to set the size of the Bullet-box
  	Ogre::AxisAlignedBox boundingB = entity->getBoundingBox();
 	sizeB = boundingB.getSize(); sizeB /= 2.0f; // only the half needed
@@ -31,6 +31,7 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
  	sizeB *= 0.05f;
 
 	// after that create the Bullet shape with the calculated size
+	//new OgreBulletCollisions::CylinderCollisionShape()
 	sceneBoxShape = new OgreBulletCollisions::BoxCollisionShape(sizeB);
  	// and the Bullet rigid body
  	defaultBody = new OgreBulletDynamics::RigidBody(
@@ -41,8 +42,8 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
 	defaultBody->setShape(	node,
  		sceneBoxShape,
  		0.6f,			// dynamic body restitution
- 		0.7f,			// dynamic body friction
- 		42.0f, 			// dynamic bodymass
+ 		0.8f,			// dynamic body friction
+ 		50.0f, 			// dynamic bodymass
  		position,		// starting position of the box
  		Ogre::Quaternion(1,0,1,0));// orientation of the box
 
