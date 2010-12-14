@@ -114,7 +114,6 @@ bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 {
 	// Update
 	bool status = updateNinja(evt, mSceneMgr, mCamera);
-	//updateFog(evt, mSceneMgr, mCamera);
 	updateArrow(evt, mSceneMgr, mCamera);
 
 	return status;
@@ -163,22 +162,6 @@ void Animation::createGrassMesh()
 	grass.convertToMesh("GrassBladesMesh");
 }
 
-void Animation::updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
-{
-	//Enable Fog
-	if(robotAlive){
-		Ogre::Vector3 pp = mCamera->getPosition();
-		if (pp.y<80)
-		{
-			if (fogLevel == 1)
-				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.3), 0.001 ,10, max(mapSizeX,mapSizeY));
-			else if (fogLevel == 2)
-				mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.1,0.1,0.1,0.8), 0.001 ,1, max(mapSizeX,mapSizeY)/4);
-		}
-		else
-			mSceneMgr->setFog(Ogre::FOG_NONE);
-	}
-}
 void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
 	cameraPos = mCamera->getPosition();
