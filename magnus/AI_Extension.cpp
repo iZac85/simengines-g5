@@ -14,11 +14,6 @@ using namespace std;
 using namespace micropather;
 
 // CONSTANTS
-int SLOWFLEERADIUS = 80;
-int FASTFLEERADIUS = 20;
-int SLOWFLEEDIST = 10;
-int FASTFLEEDIST = 1;
-int DONTFLEEDIST = 100;
 bool DONTFLEEACTIVE = true;
 
 // INSTANCES
@@ -32,7 +27,6 @@ Pather::Pather()
 }
 Pather::Pather(int mapSizeX, int mapSizeY)
 {
-
 	map.size.x = mapSizeX;
 	map.size.y = mapSizeY;
 
@@ -127,19 +121,19 @@ void Pather::flee(int euclDist)
 	if (euclDist < FASTFLEERADIUS)
 	{
 		fleeFast();
-		ninjaSpeed = 30;
+		ninjaSpeed = 30*AISPEED;
 	}
 	else if (euclDist < SLOWFLEERADIUS)
 	{
 		fleeSlow();
-		ninjaSpeed = 20;
+		ninjaSpeed = 20*AISPEED;
 	}
 	else
 	{
 		if (DONTFLEEACTIVE)
 		{
 			dontFlee();
-			ninjaSpeed = 5;
+			ninjaSpeed = 5*AISPEED;
 		}
 		else
 			fleeSlow();
@@ -622,8 +616,16 @@ bool Pather::lineOfSight()
 }
 
 // AI Initialization
-void Pather::AIinit(std::vector<std::vector<int>> tempMapVector)
+void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
 {
+
+	SLOWFLEERADIUS = SFR;
+	FASTFLEERADIUS = FFR;
+	SLOWFLEEDIST = SFD;
+	FASTFLEEDIST = FFD;
+	DONTFLEEDIST = DFD;
+	AISPEED = AIS;
+
 	setMap(tempMapVector);
 
 	// Rand

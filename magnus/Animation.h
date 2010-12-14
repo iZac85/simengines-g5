@@ -11,7 +11,7 @@ class Animation
 {
 public:
 	Animation(void);
-    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*,int);
+    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*,int, int, int, int, int, int, int);
     ~Animation(void);
 
 	// Functions

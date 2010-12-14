@@ -18,7 +18,7 @@ public:
     ~Pather(void);
 		
 		// Public Functions
-		void AIinit(std::vector<std::vector<int>>);
+		void AIinit(std::vector<std::vector<int>>, int, int, int, int, int, int);
 		Ogre::Vector3 AIframe(int, int, int, int);
 		Ogre::Vector3 randPlayerPos(void);
 		Ogre::Vector3 randNinjaPos(void);
@@ -37,6 +37,13 @@ private:
 		int MAPYin;
 		int startPosX;
 		int startPosY;
+
+		int SLOWFLEERADIUS;
+		int FASTFLEERADIUS;
+		int SLOWFLEEDIST;
+		int FASTFLEEDIST;
+		int DONTFLEEDIST;
+		int AISPEED;
 
 		// Functions
 		void setMap(std::vector<std::vector<int>>);
