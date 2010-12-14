@@ -213,6 +213,7 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 {
 	if(mGuiActive)
 	{
+		if (mCEGUI->ingameMenuVisible) mCameraMan->injectKeyUp(arg);
 		mCEGUI->keyReleased(arg);
 		return true;
 	}
@@ -262,8 +263,6 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 
 		return true;
 	}
-
-	
 	return BaseApplication::keyReleased(arg);
 }
 //-------------------------------------------------------------------------------------
@@ -318,6 +317,11 @@ bool g5main::launch()
 	// Create a light
 	Ogre::Light* l = mSceneMgr->createLight("MainLight");
 	l->setPosition(20,80,50);
+
+	Ogre::Vector3 camLookAt = Ogre::Vector3(mCEGUI->extensionSettings.threeDSettingsArenaSizeX/2, 0, mCEGUI->extensionSettings.threeDSettingsArenaSizeY/2);
+	mCamera->setPosition(Ogre::Vector3(0,100,0) + (-0.5f) * camLookAt);
+	mCamera->lookAt(camLookAt);
+	mCamera->setNearClipDistance(0.1);
 
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)

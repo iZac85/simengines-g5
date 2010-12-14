@@ -209,11 +209,13 @@ void OgreCEGUI::createScene(void)
 	//mainMenuImageTex = mRenderer->createTexture("logo.png", "Imagesets");
 
 	////create a new imageset with an image that spans the entire texture
-	//mainMenuImageSet = CEGUI::ImagesetManager::getSingleton().createImageset((CEGUI::utf8*)"MainMenuImageSet",mainMenuImageTex);
-	//set->defineImage("BaseImage",CEGUI::Point(0.0f,0.0f),CEGUI::Size(mainMenuImageTex->getWidth(),mainMenuImageTex->getHeight()),CEGUI::Point(0.0f,0.0f));
+	//mainMenuImageSet = & CEGUI::ImagesetManager::getSingleton().createFromImageFile( "logo", "logo.png", "Imagesets" );
+
+	//mainMenuImageSet = CEGUI::ImagesetManager::getSingleton().create((CEGUI::utf8*)"MainMenuImageSet",mainMenuImageTex);
+	//mainMenuImageSet.defineImage("BaseImage", CEGUI::Point(0.0f, 0.0f), CEGUI::Size(guiTex.getSize().d_width, guiTex.getSize().d_height), CEGUI::Point(0.0f, 0.0f));
 
 	//mainMenuImageWindow = (CEGUI::DefaultWindow*)Wmgr->getWindow("OgreCEGUI/Image");
-	//mainMenuImageWindow->setImage(&set->getImage((CEGUI::utf8*)"BaseImage"));
+	//mainMenuImageWindow->setProperty("Image", "BaseImage");
 
 	//Load main menu buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
@@ -228,31 +230,33 @@ void OgreCEGUI::createScene(void)
 	//Load text fields for 3D settings
 	arenaSizeWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/ArenaSize");
 	roomSizeMaxWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSizeMax");
-	//roomSizeMinWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/RoomSizeMin");
 	doorCntWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/DoorCnt");
 	furnitureWindow = (CEGUI::Window*)Wmgr->getWindow("OgreCEGUI/FurnitureEn");
 
 	//Load the sliders that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeXslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeXSlider");
 	arenaSizeXslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXsliderChanged, this));
+	
 	arenaSizeYslider = (CEGUI::Slider*)Wmgr->getWindow("3DSettingsArenaSizeYSlider");
 	arenaSizeYslider->subscribeEvent(CEGUI::Slider::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYsliderChanged, this));
 
 	//Load the edit boxes that affect the arena size settings and connect them to an event subscribing function each.
 	arenaSizeX = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeX");
 	arenaSizeX->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeXChanged, this));
+	
 	arenaSizeY = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsASizeY");
 	arenaSizeY->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::arenaSizeYChanged, this));
 
 	//Load additional input fields for 3D settings
 	doorsCnt = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsDoorCnt");
 	doorsCnt->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::doorsCntChanged, this));
+	
 	roomSizeMax = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsRoomSizeMax");
 	roomSizeMax->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::roomSizeMaxChanged, this));
-	//roomSizeMin = (CEGUI::Spinner*)Wmgr->getWindow("3DSettingsRoomSizeMin");
-	//roomSizeMin->subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::roomSizeMinChanged, this));
+
 	furnitureEnable = (CEGUI::Checkbox*)Wmgr->getWindow("3DSettingsFurnitureEn");
 	furnitureEnable->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::furnitureEnableChanged, this));
+	
 	threeDSettingsEnable = (CEGUI::Checkbox*)Wmgr->getWindow("3DSettingsEnable");
 	threeDSettingsEnable->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::threeDSettingsEnableChanged, this));
 
