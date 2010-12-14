@@ -55,6 +55,12 @@ public:
 	struct settings
 	{
 		bool aiSettingsOn;
+		int aiSettingsSFRVal;	// Slow Flee Radius
+		int aiSettingsFFRVal;	// Fast Flee Radius
+		int aiSettingsSFDVal;	// Slow Flee Distance
+		int aiSettingsFFDVal;	// Fast Flee Distance
+		int aiSettingsDFDVal;	// Don't Flee Distance
+		float aiSettingsAISVal;	// AI Speed (%, range 50% to 400%)
 		bool physSettingsOn;
 		bool threeDSettingsActive;
 		int threeDsettingsDoorCnt;
@@ -83,13 +89,13 @@ protected:
 	bool aiSettingsOffBtnChanged(const CEGUI::EventArgs &e);
 	//bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
 
-	//bool aiSettingsSFR
-	/*bool aiSettingsFFR
-	bool aiSettingsSFD
-	bool aiSettingsFFD
-	bool aiSettingsDFD
-	bool aiSettingsAIS
-	*/
+	bool aiSettingsSFRChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsFFRChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsSFDChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsFFDChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsDFDChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsAISChanged(const CEGUI::EventArgs &e);
+	
 	bool physSettingsOnBtnChanged(const CEGUI::EventArgs &e);
 	bool physSettingsOffChanged(const CEGUI::EventArgs &e);
 	//bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
@@ -115,8 +121,8 @@ protected:
 	//-----------VARIABLES------------//
 
 	char keyBuffer;
-	bool aiSettingsBtns[3];
-	bool physSettingsBtns[3];
+	bool aiSettingsBtns[2];
+	bool physSettingsBtns[2];
 	bool ingameMenuAlreadyLoaded;
 
 //--------------------------CONSTANTS-----------------------------//
@@ -132,6 +138,30 @@ protected:
 
 	static const int MIN_ROOM_WIDTH = 14;
 
+	static const int AI_SFR_MIN = 50;	// Slow Flee Radius
+	static const int AI_SFR_MAX = 150;
+	static const int AI_SFR_CURR = 80;
+
+	static const int AI_FFR_MIN = 10;	// Fast Flee Radius
+	static const int AI_FFR_MAX = 40;
+	static const int AI_FFR_CURR = 20;
+
+	static const int AI_SFD_MIN = 5;	// Slow Flee Distance
+	static const int AI_SFD_MAX = 15;
+	static const int AI_SFD_CURR = 10;
+
+	static const int AI_FFD_MIN = 1;	// Fast Flee Distance
+	static const int AI_FFD_MAX = 4;
+	static const int AI_FFD_CURR = 1;
+
+	static const int AI_DFD_MIN = 50;	// Don't Flee Distance
+	static const int AI_DFD_MAX = 200;
+	static const int AI_DFD_CURR = 100;
+
+	static const int AI_AIS_MIN = 50;	// AI Speed (%, range 50% to 400%)
+	static const int AI_AIS_MAX = 400;
+	static const int AI_AIS_CURR = 100;
+
 //------------------------CEGUI POINTERS--------------------------//
 
 	CEGUI::OgreRenderer* mRenderer;
@@ -145,10 +175,18 @@ protected:
 	CEGUI::Window* mainMenuRootWindow;
 
 	CEGUI::Window* infoBox;
+
 	CEGUI::Window* arenaSizeWindow;
 	CEGUI::Window* roomSizeMaxWindow;
 	CEGUI::Window* doorCntWindow;
 	CEGUI::Window* furnitureWindow;
+
+	CEGUI::Window* aiSettingsSFRWindow;
+	CEGUI::Window* aiSettingsFFRWindow;
+	CEGUI::Window* aiSettingsSFDWindow;
+	CEGUI::Window* aiSettingsFFDWindow;
+	CEGUI::Window* aiSettingsDFDWindow;
+	CEGUI::Window* aiSettingsAISWindow;
 
 	CEGUI::PushButton* quitBtn;
 	CEGUI::PushButton* launchBtn;
