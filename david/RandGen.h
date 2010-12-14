@@ -14,8 +14,11 @@ public:
 
 	struct tile
 	{
-		//int x;
-		//int y;
+		int x;
+		int y;
+	};
+	struct posFloat
+	{
 		float x;
 		float y;
 	};
@@ -26,7 +29,7 @@ public:
 	};
 	struct wall
 	{
-		tile pos3D;
+		posFloat pos3D;
 		tile pos;
 		tile dim;	//m
 		int type; //0 = interior wall, 1 = exterior wall
@@ -58,30 +61,34 @@ public:
 	void generateMap(int dim_x=150, int dim_y=150, int room_min_x=14, int room_min_y=14, int room_max_area=200,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
 	void updateBlackTiles(void);
 	int randInt(int low, int high);
-private:
 
-	void split(void);
-	void doors(int k);
-	void desk(void);
-	void chair(void);
-	void shelf(void);
-	void painting(void);
-	void addBlackTile(tile pos);
+private:
+	void updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos);
+	void computeWallSegments(int k, tile dim, tile pos, int type);
 	void addWall(tile len, tile pos, int extWall);
-	bool sizeOkForSplitting(int k);
-	int getBiggestRoom(void);
+	int getMapWallIndex(tile dim, tile pos);
 	void addRoom(int k,tile len, tile pos);
-	void computeWalls(int k);
+	bool doorPossible(int k, int wallNum);
 	int getWallType(tile dim, tile pos);
 	bool wallEmpty(int k, int wallNum);
-	void updateMapWalls(int k, tile dim, tile pos);
-	void removeBlackTile(tile p);
-	int getMapWallIndex(tile dim, tile pos);
+	bool sizeOkForSplitting(int k);
 	void computeWallJunction(void);
-	void computeWallSegments(int k, tile dim, tile pos, int type);
-	bool doorPossible(int k, int wallNum);
+	void removeBlackTile(tile p);
 	void deleteShortWalls(int k);
 	void compute3DWallPos(void);
+	void addBlackTile(tile pos);
+	int getBiggestRoom(void);
+	void computeWalls(int k);
+	void doors(int k);
+	void split(void);
+	//Furniture//
+	void painting(void);
+	void shelf(void);
+	void chair(void);
+	void desk(void);
+	
+	
+	
 };
 
 #endif
