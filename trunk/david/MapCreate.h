@@ -37,7 +37,8 @@ public:
 	Ogre::SceneNode* returnFloorNode();
 	std::vector<Ogre::SceneNode*> returnWallNodeVec();
 
-    MapCreate(Ogre::SceneManager* mSceneMgr,
+    MapCreate(Ogre::Root* mRoot,
+			  Ogre::SceneManager* mSceneMgr,
 			  int dim_x=150,
 			  int dim_y=150,
 			  int room_min_x=14,
