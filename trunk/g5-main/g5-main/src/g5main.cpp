@@ -138,35 +138,38 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	
 	if (mapCreateFinished)
 	{
-		// Camera Toggle
-		if(cameraFPVinUse)
+		if (mCEGUI->extensionSettings.physSettings != 0 && !mGuiActive)
 		{
-			mKeyboard->capture();
-
-			if(mKeyboard->isKeyDown(OIS::KC_A))
+			// Camera Toggle
+			if(cameraFPVinUse)
 			{
-				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+				mKeyboard->capture();
+
+				if(mKeyboard->isKeyDown(OIS::KC_A))
+				{
+					player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+				}
+
+				if(mKeyboard->isKeyDown(OIS::KC_D))
+				{
+					player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
+				}
+
+				if(mKeyboard->isKeyDown(OIS::KC_W))
+				{
+					player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
+				}
+
+				if(mKeyboard->isKeyDown(OIS::KC_S))
+				{
+					player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+				}
 			}
 
-			if(mKeyboard->isKeyDown(OIS::KC_D))
-			{
-				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
-			}
+			mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
 
-			if(mKeyboard->isKeyDown(OIS::KC_W))
-			{
-				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
-			}
-
-			if(mKeyboard->isKeyDown(OIS::KC_S))
-			{
-				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
-			}
 		}
 
-		//Need to capture/update each device
-		mKeyboard->capture();
-		mMouse->capture();
 
 		// AI
 		if (mCEGUI->extensionSettings.aiSettingsOn && !mGuiActive)
@@ -185,8 +188,6 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			mGuiActive = true;
 			//gameFinished = false;
 		}
-
-		mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
 
 		return BaseApplication::frameRenderingQueued(evt);
 	}
@@ -217,52 +218,57 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 		mCEGUI->keyReleased(arg);
 		return true;
 	}
-	if (arg.key == OIS::KC_B){//&& mTimeUntilNextToggle <=0){
+	if (mCEGUI->extensionSettings.physSettings != 0 && !mGuiActive)
+	{
 
-		if(cameraFPVinUse)
-		{
+		if (arg.key == OIS::KC_B){//&& mTimeUntilNextToggle <=0){
+
+			if(cameraFPVinUse)
+			{
 		
+			}
+			else
+			{
+				// starting position of the box
+				Ogre::Vector3 position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
+				Ogre::Vector3 speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
+
+				OBBox *box = new OBBox(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "cube.mesh");
+
+				mBulletWorld->mNumEntitiesInstanced++;				
+				//mTimeUntilNextToggle = 0.5;
+
+				// push the created objects to the dequese
+				mBulletWorld->mShapes.push_back(box->sceneBoxShape);
+				mBulletWorld->mBodies.push_back(box->defaultBody);				
+				//mTimeUntilNextToggle = 0.5;
+			}
+
+			return true;
 		}
-		else
-		{
-			// starting position of the box
-			Ogre::Vector3 position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
-			Ogre::Vector3 speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
+	
+		if (arg.key == OIS::KC_C){
 
-			OBBox *box = new OBBox(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "cube.mesh");
+			//Toggle the camera ...
+			if(cameraFPVinUse)
+			{
+				cameraFPVinUse = false;
+				mWindow->getViewport(0)->setCamera(mCamera);
+				mCamera->setPosition(mCameraPos);
+				mCamera->setOrientation(mCameraOrt);
+			}
+			else
+			{
+				cameraFPVinUse = true;
+				mWindow->getViewport(0)->setCamera(mCameraFPV);
+				mCameraPos = mCamera->getPosition();
+				mCameraOrt = mCamera->getOrientation();
+			}
 
-			mBulletWorld->mNumEntitiesInstanced++;				
-			//mTimeUntilNextToggle = 0.5;
-
-			// push the created objects to the dequese
-			mBulletWorld->mShapes.push_back(box->sceneBoxShape);
-			mBulletWorld->mBodies.push_back(box->defaultBody);				
-			//mTimeUntilNextToggle = 0.5;
+			return true;
 		}
-
-		return true;
 	}
 	
-	if (arg.key == OIS::KC_C){
-
-		//Toggle the camera ...
-		if(cameraFPVinUse)
-		{
-			cameraFPVinUse = false;
-			mWindow->getViewport(0)->setCamera(mCamera);
-			mCamera->setPosition(mCameraPos);
-			mCamera->setOrientation(mCameraOrt);
-		}
-		else
-		{
-			cameraFPVinUse = true;
-			mWindow->getViewport(0)->setCamera(mCameraFPV);
-			mCameraPos = mCamera->getPosition();
-			mCameraOrt = mCamera->getOrientation();
-		}
-
-		return true;
-	}
 	return BaseApplication::keyReleased(arg);
 }
 //-------------------------------------------------------------------------------------
@@ -347,32 +353,35 @@ bool g5main::launch()
 			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV, SFR, FFR, SFD, FFD, DFD, AIS);
 	}
 
-	//Create the Physics world
-	mBulletWorld = new BulletInitWorld(mSceneMgr,
-									   mMapCreate->returnFloorNode(),
-									   mMapCreate->returnWallNodeVec(),
-									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
-								       mCEGUI->extensionSettings.threeDSettingsArenaSizeY,
-									   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);
+	if (mCEGUI->extensionSettings.physSettings != 0)
+	{
+		//Create the Physics world
+		mBulletWorld = new BulletInitWorld(mSceneMgr,
+										   mMapCreate->returnFloorNode(),
+										   mMapCreate->returnWallNodeVec(),
+										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
+										   mCEGUI->extensionSettings.threeDSettingsArenaSizeY,
+										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);
 
-	// starting position of the player
-	Ogre::Vector3 position = Ogre::Vector3(10, 3, 10);//(mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
-	Ogre::Vector3 speed = Ogre::Vector3(0, 0, 0);//mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
+		// starting position of the player
+		Ogre::Vector3 position = Ogre::Vector3(10, 3, 10);//(mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
+		Ogre::Vector3 speed = Ogre::Vector3(0, 0, 0);//mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
 
 
-	player = new OBPlayer(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "ogrehead.mesh");
-	player->defaultBody->disableDeactivation();
+		player = new OBPlayer(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "ogrehead.mesh");
+		player->defaultBody->disableDeactivation();
 
-	//Add the body count and add to deque
-	mBulletWorld->mNumEntitiesInstanced++;				
-	// push the created objects to the deque
-	mBulletWorld->mShapes.push_back(player->sceneBoxShape);
-	mBulletWorld->mBodies.push_back(player->defaultBody);				
-	//mTimeUntilNextToggle = 0.5;
+		//Add the body count and add to deque
+		mBulletWorld->mNumEntitiesInstanced++;				
+		// push the created objects to the deque
+		mBulletWorld->mShapes.push_back(player->sceneBoxShape);
+		mBulletWorld->mBodies.push_back(player->defaultBody);				
+		//mTimeUntilNextToggle = 0.5;
 
-	//Adding camera to the box node
-	player->node->attachObject(mCameraFPV);
-	mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,5.7,0));
+		//Adding camera to the box node
+		player->node->attachObject(mCameraFPV);
+		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,5.7,0));
+	}
 
 	delete mMapCreate;
 	return true;
