@@ -36,6 +36,7 @@ public:
 	std::vector<std::vector<int>> map;
 	Ogre::SceneNode* returnFloorNode();
 	std::vector<Ogre::SceneNode*> returnWallNodeVec();
+	bool mapFinished;
 
     MapCreate(Ogre::Root* mRoot,
 			  Ogre::SceneManager* mSceneMgr,
