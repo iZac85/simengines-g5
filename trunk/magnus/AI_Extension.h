@@ -33,6 +33,7 @@ private:
 		std::vector<std::vector<int>> iMap;
 		std::vector<void*> pathVector;
 		std::deque<void*> pathDeck;
+		std::deque<void*> stuckDeck;
 		int MAPXin;
 		int MAPYin;
 		int startPosX;
@@ -45,6 +46,8 @@ private:
 		int DONTFLEEDIST;
 		int AISPEED;
 
+		int stuckFlag;
+
 		// Functions
 		void setMap(std::vector<std::vector<int>>);
 		int pathPlanning(void);
@@ -55,6 +58,7 @@ private:
 		void dontFlee(void);
 		void fillPathDeck(void);
 		bool lineOfSight(void);
+		bool isStuck();
 
 		// Structs
 		struct vec2_
