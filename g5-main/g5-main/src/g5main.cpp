@@ -171,7 +171,12 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		// AI
 		if (mCEGUI->extensionSettings.aiSettings != 0 && !mGuiActive)
 		{
-			gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
+			
+			if (mCEGUI->extensionSettings.physSettings == 0) // IF Physics off
+				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
+			else // else if physics on
+				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCameraFPV);
+
 		}
 
 		if (!gameActive && !mGuiActive)
