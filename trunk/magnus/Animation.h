@@ -11,7 +11,15 @@ class Animation
 {
 public:
 	Animation(void);
-    Animation(std::vector<std::vector<int>>, Ogre::SceneManager*, Ogre::Camera*,int, int, int, int, int, int, int);
+    Animation(std::vector<std::vector<int>>, 
+		Ogre::SceneManager*, 
+		Ogre::Camera*,
+		int SFR = 80,
+		int FFR = 5,
+		int SFD = 15,
+		int FFD = 5,
+		int DFD = 100,
+		int AIS = 1);
     ~Animation(void);
 
 	// Functions
@@ -64,7 +72,6 @@ private:
 	 Ogre::Quaternion arrowQuat;
 	 
 	 // Other
-	 int fogLevel;
 	 float mapSizeX;
 	 float mapSizeY;
  
