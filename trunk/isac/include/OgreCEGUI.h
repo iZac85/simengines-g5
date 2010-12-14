@@ -54,13 +54,12 @@ public:
 	//-----------VARIABLES------------//
 	struct settings
 	{
-		int aiSettings;
-		int physSettings;
+		bool aiSettingsOn;
+		bool physSettingsOn;
 		bool threeDSettingsActive;
 		int threeDsettingsDoorCnt;
 		bool threeDsettingsFurnitureEn;
 		int threeDsettingsMaxRoomSize;
-		//int threeDsettingsMinRoomSize;
 		int threeDSettingsArenaSizeX;
 		int threeDSettingsArenaSizeY;
 	};
@@ -80,13 +79,20 @@ protected:
 	bool inGameReturnBtnClicked(const CEGUI::EventArgs &e);
 	bool inGameCloseBtnClicked(const CEGUI::EventArgs &e);
 
-	bool aiSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool aiSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOnBtnChanged(const CEGUI::EventArgs &e);
+	bool aiSettingsOffBtnChanged(const CEGUI::EventArgs &e);
+	//bool aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
 
-	bool physSettingsOp1BtnChanged(const CEGUI::EventArgs &e);
-	bool physSettingsOp2BtnChanged(const CEGUI::EventArgs &e);
-	bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
+	//bool aiSettingsSFR
+	/*bool aiSettingsFFR
+	bool aiSettingsSFD
+	bool aiSettingsFFD
+	bool aiSettingsDFD
+	bool aiSettingsAIS
+	*/
+	bool physSettingsOnBtnChanged(const CEGUI::EventArgs &e);
+	bool physSettingsOffChanged(const CEGUI::EventArgs &e);
+	//bool physSettingsOp3BtnChanged(const CEGUI::EventArgs &e);
 
 	bool arenaSizeXsliderChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYsliderChanged(const CEGUI::EventArgs &e);
@@ -96,7 +102,6 @@ protected:
 
 	bool doorsCntChanged(const CEGUI::EventArgs &e);
 	bool roomSizeMaxChanged(const CEGUI::EventArgs &e);
-	//bool roomSizeMinChanged(const CEGUI::EventArgs &e);
 	bool furnitureEnableChanged(const CEGUI::EventArgs &e);
 	bool threeDSettingsEnableChanged(const CEGUI::EventArgs &e);
 
@@ -145,6 +150,10 @@ protected:
 	CEGUI::Window* doorCntWindow;
 	CEGUI::Window* furnitureWindow;
 
+	CEGUI::PushButton* quitBtn;
+	CEGUI::PushButton* launchBtn;
+
+	//Input fields for the 3D settings
 	CEGUI::Checkbox* furnitureEnable;
 	CEGUI::Checkbox* threeDSettingsEnable;
 
@@ -156,17 +165,20 @@ protected:
 	CEGUI::Slider* arenaSizeXslider;
 	CEGUI::Slider* arenaSizeYslider;
 
-	//Buttons for the Main Menu
-	CEGUI::PushButton* quitBtn;
-	CEGUI::PushButton* launchBtn;
+	//Input for Ai settings
+	CEGUI::RadioButton* aiSettingsOnBtn;
+	CEGUI::RadioButton* aiSettingsOffBtn;
+	//CEGUI::RadioButton* aiSettingsOp3Btn;
+	CEGUI::Spinner* aiSettingsSFR;
+	CEGUI::Spinner* aiSettingsFFR;
+	CEGUI::Spinner* aiSettingsSFD;
+	CEGUI::Spinner* aiSettingsFFD;
+	CEGUI::Spinner* aiSettingsDFD;
+	CEGUI::Spinner* aiSettingsAIS;
 
-	//RadioButtons for the Main Menu
-	CEGUI::RadioButton* aiSettingsOp1Btn;
-	CEGUI::RadioButton* aiSettingsOp2Btn;
-	CEGUI::RadioButton* aiSettingsOp3Btn;
-	CEGUI::RadioButton* physSettingsOp1Btn;
-	CEGUI::RadioButton* physSettingsOp2Btn;
-	CEGUI::RadioButton* physSettingsOp3Btn;
+	CEGUI::RadioButton* physSettingsOnBtn;
+	CEGUI::RadioButton* physSettingsOffBtn;
+	//CEGUI::RadioButton* physSettingsOp3Btn;
 
 /////////////INGAME MENU OBJECTS//////////////
 
