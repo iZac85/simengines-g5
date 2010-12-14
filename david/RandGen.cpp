@@ -580,16 +580,22 @@ void RandGen::compute3DWallPos(void)
 
 			if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) && (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1))
 			{
-				//arena.wall[i].dim.x -= 2;
+				arena.wall[i].dim.x -= 2;
 				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
 				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
 			}
-			else if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) || (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1))
+			else if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) )
 			{
-				//arena.wall[i].dim.x -= 1;
-				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);// + 0.5;
+				arena.wall[i].dim.x -= 1;
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2) + 1;
 				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
 			}	
+			else if( (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1) )
+			{
+				arena.wall[i].dim.x -= 1;
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);// + 0.5;
+				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
+			}
 			else
 			{
 				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
@@ -600,13 +606,19 @@ void RandGen::compute3DWallPos(void)
 		{
 			if((arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1) && (arena.blackTile[pEnd.x+1][pEnd.y]==1 || arena.blackTile[pEnd.x-1][pEnd.y]==1))
 			{
-				//arena.wall[i].dim.y -= 2;
+				arena.wall[i].dim.y -= 2;
 				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
 				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
 			}
-			else if((arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1) && (arena.blackTile[pEnd.x+1][pEnd.y]==1 || arena.blackTile[pEnd.x-1][pEnd.y]==1))
+			else if( arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1 )
 			{
-				//arena.wall[i].dim.y -= 1;
+				arena.wall[i].dim.y -= 1;
+				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2) + 1;
+			}
+			else if( arena.blackTile[pEnd.x+1][pEnd.y]==1 || arena.blackTile[pEnd.x-1][pEnd.y]==1)
+			{
+				arena.wall[i].dim.y -= 1;
 				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
 				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);// + 0.5;
 			}
@@ -619,17 +631,26 @@ void RandGen::compute3DWallPos(void)
 	}
 	for(int i=0; i<4; i++)		//Start on interior walls
 	{
+
 		if (arena.wall[i].dim.y == 1) // x direction
 		{
-			//arena.wall[i].dim.x -= 1;
 			arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
 			arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);	
+			
+			if(i<2)
+			{
+				arena.wall[i].dim.x -= 2;
+			}
 		}
 		else if (arena.wall[i].dim.x == 1) // y direction
 		{
-			//arena.wall[i].dim.y -= 1;
 			arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
 			arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
+			
+			if(i<2)
+			{
+				arena.wall[i].dim.y -= 2;
+			}
 		}
 	}
 }
