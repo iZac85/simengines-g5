@@ -63,17 +63,19 @@ void BulletInitWorld::debugBoxBullet(bool debugFlag)
 
 void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 {
+	//ogreFloorNode->showBoundingBox(true);
+	
 	Ogre::AxisAlignedBox floorBoundingB = ogreFloorNode->getAttachedObject(0)->getBoundingBox();
 	Ogre::Vector3 floorSizeB = floorBoundingB.getSize();
 	// Don't ask me why i do the following
 	floorSizeB /= 2.0f;
-	//floorSizeB *= 0.98f;
+	floorSizeB *= 0.98f;
 
 	floorSizeB.x *= ogreFloorNode->getScale().x;
 	floorSizeB.y *= ogreFloorNode->getScale().y;
 	floorSizeB.z *= ogreFloorNode->getScale().z;
 	
-	ogreFloorNode->showBoundingBox(true);
+	//ogreFloorNode->showBoundingBox(true);
 	
 	// add collision detection to it
 	OgreBulletCollisions::CollisionShape *floorShape = new OgreBulletCollisions::BoxCollisionShape(floorSizeB);
@@ -82,6 +84,8 @@ void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 	// a body is needed for the shape
 	OgreBulletDynamics::RigidBody *defaultFloorBody = new OgreBulletDynamics::RigidBody("BasePlane", mWorld);
 	defaultFloorBody->setStaticShape(floorShape, 0.1, 0.8,ogreFloorNode->getPosition());// (shape, restitution, friction)
+
+	//defaultFloorBody->showDebugShape(true);
 
 	// push the created objects to the deques
 	mShapes.push_back(floorShape);
@@ -93,16 +97,17 @@ void BulletInitWorld::addWalls(std::vector<Ogre::SceneNode*> ogreWallNodeVec)
 {
 	for (int i=0; i < (int)ogreWallNodeVec.size(); i++)
 	{
+
 		Ogre::AxisAlignedBox wallBoundingB = ogreWallNodeVec[i]->getAttachedObject(0)->getBoundingBox();
 		Ogre::Vector3 wallSizeB = wallBoundingB.getSize();
 		wallSizeB /= 2.0f;
-		//wallSizeB *= 0.98f;
+		wallSizeB *= 0.98f;
 
 		wallSizeB.x *= ogreWallNodeVec[i]->getScale().x;
 		wallSizeB.y *= ogreWallNodeVec[i]->getScale().y;
 		wallSizeB.z *= ogreWallNodeVec[i]->getScale().z;
 
-		ogreWallNodeVec[i]->showBoundingBox(true);
+		//ogreWallNodeVec[i]->showBoundingBox(true);
 
 		OgreBulletCollisions::BoxCollisionShape *wallBoxShape = new OgreBulletCollisions::BoxCollisionShape(wallSizeB);
 		
