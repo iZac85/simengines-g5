@@ -120,7 +120,7 @@ protected:
 	static const int ARENA_SIZE_MIN_VALUE = 3;
 
 	static const int DOOR_CNT_MAX = 4;
-	static const int DOOR_CNT_MIN = 2;
+	static const int DOOR_CNT_MIN = 1;
 
 	static const int MAX_ROOM_SIZE = 100; //%, OLD VALUE = 998001;
 	static const int MIN_ROOM_SIZE = 1; //meters, OLD VALUE = 16;
