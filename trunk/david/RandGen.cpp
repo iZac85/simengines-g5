@@ -581,7 +581,7 @@ void RandGen::compute3DWallPos(void)
 			if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) && (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1))
 			{
 				arena.wall[i].dim.x -= 2;
-				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2) +1;
 				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
 			}
 			else if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) )
@@ -608,7 +608,7 @@ void RandGen::compute3DWallPos(void)
 			{
 				arena.wall[i].dim.y -= 2;
 				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
-				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2) +1;
 			}
 			else if( arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1 )
 			{
