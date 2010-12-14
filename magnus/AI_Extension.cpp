@@ -160,17 +160,17 @@ bool Pather::inMap(int x, int y)
 // Fleeing Functions
 void Pather::flee(int euclDist)
 {
-	if (euclDist < FASTFLEERADIUS)
+	if (euclDist < FASTFLEERADIUS && stuckFlag == 0)
 	{
 		fleeFast();
 		ninjaSpeed = 30*AISPEED;
 	}
-	else if (euclDist < SLOWFLEERADIUS)
+	else if (euclDist < SLOWFLEERADIUS && stuckFlag == 0)
 	{
 		fleeSlow();
 		ninjaSpeed = 20*AISPEED;
 	}
-	else
+	else if (stuckFlag == 0)
 	{
 		if (DONTFLEEACTIVE)
 		{
@@ -657,6 +657,48 @@ bool Pather::lineOfSight()
 	return true;
 }
 
+bool Pather::isStuck()
+{
+
+	// Keep the deck to size 10 elements
+	if(stuckDeck.size() > 10)
+		stuckDeck.pop_front();
+
+	if (stuckFlag == 0)
+	{
+		int iter = 0;
+		bool stuck = false;
+		int i,j;
+		for (i = 0; i<(int)stuckDeck.size(); i++)
+		{
+			iter = 0;
+			for (j = 0; j<(int)stuckDeck.size(); j++)
+			{
+				int temp1 = (int)stuckDeck[i]/(int)stuckDeck[j];
+				int temp2 = (int)stuckDeck[i];
+				if((int)stuckDeck[i]/(int)stuckDeck[j] == 0)
+					iter = iter+1;
+				if(iter > 4)
+				{
+					stuck = true;
+					break;
+				}
+			}	
+			if(j<(int)stuckDeck.size())
+				break;
+		}
+		if(stuck)
+		{
+			stuckFlag = SLOWFLEEDIST-2;
+			fleeSlow();
+			fillPathDeck();
+			return true;
+		}
+	}
+
+	return false;
+}
+
 // AI Initialization
 void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
 {
@@ -667,6 +709,8 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FF
 	FASTFLEEDIST = FFD;
 	DONTFLEEDIST = DFD;
 	AISPEED = AIS;
+
+	stuckFlag = 0;
 
 	setMap(tempMapVector);
 
@@ -690,16 +734,23 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 
 	int x,y;
 	// If path deck is empty calculate new path
-	if (pathDeck.empty() || euclDist < SLOWFLEERADIUS)	
+	if ((pathDeck.empty() || euclDist < SLOWFLEERADIUS ) && stuckFlag == 0)	
 	{
+		
 		flee(euclDist);
+		isStuck();
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		stuckDeck.push_back(pathDeck.front());
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
 	else
 	{
+		if(stuckFlag>0)
+			stuckFlag--;
+
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		stuckDeck.push_back(pathDeck.front());
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}

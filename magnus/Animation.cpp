@@ -61,7 +61,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	// Generate random starting positions
 	//mCamera->setPosition(aiPather->randPlayerPos());
 	//mCamera->lookAt(aiPather->centerOfMap());
-	//while (mCamera->getPosition().positionCloses(ninjaNode->getPosition(),10))
+	//while (mCamera->getDerivedPosition().positionCloses(ninjaNode->getPosition(),10))
 	//{
 		ninjaNode->setPosition(aiPather->randNinjaPos());
 		mWalkList.push_back(ninjaNode->getPosition());
@@ -164,7 +164,7 @@ void Animation::createGrassMesh()
 
 void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-	cameraPos = mCamera->getPosition();
+	cameraPos = mCamera->getDerivedPosition();
 	cameraDir = mCamera->getDirection();
 	Ogre::Vector3 cameraUp = mCamera->getUp();
 	Ogre::Vector3 cameraRight = mCamera->getRight();
@@ -191,7 +191,7 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 }
 bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCamera->getPosition();
+	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCamera->getDerivedPosition();
 	if(deathDist < Ogre::Vector3(10,40,10) && deathDist > Ogre::Vector3(-10,-40,-10))	// RobotPosition
 		robotAlive = false;
 
@@ -285,7 +285,7 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 
 	// PathPlanning and Avoidance
 	Ogre::Vector3 rp = ninjaNode->getPosition();	// RobotPosition
-	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
+	Ogre::Vector3 pp = mCamera->getDerivedPosition();  // PlayerPosition
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
