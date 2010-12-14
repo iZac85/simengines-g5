@@ -36,7 +36,6 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 
 	ninjaEntity->setCastShadows(true);
 	mWalkSpeed = 5;
-	mWalkList.push_back(Ogre::Vector3(20.0f,  0.0f, 20.0f));
 	mDirection = Ogre::Vector3::ZERO;
 
 	// Set idle animation
@@ -66,6 +65,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	//while (mCamera->getPosition().positionCloses(ninjaNode->getPosition(),10))
 	//{
 		ninjaNode->setPosition(aiPather->randNinjaPos());
+		mWalkList.push_back(ninjaNode->getPosition());
 	//}
 
 	// Create Grass
