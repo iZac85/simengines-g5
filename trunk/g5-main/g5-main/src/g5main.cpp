@@ -138,7 +138,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 	
 	if (mapCreateFinished)
 	{
-		if (mCEGUI->extensionSettings.physSettings != 0 && !mGuiActive)
+		if (mCEGUI->extensionSettings.physSettingsOn && !mGuiActive)
 		{
 			// Camera Toggle
 			if(cameraFPVinUse)
@@ -218,7 +218,7 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 		mCEGUI->keyReleased(arg);
 		return true;
 	}
-	if (mCEGUI->extensionSettings.physSettings != 0 && !mGuiActive)
+	if (mCEGUI->extensionSettings.physSettingsOn != 0 && !mGuiActive)
 	{
 
 		if (arg.key == OIS::KC_B){//&& mTimeUntilNextToggle <=0){
@@ -353,7 +353,7 @@ bool g5main::launch()
 			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV, SFR, FFR, SFD, FFD, DFD, AIS);
 	}
 
-	if (mCEGUI->extensionSettings.physSettings != 0)
+	if (mCEGUI->extensionSettings.physSettingsOn)
 	{
 		//Create the Physics world
 		mBulletWorld = new BulletInitWorld(mSceneMgr,
