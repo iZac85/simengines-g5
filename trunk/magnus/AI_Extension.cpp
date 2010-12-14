@@ -59,6 +59,48 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap)
 	// Copy Map
 	iMap = tempMap;
 
+	const int dx[8] = { 1, 1, 0, -1, -1, -1, 0, 1 };
+	const int dy[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+
+	for (int i = 1; i<map.size.x-1; i++)
+	{
+		for(int j = 1; j<map.size.y-1; j++)
+		{
+			for( int k=0; k<8; ++k ) 
+			{
+				int nx = i + dx[k];
+				int ny = j + dy[k];
+
+				if(tempMap[nx][ny] == 1)
+				{
+					iMap[i][j] = 1;
+					break;
+				}
+			}
+		}
+	}
+
+	tempMap = iMap;
+
+	for (int i = 1; i<map.size.x-1; i++)
+	{
+		for(int j = 1; j<map.size.y-1; j++)
+		{
+			for( int k=0; k<8; ++k ) 
+			{
+				int nx = i + dx[k];
+				int ny = j + dy[k];
+
+				if(tempMap[nx][ny] == 1)
+				{
+					iMap[i][j] = 1;
+					break;
+				}
+			}
+		}
+	}
+
+
 	// Create new instance of microTalker
 	mTalker = new microTalker(iMap,map.size.x, map.size.y);
 }
