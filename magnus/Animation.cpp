@@ -6,9 +6,8 @@ Pather *aiPather;
 Animation::Animation(void)
 {
 }
-Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera, int difficulty, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
+Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
 {
-	fogLevel = difficulty;
 	mapSizeX = tempMap.size();
 	mapSizeY = tempMap[0].size();
 
