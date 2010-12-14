@@ -332,7 +332,10 @@ bool g5main::launch()
 		int DFD = 100;	// Don't Flee Distance
 		int AIS = 1;	// % AI Speed (1 = 100%, range 50% to 400%)
 
-		mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
+		if (mCEGUI->extensionSettings.physSettings == 0) // IF Physics off
+			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
+		else // else if physics on
+			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
 	}
 
 	//Create the Physics world
