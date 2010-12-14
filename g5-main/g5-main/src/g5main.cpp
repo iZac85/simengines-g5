@@ -308,6 +308,12 @@ bool g5main::launch()
 	mainMenuActive = false;
 	gameActive = true;
 
+	// Set ambient light
+	mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+	// Create a light
+	Ogre::Light* l = mSceneMgr->createLight("MainLight");
+	l->setPosition(20,80,50);
+
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
 	{
@@ -319,7 +325,14 @@ bool g5main::launch()
 	// AI
 	if (mCEGUI->extensionSettings.aiSettings != 0)
 	{
-		mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings);
+		int SFR = 80;	// Slow Flee Radius
+		int FFR = 20;	// Fast Flee Radius
+		int SFD = 10;	// Slow Flee Distance
+		int FFD = 1;	// Fast Flee Distance
+		int DFD = 100;	// Don't Flee Distance
+		int AIS = 1;	// % AI Speed (1 = 100%, range 50% to 400%)
+
+		mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
 	}
 
 	//Create the Physics world
