@@ -6,21 +6,21 @@ Pather *aiPather;
 Animation::Animation(void)
 {
 }
-Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera, int difficulty)
+Animation::Animation(std::vector<std::vector<int>> tempMap, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV, int difficulty, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
 {
 	fogLevel = difficulty;
 	mapSizeX = tempMap.size();
 	mapSizeY = tempMap[0].size();
 
 	aiPather = new Pather();
-	aiPather->AIinit(tempMap);
-	AnimationInit(mSceneMgr, mCamera);
+	aiPather->AIinit(tempMap, SFR, FFR, SFD, FFD, DFD, AIS);
+	AnimationInit(mSceneMgr, mCameraFPV);
 }
 Animation::~Animation(void)
 {
 }
  
-void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV)
 {
 	// Enable shadows
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
@@ -64,14 +64,14 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	srand(time(NULL));
 
 	// Generate random starting positions
-	mCamera->setPosition(aiPather->randPlayerPos());
-	mCamera->lookAt(aiPather->centerOfMap());
-	while (!mCamera->getPosition().positionCloses(ninjaNode->getPosition(),10))
-	{
+	//mCameraFPV->setPosition(aiPather->randPlayerPos());
+	//mCameraFPV->lookAt(aiPather->centerOfMap());
+	//while (mCameraFPV->getPosition().positionCloses(ninjaNode->getPosition(),10))
+	//{
 		ninjaNode->setPosition(aiPather->randNinjaPos());
-	}
+	//}
 
-		// Create Grass
+	// Create Grass
 	createGrassMesh();
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
@@ -114,12 +114,12 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	}
 
 }
-bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV)
 {
 	// Update
-	bool status = updateNinja(evt, mSceneMgr, mCamera);
-	//updateFog(evt, mSceneMgr, mCamera);
-	updateArrow(evt, mSceneMgr, mCamera);
+	bool status = updateNinja(evt, mSceneMgr, mCameraFPV);
+	//updateFog(evt, mSceneMgr, mCameraFPV);
+	updateArrow(evt, mSceneMgr, mCameraFPV);
 
 	return status;
 }
@@ -167,11 +167,11 @@ void Animation::createGrassMesh()
 	grass.convertToMesh("GrassBladesMesh");
 }
 
-void Animation::updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+void Animation::updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV)
 {
 	//Enable Fog
 	if(robotAlive){
-		Ogre::Vector3 pp = mCamera->getPosition();
+		Ogre::Vector3 pp = mCameraFPV->getPosition();
 		if (pp.y<80)
 		{
 			if (fogLevel == 1)
@@ -183,14 +183,14 @@ void Animation::updateFog(const Ogre::FrameEvent &evt, Ogre::SceneManager* mScen
 			mSceneMgr->setFog(Ogre::FOG_NONE);
 	}
 }
-void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV)
 {
-	cameraPos = mCamera->getPosition();
-	cameraDir = mCamera->getDirection();
-	Ogre::Vector3 cameraUp = mCamera->getUp();
-	Ogre::Vector3 cameraRight = mCamera->getRight();
-	Ogre::Vector3 cameraOriUp = mCamera->getOrientation()*cameraUp;
-	Ogre::Vector3 cameraOriRight = mCamera->getOrientation()*cameraRight;
+	cameraPos = mCameraFPV->getPosition();
+	cameraDir = mCameraFPV->getDirection();
+	Ogre::Vector3 cameraUp = mCameraFPV->getUp();
+	Ogre::Vector3 cameraRight = mCameraFPV->getRight();
+	Ogre::Vector3 cameraOriUp = mCameraFPV->getOrientation()*cameraUp;
+	Ogre::Vector3 cameraOriRight = mCameraFPV->getOrientation()*cameraRight;
 
 	ninjaPos = ninjaNode->getPosition();
 	arrowPos = arrowNode->getPosition();
@@ -210,15 +210,15 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	//arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*Ogre::Viewport->getActualHeight()/0.9+cameraRight*Ogre::Viewport->getActualWidth()/0.9);
 
 }
-bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
+bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCameraFPV)
 {
-	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCamera->getPosition();
+	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCameraFPV->getPosition();
 	if(deathDist < Ogre::Vector3(10,40,10) && deathDist > Ogre::Vector3(-10,-40,-10))	// RobotPosition
 		robotAlive = false;
 
-	if (mDirection == Ogre::Vector3::ZERO) 
+	if (mDirection == Ogre::Vector3::ZERO)
 	{
-		if (NextLocation(mCamera) && robotAlive) 
+		if (NextLocation(mCameraFPV) && robotAlive) 
 		{
 			// Set walking animation
 			mAnimationState = ninjaEntity->getAnimationState("Walk");
@@ -249,7 +249,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 			ninjaNode->setPosition(mDestination);
 			mDirection = Ogre::Vector3::ZERO;				
 			// Set animation based on if the robot has another point to walk to. 
-			if (!NextLocation(mCamera))
+			if (!NextLocation(mCameraFPV))
 			{
 				// Set Idle animation                     
 				mAnimationState = ninjaEntity->getAnimationState("Idle1");
@@ -302,11 +302,11 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	else
 		return true;
 }
-bool Animation::NextLocation(Ogre::Camera* mCamera){
+bool Animation::NextLocation(Ogre::Camera* mCameraFPV){
 
 	// PathPlanning and Avoidance
 	Ogre::Vector3 rp = ninjaNode->getPosition();	// RobotPosition
-	Ogre::Vector3 pp = mCamera->getPosition();  // PlayerPosition
+	Ogre::Vector3 pp = mCameraFPV->getPosition();  // PlayerPosition
 
 	if (mDestination == rp && mWalkList.empty())
 		mWalkList.push_back(aiPather->AIframe(rp.x,rp.z,pp.x, pp.z));
