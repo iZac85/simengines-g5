@@ -218,7 +218,7 @@ bool RandGen::sizeOkForSplitting(int k)
 {
 	//Is the biggest room too big?
 	//Size is ok for splitting if the room is bigger than the biggest allowed room
-	if( (arena.room[k].dim.x * arena.room[k].dim.y) >= arena.room_max_area )
+	if( (arena.room[k].dim.x * arena.room[k].dim.y) > arena.room_max_area )
 	{
 		//if( ( arena.room[k].dim.x > ((arena.room_min_size.x*2)+1)) || (arena.room[k].dim.y > ((arena.room_min_size.y*2)+1) ) )//room not too small?
 		if( ( arena.room[k].dim.x >= ( (arena.room_min_size.x*2)-1) ) || ( arena.room[k].dim.y >= ( (arena.room_min_size.y*2)-1) ) )//room not too small?
@@ -425,7 +425,7 @@ void RandGen::computeWallSegments(int k, tile dim, tile pos, int type)
 	arena.room[k].wall.push_back(wOne);
 	arena.room[k].wallSegCnt++;
 	
-	/*if(type == 0) //only on interior walls
+	if(type == 0) //only on interior walls
 	{ 
 		if(dim.x == 1) //y direction
 		{
@@ -465,7 +465,7 @@ void RandGen::computeWallSegments(int k, tile dim, tile pos, int type)
 				}
 			}
 		}
-	}*/
+	}
 }
 int RandGen::getWallType(tile dim, tile pos)
 {
@@ -563,15 +563,71 @@ void RandGen::painting(void)
 }
 void RandGen::compute3DWallPos(void)
 {
-	for(int i=0; i<arena.wall_cnt; i++)
+	tile pStart, pEnd;
+	
+	for(int i=4; i<arena.wall_cnt; i++)		//Start on interior walls
+	{
+		if(i==100) 
+		{
+			int rt=0;
+		}
+		pStart = arena.wall[i].pos;
+		pEnd.x = arena.wall[i].pos.x + arena.wall[i].dim.x - 1;
+		pEnd.y = arena.wall[i].pos.y + arena.wall[i].dim.y - 1;
+
+		if (arena.wall[i].dim.y == 1) // x direction
+		{
+
+			if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) && (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1))
+			{
+				//arena.wall[i].dim.x -= 2;
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
+				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
+			}
+			else if((arena.blackTile[pStart.x][pStart.y+1]==1 || arena.blackTile[pStart.x][pStart.y-1]==1) || (arena.blackTile[pEnd.x][pEnd.y+1]==1 || arena.blackTile[pEnd.x][pEnd.y-1]==1))
+			{
+				//arena.wall[i].dim.x -= 1;
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);// + 0.5;
+				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
+			}	
+			else
+			{
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
+				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
+			}
+		}
+		else if (arena.wall[i].dim.x == 1) // y direction
+		{
+			if((arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1) && (arena.blackTile[pEnd.x+1][pEnd.y]==1 || arena.blackTile[pEnd.x-1][pEnd.y]==1))
+			{
+				//arena.wall[i].dim.y -= 2;
+				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
+			}
+			else if((arena.blackTile[pStart.x+1][pStart.y]==1 || arena.blackTile[pStart.x-1][pStart.y]==1) && (arena.blackTile[pEnd.x+1][pEnd.y]==1 || arena.blackTile[pEnd.x-1][pEnd.y]==1))
+			{
+				//arena.wall[i].dim.y -= 1;
+				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);// + 0.5;
+			}
+			else
+			{
+				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
+			}
+		}
+	}
+	for(int i=0; i<4; i++)		//Start on interior walls
 	{
 		if (arena.wall[i].dim.y == 1) // x direction
 		{
+			//arena.wall[i].dim.x -= 1;
 			arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + ((float)arena.wall[i].dim.x/2);
-			arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
+			arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);	
 		}
-		if (arena.wall[i].dim.x == 1) // y direction
+		else if (arena.wall[i].dim.x == 1) // y direction
 		{
+			//arena.wall[i].dim.y -= 1;
 			arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
 			arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + ((float)arena.wall[i].dim.y/2);
 		}
