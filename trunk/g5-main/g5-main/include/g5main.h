@@ -75,7 +75,8 @@ protected:
 	bool launch();
 	bool mGuiActive;
 	bool mainMenuActive;
-	bool gameFinished;
+	bool gameActive;
+	bool mapCreateFinished;
 };
 
 #endif // #ifndef __g5main_h_

@@ -68,9 +68,9 @@ bool OgreCEGUI::frameRenderingQueued(const Ogre::FrameEvent& evt)
     return true;
 }
 //-------------------------------------------------------------------------------------
-bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg, bool gameFinished )
+bool OgreCEGUI::keyPressed( const OIS::KeyEvent &arg, bool gameActive )
 {
-	if (arg.key == OIS::KC_ESCAPE && ingameMenuVisible && !gameFinished)
+	if (arg.key == OIS::KC_ESCAPE && ingameMenuVisible && gameActive)
 	{
 		ingameMenuRootWindow->setVisible(false);
 		ingameMenuVisible = false;
@@ -416,9 +416,9 @@ void OgreCEGUI::ShowMainMenu(void)
 	CEGUI::MouseCursor::getSingleton().show();
 }
 //-------------------------------------------------------------------------------------
-void OgreCEGUI::ShowIngameMenu(bool gameFinished)
+void OgreCEGUI::ShowIngameMenu(bool gameActive)
 {
-	if (!gameFinished)
+	if (gameActive)
 	{
 		if (ingameMenuAlreadyLoaded) 
 		{

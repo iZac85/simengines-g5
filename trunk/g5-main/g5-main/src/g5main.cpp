@@ -21,7 +21,9 @@ g5main::g5main(void)
 	: 
 	mGuiActive(false),
 	mainMenuActive(false),
-	cameraFPVinUse(false)
+	cameraFPVinUse(false),
+	gameActive(false),
+	mapCreateFinished(false)
 {
 	mCEGUI = new OgreCEGUI();
 }
@@ -51,6 +53,8 @@ void g5main::clearScene(void)
 		delete player;
 	}
 	delete mTrayMgr;
+	gameActive = false;
+	mapCreateFinished = false;
 }
 //-------------------------------------------------------------------------------------
 void g5main::createCamera(void)
@@ -132,64 +136,68 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		return true;
 	}
 	
-	// Camera Toggle
-	if(cameraFPVinUse)
+	if (mapCreateFinished)
 	{
+		// Camera Toggle
+		if(cameraFPVinUse)
+		{
+			mKeyboard->capture();
+
+			if(mKeyboard->isKeyDown(OIS::KC_A))
+			{
+				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+			}
+
+			if(mKeyboard->isKeyDown(OIS::KC_D))
+			{
+				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
+			}
+
+			if(mKeyboard->isKeyDown(OIS::KC_W))
+			{
+				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
+			}
+
+			if(mKeyboard->isKeyDown(OIS::KC_S))
+			{
+				player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+			}
+		}
+
+		//Need to capture/update each device
 		mKeyboard->capture();
+		mMouse->capture();
 
-		if(mKeyboard->isKeyDown(OIS::KC_A))
+		// AI
+		if (mCEGUI->extensionSettings.aiSettings != 0 && !mGuiActive)
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
+			gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 		}
 
-		if(mKeyboard->isKeyDown(OIS::KC_D))
+		if (!gameActive && !mGuiActive)
 		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedRight().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
+			mCEGUI->ShowIngameMenu(gameActive);
+			mGuiActive = true;
+			//gameFinished = false;
 		}
 
-		if(mKeyboard->isKeyDown(OIS::KC_W))
-		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(10.0f,0,10.0f));
-		}
+		mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
 
-		if(mKeyboard->isKeyDown(OIS::KC_S))
-		{
-			player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-10.0f,0,-10.0f));
-		}
+		return BaseApplication::frameRenderingQueued(evt);
 	}
-
-	//Need to capture/update each device
-	mKeyboard->capture();
-	mMouse->capture();
-
-	// AI
-	if (mCEGUI->extensionSettings.aiSettings != 0 && mGuiActive == false)
-	{
-		gameFinished = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
-	}
-
-	if (gameFinished && !mGuiActive)
-	{
-		mCEGUI->ShowIngameMenu(gameFinished);
-		mGuiActive = true;
-		//gameFinished = false;
-	}
-
-	mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
-
-	return BaseApplication::frameRenderingQueued(evt);
+	else return true;
 }
 //-------------------------------------------------------------------------------------
 bool g5main::keyPressed( const OIS::KeyEvent &arg )
 {
 	if(mGuiActive)
 	{
-		mCEGUI->keyPressed(arg, gameFinished);
+		mCEGUI->keyPressed(arg, gameActive);
 		return true;
 	}
 	if (mGuiActive == false && arg.key == OIS::KC_ESCAPE)
 	{
-		mCEGUI->ShowIngameMenu(gameFinished);
+		mCEGUI->ShowIngameMenu(gameActive);
 		mGuiActive = true;
 		return true;
 	}
@@ -298,6 +306,7 @@ bool g5main::launch()
 	mCEGUI->mLaunch = false;
 	mGuiActive = false;
 	mainMenuActive = false;
+	gameActive = true;
 
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
@@ -305,10 +314,13 @@ bool g5main::launch()
 		mMapCreate = new MapCreate(mRoot, mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 14, 14 , mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);
 	}
 	else mMapCreate = new MapCreate(mRoot, mSceneMgr);
+	mapCreateFinished = mMapCreate->mapFinished;
 
 	// AI
 	if (mCEGUI->extensionSettings.aiSettings != 0)
-	mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings);
+	{
+		mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings);
+	}
 
 	//Create the Physics world
 	mBulletWorld = new BulletInitWorld(mSceneMgr,
