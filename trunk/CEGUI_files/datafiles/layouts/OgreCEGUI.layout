@@ -12,7 +12,7 @@
             <Property Name="UnifiedMinSize" Value="{{0.1,0},{0.1,0}}" />
             <Property Name="ClippedByParent" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.0039136,0},{0.00749947,0},{0.998445,0},{0.99702,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0039136,0},{0.00903321,0},{0.998445,0},{0.998554,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
@@ -34,50 +34,50 @@
             </Window>
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/PhysicsSettings" >
                 <Property Name="Font" Value="BlueHighway-12" />
-                <Property Name="Text" Value="Physics Settings" />
-                <Property Name="HorzExtent" Value="136" />
+                <Property Name="Text" Value="Physics:" />
+                <Property Name="HorzExtent" Value="66" />
                 <Property Name="VertExtent" Value="15.29" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.214271,0},{0.0588209,0},{0.34935,0},{0.095939,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.219044,0},{0.0588209,0},{0.298439,0},{0.095939,0}}" />
                 <Property Name="BackgroundEnabled" Value="False" />
                 <Window Type="AquaLook/RadioButton" Name="PhysSettingsOn" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="On" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.877059,0},{0.130398,0},{1.22565,0},{0.890579,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.877059,0},{0.172156,0},{1.406,0},{0.932337,0}}" />
                 </Window>
                 <Window Type="AquaLook/RadioButton" Name="PhysSettingsOff" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Off" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{1.23722,0},{0.0795814,0},{1.64953,0},{0.864861,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{1.46767,0},{0.12134,0},{2.14048,0},{0.906619,0}}" />
                 </Window>
             </Window>
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/AISettings" >
                 <Property Name="Font" Value="BlueHighway-12" />
-                <Property Name="Text" Value="AI Settings" />
-                <Property Name="HorzExtent" Value="89" />
+                <Property Name="Text" Value="AI:" />
+                <Property Name="HorzExtent" Value="19" />
                 <Property Name="VertExtent" Value="15.29" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.0166792,0},{0.0619712,0},{0.107835,0},{0.0990891,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0166792,0},{0.0619712,0},{0.0537417,0},{0.0990891,0}}" />
                 <Property Name="BackgroundEnabled" Value="False" />
                 <Window Type="AquaLook/RadioButton" Name="AISettingsOn" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="On" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.874545,0},{-0.0132782,0},{1.3895,0},{0.985811,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.831618,0},{-0.0132782,0},{1.88316,0},{0.985811,0}}" />
                 </Window>
                 <Window Type="AquaLook/RadioButton" Name="AISettingsOff" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Off" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{1.38254,0},{-0.00150261,0},{1.95782,0},{0.949806,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{2.02645,0},{-0.00150263,0},{3.07392,0},{0.949806,0}}" />
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsSFRWindow" >
                     <Property Name="Text" Value="Slow flee radious:" />
@@ -86,7 +86,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{-0.0089204,0},{1.33263,0},{1.5848,0},{2.19111,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.00892039,0},{1.33263,0},{4.18188,0},{2.19111,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsSFR" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -95,7 +95,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.23941,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.10803,0},{-0.171175,0},{1.4251,0},{1.42176,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsFFRWindow" >
@@ -105,7 +105,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{-0.0108279,0},{2.5101,0},{1.58289,0},{3.36858,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.0108279,0},{2.46834,0},{4.15851,0},{3.32682,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsFFR" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -114,7 +114,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.23941,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.11352,0},{-0.171175,0},{1.43059,0},{1.42176,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsSFDWindow" >
@@ -124,7 +124,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{-0.0108279,0},{3.67934,0},{1.67806,0},{4.53782,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.0108279,0},{3.63758,0},{4.44685,0},{4.49606,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsSFD" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -133,7 +133,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.23941,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.05105,0},{-0.171175,0},{1.34405,0},{1.42176,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsFFDWindow" >
@@ -143,7 +143,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{-0.0040842,0},{4.85681,0},{1.60694,0},{5.7153,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.0040842,0},{4.81505,0},{4.48305,0},{5.67354,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsFFD" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -152,7 +152,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.23941,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.03944,0},{-0.0252506,0},{1.33737,0},{1.56768,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsDFDWindow" >
@@ -162,7 +162,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{-0.00415966,0},{6.02605,0},{1.68472,0},{6.88454,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.00415966,0},{5.98429,0},{4.58229,0},{6.84278,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsDFD" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -171,7 +171,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.23941,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.01926,0},{-0.122533,0},{1.30356,0},{1.4704,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsAISWindow" >
@@ -181,7 +181,7 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.00258406,0},{7.20353,0},{1.17239,0},{8.06202,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.00258406,0},{7.16177,0},{3.51191,0},{8.02026,0}}" />
                     <Property Name="BackgroundEnabled" Value="False" />
                     <Window Type="AquaLook/Spinner" Name="AISettingsAIS" >
                         <Property Name="Font" Value="BlueHighway-10" />
@@ -190,7 +190,7 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{0.922344,0},{-0.219817,0},{1.44304,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.27551,0},{-0.171175,0},{1.71058,0},{1.42176,0}}" />
                     </Window>
                 </Window>
             </Window>
