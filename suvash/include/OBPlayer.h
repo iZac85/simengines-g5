@@ -15,6 +15,8 @@ public:
 
 	Ogre::SceneNode *node;
 
+	Ogre::Vector3 sizeB;
+
 	OgreBulletCollisions::BoxCollisionShape* sceneBoxShape;
 	OgreBulletDynamics::RigidBody *defaultBody;
 

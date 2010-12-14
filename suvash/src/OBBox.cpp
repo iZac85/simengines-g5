@@ -26,9 +26,9 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
  	node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
  	node->attachObject(entity);
 	//Scaling down the cube/mesh entity
- 	node->scale(0.05f, 0.05f, 0.05f);
+ 	node->scale(0.01f, 0.01f, 0.01f);
 	//Scaling down the bullet entity
- 	sizeB *= 0.05f;
+ 	sizeB *= 0.01f;
 
 	// after that create the Bullet shape with the calculated size
 	sceneBoxShape = new OgreBulletCollisions::BoxCollisionShape(sizeB);
