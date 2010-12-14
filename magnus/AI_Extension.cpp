@@ -689,9 +689,9 @@ bool Pather::isStuck()
 		}
 		if(stuck)
 		{
-			stuckFlag = SLOWFLEEDIST-2;
-			fleeSlow();
+			dontFlee();
 			fillPathDeck();
+			stuckFlag = min((int)pathDeck.size()-2, 15);
 			return true;
 		}
 	}
