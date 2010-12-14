@@ -46,8 +46,8 @@ void g5main::clearScene(void)
 	mTrayMgr->hideAll();
 	mTrayMgr->destroyAllWidgets();
 	mRoot->removeFrameListener(this);
-	if (mCEGUI->extensionSettings.aiSettings != 0) delete mAnimation;
-	if (mCEGUI->extensionSettings.physSettings != 0)
+	if (mCEGUI->extensionSettings.aiSettingsOn) delete mAnimation;
+	if (mCEGUI->extensionSettings.physSettingsOn)
 	{
 		delete mBulletWorld;
 		delete player;
@@ -169,10 +169,10 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 		mMouse->capture();
 
 		// AI
-		if (mCEGUI->extensionSettings.aiSettings != 0 && !mGuiActive)
+		if (mCEGUI->extensionSettings.aiSettingsOn && !mGuiActive)
 		{
 			
-			if (mCEGUI->extensionSettings.physSettings == 0) // IF Physics off
+			if (!mCEGUI->extensionSettings.physSettingsOn) // IF Physics off
 				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 			else // else if physics on
 				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCameraFPV);
@@ -332,7 +332,7 @@ bool g5main::launch()
 	mapCreateFinished = mMapCreate->mapFinished;
 
 	// AI
-	if (mCEGUI->extensionSettings.aiSettings != 0)
+	if (mCEGUI->extensionSettings.aiSettingsOn)
 	{
 		int SFR = 80;	// Slow Flee Radius
 		int FFR = 20;	// Fast Flee Radius
@@ -341,10 +341,10 @@ bool g5main::launch()
 		int DFD = 100;	// Don't Flee Distance
 		int AIS = 1;	// % AI Speed (1 = 100%, range 50% to 400%)
 
-		if (mCEGUI->extensionSettings.physSettings == 0) // IF Physics off
-			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
+		if (mCEGUI->extensionSettings.physSettingsOn == 0) // IF Physics off
+			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera, SFR, FFR, SFD, FFD, DFD, AIS);
 		else // else if physics on
-			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV,mCEGUI->extensionSettings.aiSettings, SFR, FFR, SFD, FFD, DFD, AIS);
+			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV, SFR, FFR, SFD, FFD, DFD, AIS);
 	}
 
 	//Create the Physics world
