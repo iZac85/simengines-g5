@@ -23,24 +23,15 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 {	
 	mapFinished = false;
 	mRandGen = new RandGen();
-	// Set ambient light
-    mSceneMgr->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
-    // Create a light
-    Ogre::Light* l = mSceneMgr->createLight("MainLight");
-    l->setPosition(20,80,50);
-	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+
+	//mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	//mRandGen->generateMap(27,27,14,14,196,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	//mRandGen->generateMap(100,100,14,14,600,2,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	Ogre::Entity* mfloorEnt;
 	Ogre::Entity* mTmpEnt;
 	std::vector<Ogre::Entity*> mWallEnt;
 	Ogre::SceneNode* mTmpNode;
-
-	//std::vector<Ogre::TextureUnitState*> mWallTexture;
-	//Ogre::TextureUnitState* mTmpTex;
-
-	//std::vector<Ogre::MaterialPtr> mWallMtl;
-	//Ogre::MaterialPtr mTmpMtl;
 
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
