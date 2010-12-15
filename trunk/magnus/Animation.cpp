@@ -25,7 +25,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 	// Enable Sky Dome
-	mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
+	//mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
     // Create robot entity
     ninjaEntity = mSceneMgr->createEntity("Ninja", "ninja.mesh");
@@ -53,7 +53,6 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	robotAlive = true;
 	robotDead = false;
 	mRotating = false;
-	animSpeedUp = 1;
 
 	// Rand
 	srand(time(NULL));
@@ -73,7 +72,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
 
-	Ogre::MeshManager::getSingleton().createPlane("plane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 20000.0f, 20000.0f, 10, 10, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("plane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 10000.0f, 10000.0f, 10, 10, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
 	Ogre::Entity* planeEnt = mSceneMgr->createEntity("floor","plane");
 	planeEnt->setMaterialName("Examples/GrassFloor");
 	planeEnt->setCastShadows(false);
@@ -192,7 +191,7 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
 	Ogre::Vector3 deathDist = ninjaNode->getPosition() - mCamera->getDerivedPosition();
-	if(deathDist < Ogre::Vector3(10,40,10) && deathDist > Ogre::Vector3(-10,-40,-10))	// RobotPosition
+	if(deathDist < Ogre::Vector3(6,25,6) && deathDist > Ogre::Vector3(-6,-25,-6))	// RobotPosition
 		robotAlive = false;
 
 	if (mDirection == Ogre::Vector3::ZERO)
@@ -203,7 +202,6 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 			mAnimationState = ninjaEntity->getAnimationState("Walk");
 			mAnimationState->setLoop(true);
 			mAnimationState->setEnabled(true);
-			animSpeedUp = 2;
 		}//if
 	}
 	else if (!robotAlive)
@@ -215,7 +213,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 			mAnimationState->setLoop(false);
 			mAnimationState->setEnabled(true);
 			robotDead = true;
-			animSpeedUp = 1;
+			mWalkSpeed = 1;
 			mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.8), 0.001 ,1, max(mapSizeX,mapSizeY)/8);
 		}
 	}
@@ -274,7 +272,9 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 		}
 	}  // if mRotating
 
-	mAnimationState->addTime(evt.timeSinceLastFrame*animSpeedUp);		//*2 to speed up animation
+
+
+	mAnimationState->addTime(evt.timeSinceLastFrame*mWalkSpeed*0.2);		//*2 to speed up animation
 
 	if (robotDead)
 		return false;

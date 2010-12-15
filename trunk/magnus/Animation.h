@@ -50,7 +50,6 @@ private:
 	 Ogre::SceneNode *arrowNode;
 	 bool robotAlive;
 	 bool robotDead;
-	 int animSpeedUp;
 	 float deathAnimationTime;
 
 	 Ogre::SceneNode *grassNode;
