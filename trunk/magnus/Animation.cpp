@@ -43,10 +43,11 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	mAnimationState->setEnabled(true);
 
 	// Create arrow entity inc node
-	arrowEntity = mSceneMgr->createEntity("Arrow", "cube.mesh");
+	arrowEntity = mSceneMgr->createEntity("Arrow", "arrow.mesh");
 	arrowNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ArrowNode");//,Ogre::Vector3(100.0f,30.0f,100.0f));
+	arrowEntity->setMaterialName("Arrow");
 	arrowNode->attachObject(arrowEntity);
-	arrowNode->setScale(0.002f,0.002f,0.01f);
+	arrowNode->setScale(0.007f,0.007f,0.007f);
 	arrowEntity->setCastShadows(false);
 
 	// Set variables
@@ -111,9 +112,20 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 }
 bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-	// Update
+	// Update Ninja
 	bool status = updateNinja(evt, mSceneMgr, mCamera);
-	updateArrow(evt, mSceneMgr, mCamera);
+
+	// Only show Arrow if player is on ground
+	Ogre::Vector3 tempYpos = mCamera->getDerivedPosition();
+	if(tempYpos.y < 15)
+	{
+		// Update Arrow
+		updateArrow(evt, mSceneMgr, mCamera);
+		arrowNode->setVisible(true);
+	}
+	else
+		// Hide Arrow
+		arrowNode->setVisible(false);
 
 	return status;
 }
@@ -171,20 +183,16 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 	Ogre::Vector3 cameraOriRight = mCamera->getOrientation()*cameraRight;
 
 	ninjaPos = ninjaNode->getPosition();
-	arrowPos = arrowNode->getPosition();
-	if (arrowPos.z < ninjaPos.z)
-		arrowOri = arrowNode->getOrientation() * Ogre::Vector3::UNIT_Z;
-	else
-		arrowOri = arrowNode->getOrientation() * -Ogre::Vector3::UNIT_Z;
-
 	ninjaPos.y = ninjaPos.y+20;
+	arrowPos = arrowNode->getPosition();
+	arrowOri = arrowNode->getOrientation() * Ogre::Vector3::UNIT_Y;
 	arrowDir = ninjaPos - arrowPos;
 	arrowQuat = arrowOri.getRotationTo(arrowDir);
 	arrowNode->rotate(arrowQuat);
 
 	
 	
-	arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*3.5+cameraRight*3.5);
+	arrowNode->setPosition(cameraPos+cameraDir+cameraUp*0.3+cameraRight*0.5);
 	//arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*Ogre::Viewport->getActualHeight()/0.9+cameraRight*Ogre::Viewport->getActualWidth()/0.9);
 
 }
