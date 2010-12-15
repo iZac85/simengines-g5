@@ -31,7 +31,7 @@ public:
 
 	Ogre::Entity* floorEnt;
 	Ogre::SceneNode* mFloorNode;
-
+	std::vector<Ogre::SceneNode*> mFurnitureNode;
 	std::vector<Ogre::SceneNode*> mWallNode;
 	std::vector<std::vector<int>> map;
 	Ogre::SceneNode* returnFloorNode();
