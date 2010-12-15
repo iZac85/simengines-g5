@@ -373,7 +373,7 @@ bool g5main::launch()
 										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);
 
 		// starting position of the player
-		Ogre::Vector3 position = Ogre::Vector3(10, 3, 10);//(mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
+		Ogre::Vector3 position = Ogre::Vector3(10, 0.2, 10);//(mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
 		Ogre::Vector3 speed = Ogre::Vector3(0, 0, 0);//mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
 
 
