@@ -31,36 +31,46 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	Ogre::Entity* mfloorEnt;
 	Ogre::Entity* mTmpEnt;
 	std::vector<Ogre::Entity*> mWallEnt;
+	std::vector<Ogre::Entity*> mFurnitureEnt;
 	Ogre::SceneNode* mTmpNode;
 
 	//Materials
 	Ogre::MaterialPtr mat1 = Ogre::MaterialManager::getSingleton().create("FloorMat", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 	Ogre::TextureUnitState* tuisTexture1 = mat1->getTechnique(0)->getPass(0)->createTextureUnitState("MRAMOR6X6.jpg");
 
-	Ogre::MaterialPtr mat2 = Ogre::MaterialManager::getSingleton().create("WallMat1", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	Ogre::TextureUnitState* tuisTexture2 = mat2->getTechnique(0)->getPass(0)->createTextureUnitState("RustedMetal.jpg");
+	Ogre::MaterialPtr mat2 = Ogre::MaterialManager::getSingleton().create("WallBlue", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	Ogre::TextureUnitState* tuisTexture2 = mat2->getTechnique(0)->getPass(0)->createTextureUnitState("wallTexBlue.png");
 
-	Ogre::MaterialPtr mat3 = Ogre::MaterialManager::getSingleton().create("WallMat2", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
-	Ogre::TextureUnitState* tuisTexture3 = mat3->getTechnique(0)->getPass(0)->createTextureUnitState("KAMEN320x240.jpg");
+	Ogre::MaterialPtr mat3 = Ogre::MaterialManager::getSingleton().create("WallGreen", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	Ogre::TextureUnitState* tuisTexture3 = mat3->getTechnique(0)->getPass(0)->createTextureUnitState("wallTexGreen.png");
 	
+	Ogre::MaterialPtr mat4 = Ogre::MaterialManager::getSingleton().create("WallPink", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	Ogre::TextureUnitState* tuisTexture4 = mat4->getTechnique(0)->getPass(0)->createTextureUnitState("wallTexPink.png");
+
 	mfloorEnt = mSceneMgr->createEntity("floor1", "cube.mesh");
 	mfloorEnt->setMaterialName("FloorMat");
 
+	//mfloorEnt->setCastShadows(false);
 	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, -0.5, dim_y/2));
 	mFloorNode->attachObject(mfloorEnt);
 	mFloorNode->setScale(0.01 * dim_x, 0.01, 0.01 * dim_y);
 	
+	//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
 	for(int i = 0; i < mRandGen->arena.wall_cnt; i++)
 	{
 		mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-		int r = mRandGen->randInt(0,1);
+		//mTmpEnt->setCastShadows(false);
+		int r = mRandGen->randInt(0,2);
 		switch (r)
 		{
 			case 0: 
-				mTmpEnt->setMaterialName("WallMat1");
+				mTmpEnt->setMaterialName("WallBlue");
 				break;
 			case 1: 
-				mTmpEnt->setMaterialName("WallMat2");
+				mTmpEnt->setMaterialName("WallGreen");
+				break;
+			case 2: 
+				mTmpEnt->setMaterialName("WallPink");
 				break;
 		}
 		mWallEnt.push_back(mTmpEnt);
@@ -72,6 +82,34 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 		mWallNode.push_back(mTmpNode);
 		mRoot->renderOneFrame();
 	}
+	/*for(int i = 0; i < 50; i++)
+	{
+		mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+		//mTmpEnt->setCastShadows(false);
+		int r = mRandGen->randInt(0,2);
+		switch (r)
+		{
+		case 0: 
+			mTmpEnt->setMaterialName("WallBlue");
+			break;
+		case 1: 
+			mTmpEnt->setMaterialName("WallGreen");
+			break;
+		case 2: 
+			mTmpEnt->setMaterialName("WallPink");
+			break;
+		}
+		mFurnitureEnt.push_back(mTmpEnt);
+
+		mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+		mTmpNode->attachObject(mFurnitureEnt[i]);
+		mTmpNode->setScale(0.1 ,0.1, 0.1);
+		int x = mRandGen->randInt( 0 , mRandGen->arena.dim.x-1 );
+		int z = mRandGen->randInt( 0 , mRandGen->arena.dim.y-1 );
+		mTmpNode->setPosition(x,0.1,z);
+		mFurnitureNode.push_back(mTmpNode);
+		mRoot->renderOneFrame();
+	}*/
 	mapFinished = true;
 	map = mRandGen->arena.blackTile;
 }
