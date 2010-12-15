@@ -12,7 +12,7 @@
             <Property Name="UnifiedMinSize" Value="{{0.1,0},{0.1,0}}" />
             <Property Name="ClippedByParent" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{0.0039136,0},{0.00903321,0},{0.998445,0},{0.998554,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.0039136,0},{0.00903321,0},{0.998445,0},{0.992566,0}}" />
             <Property Name="DragMovingEnabled" Value="False" />
             <Property Name="CloseButtonEnabled" Value="False" />
             <Property Name="EWSizingCursorImage" Value="set:TaharezLook image:MouseEsWeCursor" />
@@ -36,7 +36,7 @@
                 <Property Name="Font" Value="BlueHighway-12" />
                 <Property Name="Text" Value="Physics:" />
                 <Property Name="HorzExtent" Value="66" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0.219044,0},{0.0588209,0},{0.298439,0},{0.095939,0}}" />
@@ -59,8 +59,8 @@
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/AISettings" >
                 <Property Name="Font" Value="BlueHighway-12" />
                 <Property Name="Text" Value="AI:" />
-                <Property Name="HorzExtent" Value="19" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="HorzExtent" Value="20" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0166792,0},{0.0619712,0},{0.0537417,0},{0.0990891,0}}" />
@@ -83,7 +83,7 @@
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Slow flee radious:" />
                     <Property Name="HorzExtent" Value="151" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -96,13 +96,13 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.10291,0},{-0.171175,0},{1.41998,0},{1.42176,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.11303,0},{-0.171175,0},{1.4301,0},{1.42176,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsFFRWindow" >
                     <Property Name="Text" Value="Fast flee radious:" />
                     <Property Name="HorzExtent" Value="144" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -115,13 +115,13 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.10322,0},{-0.219817,0},{1.42029,0},{1.37312,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.11847,0},{-0.172051,0},{1.43554,0},{1.42089,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsSFDWindow" >
                     <Property Name="Text" Value="Slow flee distance:" />
                     <Property Name="HorzExtent" Value="159" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -134,13 +134,13 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.03679,0},{-0.123698,0},{1.32979,0},{1.46924,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.04154,0},{-0.123698,0},{1.33454,0},{1.46924,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsFFDWindow" >
                     <Property Name="Text" Value="Fast flee distance:" />
                     <Property Name="HorzExtent" Value="152" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -158,8 +158,8 @@
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsDFDWindow" >
                     <Property Name="Text" Value="Don&apos;t flee distance:" />
-                    <Property Name="HorzExtent" Value="160" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="161" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -172,13 +172,13 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.01008,0},{-0.17001,0},{1.29438,0},{1.42292,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.0147,0},{-0.17001,0},{1.299,0},{1.42292,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsAISWindow" >
                     <Property Name="Text" Value="AI speed (%):" />
-                    <Property Name="HorzExtent" Value="108" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="109" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -191,14 +191,14 @@
                         <Property Name="MaximumValue" Value="32767" />
                         <Property Name="MinimumValue" Value="-32768" />
                         <Property Name="ClippedByParent" Value="False" />
-                        <Property Name="UnifiedAreaRect" Value="{{1.25747,0},{-0.171175,0},{1.69254,0},{1.42176,0}}" />
+                        <Property Name="UnifiedAreaRect" Value="{{1.26351,0},{-0.171175,0},{1.69858,0},{1.42176,0}}" />
                     </Window>
                 </Window>
                 <Window Type="AquaLook/StaticText" Name="AISettingsCustom" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Custom AI settings" />
-                    <Property Name="HorzExtent" Value="158" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="159" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -213,8 +213,8 @@
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/3DSettings" >
                 <Property Name="Font" Value="BlueHighway-12" />
                 <Property Name="Text" Value="Custom 3D settings" />
-                <Property Name="HorzExtent" Value="165" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="HorzExtent" Value="166" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
                 <Property Name="ClippedByParent" Value="False" />
@@ -223,8 +223,8 @@
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/ArenaSize" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Arena size:" />
-                    <Property Name="HorzExtent" Value="90" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="91" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -234,7 +234,7 @@
                         <Property Name="Font" Value="BlueHighway-12" />
                         <Property Name="Text" Value="(meters)" />
                         <Property Name="HorzExtent" Value="73" />
-                        <Property Name="VertExtent" Value="15.29" />
+                        <Property Name="VertExtent" Value="15.675" />
                         <Property Name="AlwaysOnTop" Value="True" />
                         <Property Name="FrameEnabled" Value="False" />
                         <Property Name="ClippedByParent" Value="False" />
@@ -278,7 +278,7 @@
  
 Y=</Property>
                         <Property Name="HorzExtent" Value="21" />
-                        <Property Name="VertExtent" Value="45.87" />
+                        <Property Name="VertExtent" Value="47.025" />
                         <Property Name="AlwaysOnTop" Value="True" />
                         <Property Name="FrameEnabled" Value="False" />
                         <Property Name="ClippedByParent" Value="False" />
@@ -289,8 +289,8 @@ Y=</Property>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/RoomSizeMax" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Max room size (% of Arena area):" />
-                    <Property Name="HorzExtent" Value="280" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="281" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -309,8 +309,8 @@ Y=</Property>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/DoorCnt" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Doors per room:" />
-                    <Property Name="HorzExtent" Value="138" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="139" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -329,8 +329,8 @@ Y=</Property>
                 <Window Type="AquaLook/StaticText" Name="OgreCEGUI/FurnitureEn" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="Furniture enabled" />
-                    <Property Name="HorzExtent" Value="145" />
-                    <Property Name="VertExtent" Value="15.29" />
+                    <Property Name="HorzExtent" Value="146" />
+                    <Property Name="VertExtent" Value="15.675" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="FrameEnabled" Value="False" />
                     <Property Name="ClippedByParent" Value="False" />
@@ -351,7 +351,7 @@ Y=</Property>
                 <Property Name="Font" Value="BlueHighway-12" />
                 <Property Name="Text" Value="Press Launch to start demo" />
                 <Property Name="HorzExtent" Value="235" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="HorzFormatting" Value="WordWrapLeftAligned" />
                 <Property Name="UnifiedAreaRect" Value="{{0.0164257,0},{0.748197,0},{0.395354,0},{0.909092,0}}" />
@@ -361,7 +361,7 @@ Y=</Property>
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="ClippedByParent" Value="False" />
                 <Property Name="DraggingEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{-0.00719214,0},{-0.0193578,0},{1.00825,0},{0.0534241,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{-0.00719214,0},{-0.0102254,0},{1.00825,0},{0.0366813,0}}" />
             </Window>
         </Window>
     </Window>

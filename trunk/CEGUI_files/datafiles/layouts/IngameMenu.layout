@@ -27,15 +27,15 @@
             </Window>
             <Window Type="AquaLook/Button" Name="InGameReturnBtn" >
                 <Property Name="Text" Value="Quit to Main Menu" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.45799,0},{0.96,0},{0.800239,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.45799,0},{0.96,0},{0.654061,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameQuitBtn" >
                 <Property Name="Text" Value="Quit to Windows" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{1.04004,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{0.907152,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameCloseBtn" >
                 <Property Name="Text" Value="Return to Game" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.204219,0},{0.96,0},{0.534586,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.204219,0},{0.96,0},{0.401697,0}}" />
             </Window>
         </Window>
         <Window Type="AquaLook/FrameWindow" Name="GameFinished" >
@@ -44,7 +44,7 @@
             <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="InheritsAlpha" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{-0.0021809,0},{-0.00608685,0},{0.32549,0},{0.240688,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{-0.0013923,0},{-0.00309289,0},{0.326279,0},{0.222724,0}}" />
             <Property Name="VerticalAlignment" Value="Centre" />
             <Property Name="HorizontalAlignment" Value="Centre" />
             <Property Name="AutoRenderingSurface" Value="True" />
@@ -57,18 +57,18 @@
             </Window>
             <Window Type="AquaLook/Button" Name="GameFinishedReturnBtn" >
                 <Property Name="Text" Value="Quit to Main Menu" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.45799,0},{0.96,0},{0.800239,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.45799,0},{0.96,0},{0.662404,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="GameFinishedQuitBtn" >
                 <Property Name="Text" Value="Quit to Windows" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{1.04004,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{0.927595,0}}" />
             </Window>
             <Window Type="AquaLook/StaticText" Name="GameFinishedText" >
                 <Property Name="Text" Value="Congrats! You caught the ninja!" />
                 <Property Name="HorzExtent" Value="262" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="FrameEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.0135479,0},{0.169246,0},{0.923812,0},{0.426054,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0397746,0},{0.169246,0},{0.950039,0},{0.426054,0}}" />
                 <Property Name="BackgroundEnabled" Value="False" />
             </Window>
         </Window>
