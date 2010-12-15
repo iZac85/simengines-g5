@@ -50,6 +50,7 @@ protected:
 	void createScene(void);
 	void createCamera(void);
 	void clearScene(void);
+	void createGrassMesh(void);
 
 	// Ogre::FrameListener
 	virtual bool frameRenderingQueued(const Ogre::FrameEvent& evt);
@@ -71,6 +72,8 @@ protected:
 
 	Ogre::Vector3 mCameraPos;
 	Ogre::Quaternion mCameraOrt;
+
+	Ogre::SceneNode *grassNode;
 
 	bool launch();
 	bool mGuiActive;
