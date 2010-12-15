@@ -37,7 +37,7 @@ void BulletInitWorld::initWorld()
 
 
 	//Start Bullet
-	gravityVector = Ogre::Vector3(0,-9.81,0);
+	gravityVector = Ogre::Vector3(0,-20.81,0);
 	bounds = Ogre::AxisAlignedBox(minBound, maxBound);
 	mWorld = new OgreBulletDynamics::DynamicsWorld(ogreSceneMgr, bounds, gravityVector);
 	//mWorld->
@@ -83,7 +83,7 @@ void BulletInitWorld::addFloor(Ogre::SceneNode* ogreFloorNode)
 
 	// a body is needed for the shape
 	OgreBulletDynamics::RigidBody *defaultFloorBody = new OgreBulletDynamics::RigidBody("BasePlane", mWorld);
-	defaultFloorBody->setStaticShape(floorShape, 0.1, 0.8,ogreFloorNode->getPosition());// (shape, restitution, friction)
+	defaultFloorBody->setStaticShape(floorShape, 0.0, 0.8,ogreFloorNode->getPosition());// (shape, restitution, friction)
 
 	//defaultFloorBody->showDebugShape(true);
 

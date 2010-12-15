@@ -26,14 +26,14 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
  	node = mSceneMgr->getRootSceneNode()->createChildSceneNode();
  	//node->attachObject(entity);
 	//Scaling down the cube/mesh entity
- 	node->scale(0.06f, 0.02f, 0.06f);
+ 	node->scale(0.03f, 0.01f, 0.03f);
 	//Scaling down the bullet entity
- 	sizeB *= Ogre::Vector3(0.06f, 0.02f, 0.06f);
+ 	sizeB *= Ogre::Vector3(0.03f, 0.01f, 0.03f);
 
 	// after that create the Bullet shape with the calculated size
 	//new OgreBulletCollisions::CylinderCollisionShape()
-	//sceneBoxShape = new OgreBulletCollisions::BoxCollisionShape(sizeB);
-	sceneCylinderShape = new OgreBulletCollisions::CylinderCollisionShape(sizeB, Ogre::Vector3::UNIT_Y);
+	sceneBoxShape = new OgreBulletCollisions::BoxCollisionShape(sizeB);
+	//sceneCylinderShape = new OgreBulletCollisions::CylinderCollisionShape(sizeB, Ogre::Vector3::UNIT_Y);
 		//new OgreBulletCollisions::CylinderCollisionShape(sizeB, Ogre::Vector3::UNIT_Y);
 	//new OgreBulletCollisions::BoxCollisionShape(sizeB);
  	// and the Bullet rigid body
@@ -43,15 +43,17 @@ OBPlayer::OBPlayer(Ogre::SceneManager* mSceneMgr,
 
 	//Physical properties of the box
 	defaultBody->setShape(	node,
- 		sceneCylinderShape,
- 		0.6f,			// dynamic body restitution
+ 		sceneBoxShape,
+ 		0.0f,			// dynamic body restitution
  		0.8f,			// dynamic body friction
- 		1000.0f, 			// dynamic bodymass
+ 		0.001f, 			// dynamic bodymass
  		position,		// starting position of the box
  		Ogre::Quaternion(1,0,1,0));// orientation of the box
+	
+	defaultBody->getBulletRigidBody()->setGravity(btVector3(0,-30,0));
 
 	//Set the shooting speed 
-	defaultBody->setLinearVelocity(speed ); // shooting speed
+	//defaultBody->setLinearVelocity(speed ); // shooting speed
 }
 
 OBPlayer::~OBPlayer(void)
