@@ -22,7 +22,7 @@
                 <Property Name="Text" Value="Ingame Menu" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="ClippedByParent" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{-0.00233033,0},{-0.0679317,0},{1.05471,0},{0.176663,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.00079293,0},{-0.0612873,0},{1.0672,0},{0.183307,0}}" />
                 <Property Name="HorizontalAlignment" Value="Centre" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameReturnBtn" >
@@ -44,7 +44,7 @@
             <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="InheritsAlpha" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{-0.0013923,0},{-0.00309289,0},{0.326279,0},{0.222724,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{-0.00217355,0},{-0.00458992,0},{0.325498,0},{0.221227,0}}" />
             <Property Name="VerticalAlignment" Value="Centre" />
             <Property Name="HorizontalAlignment" Value="Centre" />
             <Property Name="AutoRenderingSurface" Value="True" />
@@ -52,7 +52,7 @@
                 <Property Name="Text" Value="Mission Accomplished!" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="ClippedByParent" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{-0.00233033,0},{-0.0611246,0},{1.05471,0},{0.15624,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{5.39189e-005,0},{-0.0611246,0},{1.04517,0},{0.15624,0}}" />
                 <Property Name="HorizontalAlignment" Value="Centre" />
             </Window>
             <Window Type="AquaLook/Button" Name="GameFinishedReturnBtn" >

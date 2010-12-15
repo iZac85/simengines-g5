@@ -39,14 +39,14 @@
                 <Property Name="VertExtent" Value="15.675" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="FrameEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.219044,0},{0.0588209,0},{0.298439,0},{0.095939,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.244967,0},{0.061865,0},{0.324362,0},{0.0989831,0}}" />
                 <Property Name="BackgroundEnabled" Value="False" />
                 <Window Type="AquaLook/RadioButton" Name="PhysSettingsOn" >
                     <Property Name="Font" Value="BlueHighway-12" />
                     <Property Name="Text" Value="On" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.877059,0},{0.172156,0},{1.406,0},{0.932337,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.877059,0},{0.13115,0},{1.406,0},{0.891331,0}}" />
                 </Window>
                 <Window Type="AquaLook/RadioButton" Name="PhysSettingsOff" >
                     <Property Name="Font" Value="BlueHighway-12" />
@@ -54,6 +54,20 @@
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
                     <Property Name="UnifiedAreaRect" Value="{{1.46767,0},{0.12134,0},{2.14048,0},{0.906619,0}}" />
+                </Window>
+                <Window Type="AquaLook/StaticText" Name="PhysSettingsGravWindow" >
+                    <Property Name="Text" Value="Gravity enabled" />
+                    <Property Name="HorzExtent" Value="90" />
+                    <Property Name="VertExtent" Value="15.675" />
+                    <Property Name="AlwaysOnTop" Value="True" />
+                    <Property Name="FrameEnabled" Value="False" />
+                    <Property Name="ClippedByParent" Value="False" />
+                    <Property Name="UnifiedAreaRect" Value="{{-0.00761809,0},{0.834308,0},{1.78256,0},{2.0605,0}}" />
+                    <Property Name="BackgroundEnabled" Value="False" />
+                    <Window Type="AquaLook/Checkbox" Name="PhysSettingsGravEn" >
+                        <Property Name="ClippedByParent" Value="False" />
+                        <Property Name="UnifiedAreaRect" Value="{{0.996038,0},{0.15104,0},{1.12284,0},{0.74336,0}}" />
+                    </Window>
                 </Window>
             </Window>
             <Window Type="AquaLook/StaticText" Name="OgreCEGUI/AISettings" >
@@ -70,7 +84,7 @@
                     <Property Name="Text" Value="On" />
                     <Property Name="AlwaysOnTop" Value="True" />
                     <Property Name="ClippedByParent" Value="False" />
-                    <Property Name="UnifiedAreaRect" Value="{{0.831618,0},{-0.0132782,0},{1.88316,0},{0.985811,0}}" />
+                    <Property Name="UnifiedAreaRect" Value="{{0.831618,0},{-0.0542846,0},{1.88316,0},{0.944805,0}}" />
                 </Window>
                 <Window Type="AquaLook/RadioButton" Name="AISettingsOff" >
                     <Property Name="Font" Value="BlueHighway-12" />
@@ -357,7 +371,7 @@ Y=</Property>
                 <Property Name="UnifiedAreaRect" Value="{{0.0164257,0},{0.748197,0},{0.395354,0},{0.909092,0}}" />
             </Window>
             <Window Type="AquaLook/Titlebar" Name="OgreCEGUI/" >
-                <Property Name="Text" Value="Group 5" />
+                <Property Name="Text" Value="NINJAAAAH!!!!" />
                 <Property Name="AlwaysOnTop" Value="True" />
                 <Property Name="ClippedByParent" Value="False" />
                 <Property Name="DraggingEnabled" Value="False" />
