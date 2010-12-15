@@ -16,6 +16,8 @@ using namespace micropather;
 // CONSTANTS
 bool DONTFLEEACTIVE = true;
 
+int WALLTHICKNESS = 1;
+
 // INSTANCES
 Pather *mPather;
 microTalker *mTalker;
@@ -61,58 +63,48 @@ void Pather::setMap(std::vector<std::vector<int>> tempMap)
 
 	const int dx[8] = { 1, 1, 0, -1, -1, -1, 0, 1 };
 	const int dy[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
-
-	for (int i = 1; i<map.size.x-1; i++)
+	for (int l = 0; l < WALLTHICKNESS; l++)
 	{
-		for(int j = 1; j<map.size.y-1; j++)
+		for (int i = 1; i<map.size.x-1; i++)
 		{
-			for( int k=0; k<8; ++k ) 
+			for(int j = 1; j<map.size.y-1; j++)
 			{
-				int nx = i + dx[k];
-				int ny = j + dy[k];
-
-				if(tempMap[nx][ny] == 1)
+				for( int k=0; k<8; ++k ) 
 				{
-					iMap[i][j] = 1;
-					break;
+					int nx = i + dx[k];
+					int ny = j + dy[k];
+
+					if(tempMap[nx][ny] == 1)
+					{
+						iMap[i][j] = 1;
+						break;
+					}
 				}
 			}
 		}
+		tempMap = iMap;
 	}
-
-	tempMap = iMap;
-
-	for (int i = 1; i<map.size.x-1; i++)
-	{
-		for(int j = 1; j<map.size.y-1; j++)
-		{
-			for( int k=0; k<8; ++k ) 
-			{
-				int nx = i + dx[k];
-				int ny = j + dy[k];
-
-				if(tempMap[nx][ny] == 1)
-				{
-					iMap[i][j] = 1;
-					break;
-				}
-			}
-		}
-	}
-
 
 	// Create new instance of microTalker
 	mTalker = new microTalker(iMap,map.size.x, map.size.y);
 }
 void Pather::fillPathDeck()
 {
-
-	pathDeck.clear();
+	if(!pathDeck.empty())
+		pathDeck.clear();
 	pathVector = mTalker->returnPath();
-	for (unsigned int i = 1; i < pathVector.size(); i++)
+	if(!pathVector.empty())
 	{
-		pathDeck.push_back(pathVector[i]);
+		for (unsigned int i = 1; i < pathVector.size(); i++)
+		{
+			pathDeck.push_back(pathVector[i]);
+		}
 	}
+	else
+	{
+		pathDeck.push_back(mTalker->XYToNode(robot.currentPos.x,robot.currentPos.y));
+	}
+
 }
 
 // Starting Positions
@@ -160,17 +152,17 @@ bool Pather::inMap(int x, int y)
 // Fleeing Functions
 void Pather::flee(int euclDist)
 {
-	if (euclDist < FASTFLEERADIUS && stuckFlag == 0)
+	if (euclDist < FASTFLEERADIUS)
 	{
 		fleeFast();
 		ninjaSpeed = 30*AISPEED;
 	}
-	else if (euclDist < SLOWFLEERADIUS && stuckFlag == 0)
+	if (euclDist < SLOWFLEERADIUS)
 	{
 		fleeSlow();
 		ninjaSpeed = 20*AISPEED;
 	}
-	else if (stuckFlag == 0)
+	else
 	{
 		if (DONTFLEEACTIVE)
 		{
@@ -187,15 +179,43 @@ int Pather::checkQuadrant()
 	//  Quadrant
 	//  4  3
 	//  1  2
-
-	if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
-		return 1;
-	else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
-		return 2;
-	else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
-		return 3;
-	else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
-		return 4;
+	if (stuckFlag == 0)
+	{
+		if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
+			return 1;
+		else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
+			return 2;
+		else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
+			return 3;
+		else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
+			return 4;
+	}
+	else
+	{
+		if(stuckLeft)
+		{
+			if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
+				return 2;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
+				return 3;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
+				return 4;
+			else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
+				return 1;	
+		
+		}
+		else
+		{
+			if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
+				return 4;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
+				return 1;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
+				return 2;
+			else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
+				return 3;		
+		}
+	}
 }
 void Pather::fleeFast()
 {
@@ -664,9 +684,9 @@ bool Pather::isStuck()
 	if(stuckDeck.size() > 10)
 		stuckDeck.pop_front();
 
-	if (stuckFlag == 0)
+	if (stuckFlag == 0 && !stuckDeck.empty())
 	{
-		int iter = 0;
+		int iter;
 		bool stuck = false;
 		int i,j;
 		for (i = 0; i<(int)stuckDeck.size(); i++)
@@ -674,24 +694,30 @@ bool Pather::isStuck()
 			iter = 0;
 			for (j = 0; j<(int)stuckDeck.size(); j++)
 			{
-				int temp1 = (int)stuckDeck[i]/(int)stuckDeck[j];
-				int temp2 = (int)stuckDeck[i];
-				if((int)stuckDeck[i]/(int)stuckDeck[j] == 0)
+				if(stuckDeck[i] == stuckDeck[j])
 					iter = iter+1;
-				if(iter > 4)
+				if(iter > 3)
 				{
 					stuck = true;
 					break;
 				}
-			}	
+			}
 			if(j<(int)stuckDeck.size())
 				break;
 		}
 		if(stuck)
 		{
-			dontFlee();
-			fillPathDeck();
-			stuckFlag = min((int)pathDeck.size()-2, 15);
+			stuckFlag = 10;
+			if(stuckLeft)
+			{
+				stuckLeft = false;
+				stuckRight = true;
+			}
+			else
+			{
+				stuckLeft = false;
+				stuckRight = true;
+			}
 			return true;
 		}
 	}
@@ -711,6 +737,7 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FF
 	AISPEED = AIS;
 
 	stuckFlag = 0;
+	stuckLeft = true;
 
 	setMap(tempMapVector);
 
@@ -734,13 +761,12 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 
 	int x,y;
 	// If path deck is empty calculate new path
-	if ((pathDeck.empty() || euclDist < SLOWFLEERADIUS ) && stuckFlag == 0)	
+	if (pathDeck.empty() || euclDist < SLOWFLEERADIUS)// && stuckFlag == 0)
 	{
-		
 		flee(euclDist);
+		stuckDeck.push_back(pathDeck.front());
 		isStuck();
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
-		stuckDeck.push_back(pathDeck.front());
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
@@ -748,10 +774,11 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	{
 		if(stuckFlag>0)
 			stuckFlag--;
-
-		mTalker->NodeToXY( pathDeck.front(), &x, &y );
 		stuckDeck.push_back(pathDeck.front());
-		pathDeck.pop_front();
+		isStuck();
+		mTalker->NodeToXY( pathDeck.front(), &x, &y );
+		if(!pathDeck.empty())
+			pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
 }

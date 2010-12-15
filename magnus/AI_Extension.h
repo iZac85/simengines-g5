@@ -47,6 +47,8 @@ private:
 		int AISPEED;
 
 		int stuckFlag;
+		bool stuckLeft;
+		bool stuckRight;
 
 		// Functions
 		void setMap(std::vector<std::vector<int>>);
