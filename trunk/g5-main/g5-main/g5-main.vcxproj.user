@@ -6,7 +6,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LocalDebuggerWorkingDirectory>$(G5_HOME)\SimEngines-g5\g5-main\g5-main\Bin\$(Configuration)\$(ProjectName).exe</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>$(G5_HOME)\SimEngines-g5\g5-main\g5-main\Bin\$(Configuration)\</LocalDebuggerWorkingDirectory>
     <LocalDebuggerCommand>$(G5_HOME)\SimEngines-g5\g5-main\g5-main\Bin\$(Configuration)\$(ProjectName).exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
