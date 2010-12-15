@@ -165,10 +165,16 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 				{
 					player->defaultBody->setLinearVelocity(mCameraFPV->getDerivedDirection().normalisedCopy() * Ogre::Vector3(-velocity, 0, -velocity));
 				}
+				else if(mKeyboard->isKeyDown(OIS::KC_R))
+				{
+					player->node->setPosition(10,0.2,10);
+					player->defaultBody->setCastShadows(true);
+				}
 				else
 				{
 					player->defaultBody->setLinearVelocity(Ogre::Vector3::ZERO);
 				}
+
 				
 			}
 
@@ -408,7 +414,7 @@ bool g5main::launch()
 
 		//Adding camera to the box node
 		player->node->attachObject(mCameraFPV);
-		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,40,0));
+		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,60,0));
 	}
 
 	delete mMapCreate;
