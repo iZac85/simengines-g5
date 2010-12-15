@@ -16,7 +16,7 @@ using namespace micropather;
 // CONSTANTS
 bool DONTFLEEACTIVE = true;
 
-int WALLTHICKNESS = 1;
+int WALLTHICKNESS = 2;
 
 // INSTANCES
 Pather *mPather;
@@ -715,8 +715,8 @@ bool Pather::isStuck()
 			}
 			else
 			{
-				stuckLeft = false;
-				stuckRight = true;
+				stuckLeft = true;
+				stuckRight = false;
 			}
 			return true;
 		}
