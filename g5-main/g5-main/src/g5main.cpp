@@ -72,6 +72,8 @@ void g5main::createCamera(void)
 	mCameraFPV = mSceneMgr->createCamera("FPVCam");
 	mCamera->lookAt(Ogre::Vector3(0,0,-300));
 	mCameraFPV->setNearClipDistance(0.1);
+	mCameraFPV->setFarClipDistance(50);
+	
 	
 }
 //-------------------------------------------------------------------------------------
@@ -337,7 +339,7 @@ bool g5main::launch()
 	mCamera->setPosition(Ogre::Vector3(0, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, 0) + (-1.0f) * camLookAt);
 	mCamera->lookAt(camLookAt);
 	mCamera->setNearClipDistance(0.1);
-	//mCamera->setFarClipDistance(100);
+
 
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
@@ -365,11 +367,11 @@ bool g5main::launch()
 		{
 			if(mCEGUI->extensionSettings.aiSettingsCustomOn)
 			{
-				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera, mCEGUI->extensionSettings.aiSettingsSFRVal, mCEGUI->extensionSettings.aiSettingsFFRVal, mCEGUI->extensionSettings.aiSettingsSFDVal, mCEGUI->extensionSettings.aiSettingsFFDVal, mCEGUI->extensionSettings.aiSettingsDFDVal, mCEGUI->extensionSettings.aiSettingsAISVal);
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV, mCEGUI->extensionSettings.aiSettingsSFRVal, mCEGUI->extensionSettings.aiSettingsFFRVal, mCEGUI->extensionSettings.aiSettingsSFDVal, mCEGUI->extensionSettings.aiSettingsFFDVal, mCEGUI->extensionSettings.aiSettingsDFDVal, mCEGUI->extensionSettings.aiSettingsAISVal);
 			}
 			else
 			{
-				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera);
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV);
 			}
 		}
 	}
