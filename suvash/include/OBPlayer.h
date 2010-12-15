@@ -5,6 +5,7 @@
 #include "OgreBulletCollisions.h"
 #include "OgreBulletDynamics.h"
 #include "Shapes/OgreBulletCollisionsBoxShape.h"		 // for Boxes
+#include "Shapes/OgreBulletCollisionsCylinderShape.h"
 #include "OgreBulletDynamicsRigidBody.h"				 // for OgreBullet
 
 
@@ -18,6 +19,8 @@ public:
 	Ogre::Vector3 sizeB;
 
 	OgreBulletCollisions::BoxCollisionShape* sceneBoxShape;
+	OgreBulletCollisions::CylinderCollisionShape* sceneCylinderShape;
+
 	OgreBulletDynamics::RigidBody *defaultBody;
 
 	OBPlayer(Ogre::SceneManager* mSceneMgr, 
