@@ -335,6 +335,8 @@ bool g5main::launch()
 	Ogre::Light* l = mSceneMgr->createLight("MainLight");
 	l->setPosition(20,80,50);
 
+	mSceneMgr->setFog(Ogre::FOG_NONE);
+
 	Ogre::Vector3 camLookAt = Ogre::Vector3(mCEGUI->extensionSettings.threeDSettingsArenaSizeX/2, 0, mCEGUI->extensionSettings.threeDSettingsArenaSizeY/2);
 	mCamera->setPosition(Ogre::Vector3(0, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, 0) + (-1.0f) * camLookAt);
 	mCamera->lookAt(camLookAt);
