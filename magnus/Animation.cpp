@@ -21,18 +21,12 @@ Animation::~Animation(void)
  
 void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
-	// Enable shadows
-	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
-
-	// Enable Sky Dome
-	//mSceneMgr->setSkyDome(true, "Examples/CloudySky", 5, 8);
 
     // Create robot entity
     ninjaEntity = mSceneMgr->createEntity("Ninja", "ninja.mesh");
     ninjaNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("NinjaNode");
     ninjaNode->attachObject(ninjaEntity);
 	ninjaNode->setScale(0.09f, 0.09f, 0.09f);
-
 	ninjaEntity->setCastShadows(true);
 	mWalkSpeed = 5;
 	mDirection = Ogre::Vector3::ZERO;
@@ -67,48 +61,6 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 		mWalkList.push_back(ninjaNode->getPosition());
 	//}
 
-	// Create Grass
-	createGrassMesh();
-	Ogre::Plane plane;
-	plane.normal = Ogre::Vector3::UNIT_Y;
-	plane.d = 0;
-
-	Ogre::MeshManager::getSingleton().createPlane("plane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 10000.0f, 10000.0f, 10, 10, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
-	Ogre::Entity* planeEnt = mSceneMgr->createEntity("floor","plane");
-	planeEnt->setMaterialName("Examples/GrassFloor");
-	planeEnt->setCastShadows(false);
-	grassNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("grassNode",Ogre::Vector3(0,-1,0));
-	grassNode->attachObject(planeEnt);
-	
-	Ogre::Entity* grass = mSceneMgr->createEntity("grass", "GrassBladesMesh");
-	Ogre::StaticGeometry* sg = mSceneMgr->createStaticGeometry("GrassArea");
-
-	const int size = mapSizeX+600;
-	const int amount = 6;
-
-	sg->setRegionDimensions(Ogre::Vector3(size, size, size));
-	sg->setOrigin(Ogre::Vector3(-size/2, 0, -size/2));
-
-	for(int x = -size / 2; x < size /2; x += (size/amount))
-	{
-		for(int z = -size / 2; z < size / 2; z += (size/amount))
-		{
-			if (!aiPather->inMap(x,z))
-			{
-				Ogre::Real r = 50;//size / float(amount / 2);
-				Ogre::Vector3 pos(x + Ogre::Math::RangeRandom(-r, r), 0, z + Ogre::Math::RangeRandom(-r, r));
-				Ogre::Vector3 scale(1, Ogre::Math::RangeRandom(0.9f, 1.1f), 1);
-				Ogre::Quaternion orientation;
-			
-
-			orientation.FromAngleAxis(Ogre::Degree(Ogre::Math::RangeRandom(0, 359)), Ogre::Vector3::UNIT_Y);
-
-			sg->addEntity(grass, pos, orientation, scale);
-			}
-		}
-		sg->build();
-	}
-
 }
 bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
@@ -128,49 +80,6 @@ bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 		arrowNode->setVisible(false);
 
 	return status;
-}
-void Animation::createGrassMesh()
-{
-	//declare all of our grass variables
-	const float width = 25.0f;
-	const float height = 40.0f;
-
-	Ogre::ManualObject grass("GrassObject");
-
-	Ogre::Vector3 vec(width / 2, 0, 0);
-	Ogre::Quaternion rot;
-	rot.FromAngleAxis(Ogre::Degree(60), Ogre::Vector3::UNIT_Y);
-
-	//start defining our manual object
-	grass.begin("Examples/GrassBlades", Ogre::RenderOperation::OT_TRIANGLE_LIST);
-
-	//define the 4 vertices of our quad and set to the texture coordinates
-	for(int i = 0; i < 3; ++i)
-	{
-		grass.position(-vec.x, height, -vec.z);
-		grass.textureCoord(0, 0);
-
-		grass.position(vec.x, height, vec.z);
-		grass.textureCoord(1, 0);
-
-		grass.position(-vec.x, 0, -vec.z);
-		grass.textureCoord(0, 1);
-
-		grass.position(vec.x, 0, vec.z);
-		grass.textureCoord(1, 1);
-
-		int offset = i * 4;
-
-		grass.triangle(offset, offset + 3, offset + 1);
-		grass.triangle(offset, offset + 2, offset + 3);
-
-		//rotate the next quad
-		vec = rot * vec;
-	}
-	grass.end();
-
-	//create an actual mesh out of this object
-	grass.convertToMesh("GrassBladesMesh");
 }
 
 void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
@@ -192,7 +101,7 @@ void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 
 	
 	
-	arrowNode->setPosition(cameraPos+cameraDir+cameraUp*0.3+cameraRight*0.5);
+	arrowNode->setPosition(cameraPos+cameraDir+cameraUp*0.3+cameraRight*0.4);
 	//arrowNode->setPosition(cameraPos+cameraDir*10+cameraUp*Ogre::Viewport->getActualHeight()/0.9+cameraRight*Ogre::Viewport->getActualWidth()/0.9);
 
 }
@@ -222,7 +131,6 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 			mAnimationState->setEnabled(true);
 			robotDead = true;
 			mWalkSpeed = 1;
-			mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.8), 0.001 ,1, max(mapSizeX,mapSizeY)/8);
 		}
 	}
 	else if (robotAlive)
