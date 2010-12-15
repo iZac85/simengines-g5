@@ -66,9 +66,9 @@
             <Window Type="AquaLook/StaticText" Name="GameFinishedText" >
                 <Property Name="Text" Value="Congrats! You caught the ninja!" />
                 <Property Name="HorzExtent" Value="262" />
-                <Property Name="VertExtent" Value="15.29" />
+                <Property Name="VertExtent" Value="15.675" />
                 <Property Name="FrameEnabled" Value="False" />
-                <Property Name="UnifiedAreaRect" Value="{{0.0399392,0},{0.169246,0},{0.950203,0},{0.426054,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.0135479,0},{0.169246,0},{0.923812,0},{0.426054,0}}" />
                 <Property Name="BackgroundEnabled" Value="False" />
             </Window>
         </Window>

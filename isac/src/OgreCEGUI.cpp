@@ -307,6 +307,7 @@ void OgreCEGUI::createScene(void)
 	aiSettingsOffBtn -> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsOffBtnChanged, this));
 	
 	//Load text fields for AI settings
+	aiSettingsCustomWindow = (CEGUI::Window*)Wmgr->getWindow("AISettingsCustom");
 	aiSettingsSFRWindow = (CEGUI::Window*)Wmgr->getWindow("AISettingsSFRWindow");
 	aiSettingsFFRWindow = (CEGUI::Window*)Wmgr->getWindow("AISettingsFFRWindow");
 	aiSettingsSFDWindow = (CEGUI::Window*)Wmgr->getWindow("AISettingsSFDWindow");
@@ -315,6 +316,7 @@ void OgreCEGUI::createScene(void)
 	aiSettingsAISWindow = (CEGUI::Window*)Wmgr->getWindow("AISettingsAISWindow");
 
 	//Hide the fields for 3D settings as default
+	aiSettingsCustomWindow->setVisible(false);
 	aiSettingsSFRWindow->setVisible(false);
 	aiSettingsFFRWindow->setVisible(false);
 	aiSettingsSFDWindow->setVisible(false);
@@ -323,18 +325,21 @@ void OgreCEGUI::createScene(void)
 	aiSettingsAISWindow->setVisible(false);
 
 	//Load the input fields for AI settings
+
+	aiSettingsCustomOn = (CEGUI::Checkbox*)Wmgr->getWindow("AISettingsCustomOn");
+	aiSettingsCustomOn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsCustomOnChanged, this));
 	aiSettingsSFR = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsSFR");
-	aiSettingsSFR-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsSFRChanged, this));
+	aiSettingsSFR-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsSFRChanged, this));
 	aiSettingsFFR = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsFFR");
-	aiSettingsFFR-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsFFRChanged, this));
+	aiSettingsFFR-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsFFRChanged, this));
 	aiSettingsSFD = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsSFD");
-	aiSettingsSFD-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsSFDChanged, this));
+	aiSettingsSFD-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsSFDChanged, this));
 	aiSettingsFFD = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsFFD");
-	aiSettingsFFD-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsFFDChanged, this));
+	aiSettingsFFD-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsFFDChanged, this));
 	aiSettingsDFD = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsDFD");
-	aiSettingsDFD-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsDFDChanged, this));
+	aiSettingsDFD-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsDFDChanged, this));
 	aiSettingsAIS = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsAIS");
-	aiSettingsAIS-> subscribeEvent(CEGUI::RadioButton::EventSelectStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsAISChanged, this));
+	aiSettingsAIS-> subscribeEvent(CEGUI::Spinner::EventValueChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsAISChanged, this));
 
 	//Set limits and default values for the input fields for AI settings
 	aiSettingsSFR->setMinimumValue(AI_SFR_MIN);	// Slow Flee Radius
@@ -365,7 +370,7 @@ void OgreCEGUI::createScene(void)
 	aiSettingsAIS->setMinimumValue(AI_AIS_MIN);	// AI Speed (%, range 50% to 400%)
 	aiSettingsAIS->setMaximumValue(AI_AIS_MAX);
 	aiSettingsAIS->setCurrentValue(AI_AIS_CURR);
-	extensionSettings.aiSettingsAISVal = float(AI_AIS_CURR)/100;
+	extensionSettings.aiSettingsAISVal = float(AI_AIS_CURR/100);
 
 	//Set the "Off" value as default for AI settings
 	aiSettingsOffBtn -> setSelected(true);
@@ -414,32 +419,32 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	}
 
 	CEGUI::String aISettings;
-	if(extensionSettings.aiSettingsOn == false) aISettings = " ";
+	if(extensionSettings.aiSettingsCustomOn == false) aISettings = " ";
 	else
 	{
 	CEGUI::String AI_SFR;
-	float AI_SFR_Float = float(extensionSettings.aiSettingsSFRVal);
-	floatToString(AI_SFR_Float, AI_SFR);
+	int AI_SFR_int = int(extensionSettings.aiSettingsSFRVal);
+	IntToString(AI_SFR_int, AI_SFR);
 
 	CEGUI::String AI_FFR;
-	float AI_FFR_Float = float(extensionSettings.aiSettingsFFRVal);
-	floatToString(AI_FFR_Float, AI_FFR);
+	int AI_FFR_int = int(extensionSettings.aiSettingsFFRVal);
+	IntToString(AI_FFR_int, AI_FFR);
 
 	CEGUI::String AI_SFD;
-	float AI_SFD_Float = float(extensionSettings.aiSettingsSFDVal);
-	floatToString(AI_SFD_Float, AI_SFD);
+	int AI_SFD_int = int(extensionSettings.aiSettingsSFDVal);
+	IntToString(AI_SFD_int, AI_SFD);
 
 	CEGUI::String AI_FFD;
-	float AI_FFD_Float = float(extensionSettings.aiSettingsFFDVal);
-	floatToString(AI_FFD_Float, AI_FFD);
+	int AI_FFD_int = int(extensionSettings.aiSettingsFFDVal);
+	IntToString(AI_FFD_int, AI_FFD);
 
 	CEGUI::String AI_DFD;
-	float AI_DFD_float = float(extensionSettings.aiSettingsDFDVal);
-	floatToString(AI_DFD_float, AI_DFD);
+	int AI_DFD_int = int(extensionSettings.aiSettingsDFDVal);
+	IntToString(AI_DFD_int, AI_DFD);
 
 	CEGUI::String AI_AIS;
-	float AI_AIS_float = float(extensionSettings.aiSettingsAISVal);
-	floatToString(AI_AIS_float, AI_AIS);
+	int AI_AIS_int = int(extensionSettings.aiSettingsAISVal);
+	IntToString(AI_AIS_int, AI_AIS);
 
 	aISettings = " => SFR = " + AI_SFR + ", FFR = " + AI_FFR + ", SFD = " + AI_SFD + ", FFD = " + AI_FFD + ", DFD = " + AI_DFD + ", AIS = " + AI_AIS;
 	}
@@ -612,14 +617,44 @@ bool OgreCEGUI::aiSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 {
 	if (aiSettingsOnBtn->isSelected())
 	{
+		aiSettingsCustomWindow->setVisible(true);
+		aiSettingsBtns[0] = true;
+		extensionSettings.aiSettingsOn = true;
+	}
+	else
+	{
+		aiSettingsCustomWindow->setVisible(false);
+		aiSettingsBtns[0] = false;
+		extensionSettings.aiSettingsOn = false;
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::aiSettingsOffBtnChanged(const CEGUI::EventArgs &e)
+{
+	if (aiSettingsOffBtn->isSelected())
+	{
+		aiSettingsBtns[1] = true;
+		extensionSettings.aiSettingsOn = false;
+	}
+	else
+	{
+		aiSettingsBtns[1] = false;
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::aiSettingsCustomOnChanged(const CEGUI::EventArgs &e)
+{
+	if (aiSettingsCustomOn->isSelected())
+	{
 		aiSettingsSFRWindow->setVisible(true);
 		aiSettingsFFRWindow->setVisible(true);
 		aiSettingsSFDWindow->setVisible(true);
 		aiSettingsFFDWindow->setVisible(true);
 		aiSettingsDFDWindow->setVisible(true);
 		aiSettingsAISWindow->setVisible(true);
-		aiSettingsBtns[0] = true;
-		extensionSettings.aiSettingsOn = true;
+		extensionSettings.aiSettingsCustomOn = true;
 	}
 	else
 	{
@@ -629,39 +664,10 @@ bool OgreCEGUI::aiSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 		aiSettingsFFDWindow->setVisible(false);
 		aiSettingsDFDWindow->setVisible(false);
 		aiSettingsAISWindow->setVisible(false);
-		aiSettingsBtns[0] = false;
+		extensionSettings.aiSettingsCustomOn = false;
 	}
 	return true;
 }
-//-------------------------------------------------------------------------------------
-bool OgreCEGUI::aiSettingsOffBtnChanged(const CEGUI::EventArgs &e)
-{
-	if (aiSettingsOffBtn->isSelected())
-	{
-		aiSettingsBtns[1] = false;
-		extensionSettings.aiSettingsOn = false;
-	}
-	else
-	{
-		aiSettingsBtns[1] = true;
-	}
-	return true;
-}
-//-------------------------------------------------------------------------------------
-//bool OgreCEGUI::aiSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
-//{
-//	if (aiSettingsOp3Btn->isSelected())
-//	{
-//		aiSettingsBtns[2] = true;
-//		extensionSettings.aiSettingsOn = 0;
-//	}
-//	else
-//	{
-//		aiSettingsBtns[2] = false;
-//	}
-//	return true;
-//}
-//-------------------------------------------------------------------------------------
 bool OgreCEGUI::physSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 {
 	if (physSettingsOnBtn->isSelected())
@@ -689,20 +695,6 @@ bool OgreCEGUI::physSettingsOffChanged(const CEGUI::EventArgs &e)
 	}
 	return true;
 }
-//-------------------------------------------------------------------------------------
-//bool OgreCEGUI::physSettingsOp3BtnChanged(const CEGUI::EventArgs &e)
-//{
-//	if (physSettingsOp3Btn->isSelected())
-//	{
-//		physSettingsBtns[2] = true; 
-//		extensionSettings.physSettingsOn = 0;
-//	}
-//	else
-//	{
-//		physSettingsBtns[2] = false;
-//	}
-//	return true;
-//}
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::aiSettingsSFRChanged(const CEGUI::EventArgs &e)
 {
@@ -736,6 +728,7 @@ bool OgreCEGUI::aiSettingsDFDChanged(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::aiSettingsAISChanged(const CEGUI::EventArgs &e)
 {
+	//extensionSettings.aiSettingsAISVal = aiSettingsAIS->getCurrentValue();
 	extensionSettings.aiSettingsAISVal = float((aiSettingsAIS->getCurrentValue())/100);
 	return true;
 }
@@ -754,9 +747,9 @@ float OgreCEGUI::calcSliderValue(bool sliderToSpinner, float currentValue)
 	}
 }
 //-------------------------------------------------------------------------------------
-void OgreCEGUI::floatToString(float &numberFloat, CEGUI::String &numberString)
+void OgreCEGUI::IntToString(int& numberInt, CEGUI::String& numberString)
 {
-	int number = int(numberFloat);
+	int number = int(numberInt);
 	std::string stringHundredThousands;
 	std::string stringTenThousands;
 	std::string stringThousands;

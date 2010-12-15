@@ -334,9 +334,10 @@ bool g5main::launch()
 	l->setPosition(20,80,50);
 
 	Ogre::Vector3 camLookAt = Ogre::Vector3(mCEGUI->extensionSettings.threeDSettingsArenaSizeX/2, 0, mCEGUI->extensionSettings.threeDSettingsArenaSizeY/2);
-	mCamera->setPosition(Ogre::Vector3(0,100,0) + (-0.5f) * camLookAt);
+	mCamera->setPosition(Ogre::Vector3(0, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, 0) + (-1.0f) * camLookAt);
 	mCamera->lookAt(camLookAt);
 	mCamera->setNearClipDistance(0.1);
+	//mCamera->setFarClipDistance(100);
 
 	BaseApplication::createFrameListener();
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
@@ -349,17 +350,28 @@ bool g5main::launch()
 	// AI
 	if (mCEGUI->extensionSettings.aiSettingsOn)
 	{
-		int SFR = 80;	// Slow Flee Radius
-		int FFR = 20;	// Fast Flee Radius
-		int SFD = 10;	// Slow Flee Distance
-		int FFD = 1;	// Fast Flee Distance
-		int DFD = 100;	// Don't Flee Distance
-		int AIS = 1;	// % AI Speed (1 = 100%, range 50% to 400%)
-
-		if (mCEGUI->extensionSettings.physSettingsOn == 0) // IF Physics off
-			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera, SFR, FFR, SFD, FFD, DFD, AIS);
+		if (!mCEGUI->extensionSettings.physSettingsOn) // IF Physics off
+		{
+			if(mCEGUI->extensionSettings.aiSettingsCustomOn)
+			{
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera, mCEGUI->extensionSettings.aiSettingsSFRVal, mCEGUI->extensionSettings.aiSettingsFFRVal, mCEGUI->extensionSettings.aiSettingsSFDVal, mCEGUI->extensionSettings.aiSettingsFFDVal, mCEGUI->extensionSettings.aiSettingsDFDVal, mCEGUI->extensionSettings.aiSettingsAISVal);
+			}
+			else
+			{
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera);
+			}
+		}
 		else // else if physics on
-			mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCameraFPV, SFR, FFR, SFD, FFD, DFD, AIS);
+		{
+			if(mCEGUI->extensionSettings.aiSettingsCustomOn)
+			{
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera, mCEGUI->extensionSettings.aiSettingsSFRVal, mCEGUI->extensionSettings.aiSettingsFFRVal, mCEGUI->extensionSettings.aiSettingsSFDVal, mCEGUI->extensionSettings.aiSettingsFFDVal, mCEGUI->extensionSettings.aiSettingsDFDVal, mCEGUI->extensionSettings.aiSettingsAISVal);
+			}
+			else
+			{
+				mAnimation = new Animation(mMapCreate->map, mSceneMgr, mCamera);
+			}
+		}
 	}
 
 	if (mCEGUI->extensionSettings.physSettingsOn)
