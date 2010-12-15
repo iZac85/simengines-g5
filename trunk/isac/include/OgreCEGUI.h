@@ -149,7 +149,7 @@ protected:
 
 	static const int AI_SFD_MIN = 5;	// Slow Flee Distance
 	static const int AI_SFD_MAX = 30;
-	static const int AI_SFD_CURR = 20;
+	static const int AI_SFD_CURR = 10;
 
 	static const int AI_FFD_MIN = 1;	// Fast Flee Distance
 	static const int AI_FFD_MAX = 10;
