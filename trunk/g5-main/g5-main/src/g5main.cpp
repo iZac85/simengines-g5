@@ -338,7 +338,10 @@ bool g5main::launch()
 	mSceneMgr->setFog(Ogre::FOG_NONE);
 
 	Ogre::Vector3 camLookAt = Ogre::Vector3(mCEGUI->extensionSettings.threeDSettingsArenaSizeX/2, 0, mCEGUI->extensionSettings.threeDSettingsArenaSizeY/2);
-	mCamera->setPosition(Ogre::Vector3(0, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, 0) + (-1.0f) * camLookAt);
+	int camHeight;
+	if (mCEGUI->extensionSettings.threeDSettingsArenaSizeX > mCEGUI->extensionSettings.threeDSettingsArenaSizeY) camHeight = mCEGUI->extensionSettings.threeDSettingsArenaSizeX;
+	else camHeight = mCEGUI->extensionSettings.threeDSettingsArenaSizeY;
+	mCamera->setPosition(Ogre::Vector3(0, 50 + camHeight/4, 0) + (-0.5f) * camLookAt);
 	mCamera->lookAt(camLookAt);
 	mCamera->setNearClipDistance(0.1);
 
