@@ -147,7 +147,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			{
 				mKeyboard->capture();
 
-				Ogre::Real velocity = 50.0f;
+				Ogre::Real velocity = 15.0f;
 
 				if(mKeyboard->isKeyDown(OIS::KC_A))
 				{
@@ -405,7 +405,7 @@ bool g5main::launch()
 
 		//Adding camera to the box node
 		player->node->attachObject(mCameraFPV);
-		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,5.7,0));
+		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,40,0));
 	}
 
 	delete mMapCreate;

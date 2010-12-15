@@ -40,7 +40,7 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
 	//Physical properties of the box
 	defaultBody->setShape(	node,
  		sceneBoxShape,
- 		0.6f,			// dynamic body restitution
+ 		0.3f,			// dynamic body restitution
  		0.8f,			// dynamic body friction
  		1.0f, 			// dynamic bodymass
  		position,		// starting position of the box
