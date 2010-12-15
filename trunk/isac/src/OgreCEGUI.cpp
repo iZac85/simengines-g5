@@ -385,6 +385,17 @@ void OgreCEGUI::createScene(void)
 	//Set the "Off" value as default for Physics settings
 	physSettingsOffBtn -> setSelected(true);
 	extensionSettings.physSettingsOn = false;
+
+	//Load input fields for physics settings
+	physSettingsGravityWindow = (CEGUI::Window*)Wmgr->getWindow("PhysSettingsGravWindow");
+	physSettingsGravityWindow->setVisible(false);
+
+	physSettingsGravityEn = (CEGUI::Checkbox*)Wmgr->getWindow("PhysSettingsGravEn");
+	physSettingsGravityEn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::physSettingsGravityEnChanged, this));
+
+	//Set Gravity ON as default
+	physSettingsGravityEn->setSelected(true);
+	extensionSettings.physSettingsGravEn = true;
 	}
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::quit(const CEGUI::EventArgs &e)
@@ -399,7 +410,7 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	mainMenuRootWindow->setVisible(false);
 	CEGUI::MouseCursor::getSingleton().hide();
 	/*CEGUI::String aiSettingsString;
-	if (aiSettingsBtns[1] == 1)
+	if (extensionSettings.aiSettingsOn)
 	{
 	aiSettingsString = "On";
 	}
@@ -409,13 +420,13 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	}
 
 	CEGUI::String physSettingsString;
-	if (physSettingsBtns[1] == 1) 
+	if (extensionSettings.physSettingsOn) 
 	{
 	physSettingsString = "On";
 	}
 	else 
 	{
-	physSettingsString = "off";
+	physSettingsString = "Off";
 	}
 
 	CEGUI::String aISettings;
@@ -636,6 +647,14 @@ bool OgreCEGUI::aiSettingsOffBtnChanged(const CEGUI::EventArgs &e)
 	{
 		aiSettingsBtns[1] = true;
 		extensionSettings.aiSettingsOn = false;
+		aiSettingsSFRWindow->setVisible(false);
+		aiSettingsFFRWindow->setVisible(false);
+		aiSettingsSFDWindow->setVisible(false);
+		aiSettingsFFDWindow->setVisible(false);
+		aiSettingsDFDWindow->setVisible(false);
+		aiSettingsAISWindow->setVisible(false);
+		aiSettingsCustomOn->setSelected(false);
+		extensionSettings.aiSettingsCustomOn = false;
 	}
 	else
 	{
@@ -668,16 +687,19 @@ bool OgreCEGUI::aiSettingsCustomOnChanged(const CEGUI::EventArgs &e)
 	}
 	return true;
 }
+//-------------------------------------------------------------------------------------
 bool OgreCEGUI::physSettingsOnBtnChanged(const CEGUI::EventArgs &e)
 {
 	if (physSettingsOnBtn->isSelected())
 	{
 		physSettingsBtns[0] = true;
 		extensionSettings.physSettingsOn = true;
+		physSettingsGravityWindow->setVisible(true);
 	}
 	else
 	{
 		physSettingsBtns[0] = false;
+		physSettingsGravityWindow->setVisible(false);
 	}
 	return true;
 }
@@ -692,6 +714,19 @@ bool OgreCEGUI::physSettingsOffChanged(const CEGUI::EventArgs &e)
 	else
 	{
 		physSettingsBtns[1] = true;
+	}
+	return true;
+}
+//-------------------------------------------------------------------------------------
+bool OgreCEGUI::physSettingsGravityEnChanged(const CEGUI::EventArgs &e)
+{
+	if (physSettingsGravityEn->isSelected())
+	{
+		extensionSettings.physSettingsGravEn = true;
+	}
+	else
+	{
+		extensionSettings.physSettingsGravEn = false;
 	}
 	return true;
 }

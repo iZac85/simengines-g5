@@ -46,6 +46,8 @@ void g5main::clearScene(void)
 	mTrayMgr->hideAll();
 	mTrayMgr->destroyAllWidgets();
 	mRoot->removeFrameListener(this);
+	mWindow->getViewport(0)->setCamera(mCamera);
+	cameraFPVinUse = false;
 	if (mCEGUI->extensionSettings.aiSettingsOn) delete mAnimation;
 	if (mCEGUI->extensionSettings.physSettingsOn)
 	{
@@ -70,11 +72,9 @@ void g5main::createCamera(void)
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
 
 	mCameraFPV = mSceneMgr->createCamera("FPVCam");
-	mCamera->lookAt(Ogre::Vector3(0,0,-300));
+	mCamera->lookAt(Ogre::Vector3(0, 10, mCEGUI->extensionSettings.threeDSettingsArenaSizeX));
 	mCameraFPV->setNearClipDistance(0.1);
-	mCameraFPV->setFarClipDistance(50);
-	
-	
+	mCameraFPV->setFarClipDistance(150);
 }
 //-------------------------------------------------------------------------------------
 void g5main::createFrameListener(void)
@@ -174,15 +174,10 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 				{
 					player->defaultBody->setLinearVelocity(Ogre::Vector3::ZERO);
 				}
-
 				
 			}
-
 			mBulletWorld->mWorld->stepSimulation(evt.timeSinceLastFrame);
-
 		}
-
-
 		// AI
 		if (mCEGUI->extensionSettings.aiSettingsOn && !mGuiActive)
 		{
@@ -191,9 +186,7 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCamera);
 			else // else if physics on
 				gameActive = mAnimation->UpdateAnimation(evt, mSceneMgr, mCameraFPV);
-
 		}
-
 		if (!gameActive && !mGuiActive)
 		{
 			mSceneMgr->setFog(Ogre::FOG_LINEAR,Ogre::ColourValue (0.4,0,0,0.8), 0.001 ,1, 100);
@@ -201,7 +194,6 @@ bool g5main::frameRenderingQueued(const Ogre::FrameEvent& evt)
 			mGuiActive = true;
 			//gameFinished = false;
 		}
-
 		return BaseApplication::frameRenderingQueued(evt);
 	}
 	else return true;
@@ -220,22 +212,10 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 		mGuiActive = true;
 		return true;
 	}
-	return BaseApplication::keyPressed(arg);
-}
-//-------------------------------------------------------------------------------------
-bool g5main::keyReleased( const OIS::KeyEvent &arg )
-{
-	if(mGuiActive)
-	{
-		if (mCEGUI->ingameMenuVisible) mCameraMan->injectKeyUp(arg);
-		mCEGUI->keyReleased(arg);
-		return true;
-	}
 	if (mCEGUI->extensionSettings.physSettingsOn != 0 && !mGuiActive)
 	{
-
-		if (arg.key == OIS::KC_B){//&& mTimeUntilNextToggle <=0){
-
+		if (arg.key == OIS::KC_B)//&& mTimeUntilNextToggle <=0){
+		{
 			Ogre::Vector3 position;
 			Ogre::Vector3 speed;
 
@@ -250,7 +230,6 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 				position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
 				speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
 			}
-
 			OBBox *box = new OBBox(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "cube.mesh");
 
 			mBulletWorld->mNumEntitiesInstanced++;				
@@ -260,13 +239,10 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 			mBulletWorld->mShapes.push_back(box->sceneBoxShape);
 			mBulletWorld->mBodies.push_back(box->defaultBody);				
 			//mTimeUntilNextToggle = 0.5;
-
-
 			return true;
 		}
-	
-		if (arg.key == OIS::KC_C){
-
+		if (arg.key == OIS::KC_C)
+		{
 			//Toggle the camera ...
 			if(cameraFPVinUse)
 			{
@@ -282,11 +258,20 @@ bool g5main::keyReleased( const OIS::KeyEvent &arg )
 				mCameraPos = mCamera->getPosition();
 				mCameraOrt = mCamera->getOrientation();
 			}
-
 			return true;
 		}
 	}
-	
+	return BaseApplication::keyPressed(arg);
+}
+//-------------------------------------------------------------------------------------
+bool g5main::keyReleased( const OIS::KeyEvent &arg )
+{
+	if(mGuiActive)
+	{
+		if (mCEGUI->ingameMenuVisible) mCameraMan->injectKeyUp(arg);
+		mCEGUI->keyReleased(arg);
+		return true;
+	}	
 	return BaseApplication::keyReleased(arg);
 }
 //-------------------------------------------------------------------------------------
@@ -303,7 +288,6 @@ bool g5main::mouseMoved( const OIS::MouseEvent &arg )
 		mCameraFPV->pitch(Ogre::Degree(-arg.state.Y.rel * 0.25f));
 		return true;
 	}
-	//return true;
 	return BaseApplication::mouseMoved(arg);
 }
 //-------------------------------------------------------------------------------------
@@ -314,7 +298,6 @@ bool g5main::mousePressed( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		mCEGUI->mousePressed(arg,id);
 		return true;
 	}
-	//return true;
 	return BaseApplication::mousePressed(arg,id);
 }
 //-------------------------------------------------------------------------------------
@@ -325,7 +308,6 @@ bool g5main::mouseReleased( const OIS::MouseEvent &arg, OIS::MouseButtonID id )
 		mCEGUI->mouseReleased(arg,id);
 		return true;
 	}
-	//return true;
 	return BaseApplication::mouseReleased(arg,id);
 }
 //-------------------------------------------------------------------------------------
@@ -499,6 +481,11 @@ bool g5main::launch()
 		//Adding camera to the box node
 		player->node->attachObject(mCameraFPV);
 		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,60,0));
+
+		cameraFPVinUse = true;
+		mWindow->getViewport(0)->setCamera(mCameraFPV);
+		mCameraPos = mCamera->getPosition();
+		mCameraOrt = mCamera->getOrientation();
 	}
 
 	delete mMapCreate;
@@ -522,7 +509,6 @@ extern "C" {
     {
         // Create application object
         g5main app;
-		//OgreBulletProg app;
 
         try {
             app.go();

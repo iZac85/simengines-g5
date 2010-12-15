@@ -63,6 +63,7 @@ public:
 		int aiSettingsDFDVal;	// Don't Flee Distance
 		float aiSettingsAISVal;	// AI Speed (%, range 50% to 400%)
 		bool physSettingsOn;
+		bool physSettingsGravEn;
 		bool threeDSettingsActive;
 		int threeDsettingsDoorCnt;
 		bool threeDsettingsFurnitureEn;
@@ -100,6 +101,8 @@ protected:
 	
 	bool physSettingsOnBtnChanged(const CEGUI::EventArgs &e);
 	bool physSettingsOffChanged(const CEGUI::EventArgs &e);
+
+	bool physSettingsGravityEnChanged(const CEGUI::EventArgs &e);
 
 	bool arenaSizeXsliderChanged(const CEGUI::EventArgs &e);
 	bool arenaSizeYsliderChanged(const CEGUI::EventArgs &e);
@@ -182,6 +185,8 @@ protected:
 	CEGUI::Window* doorCntWindow;
 	CEGUI::Window* furnitureWindow;
 
+	CEGUI::Window* physSettingsGravityWindow;
+
 	CEGUI::Window* aiSettingsCustomWindow;
 	CEGUI::Window* aiSettingsSFRWindow;
 	CEGUI::Window* aiSettingsFFRWindow;
@@ -220,6 +225,9 @@ protected:
 
 	CEGUI::RadioButton* physSettingsOnBtn;
 	CEGUI::RadioButton* physSettingsOffBtn;
+
+	//Input fields for physics settings
+	CEGUI::Checkbox* physSettingsGravityEn;
 
 /////////////INGAME MENU OBJECTS//////////////
 
