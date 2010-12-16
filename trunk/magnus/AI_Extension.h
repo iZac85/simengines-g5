@@ -46,9 +46,10 @@ private:
 		int DONTFLEEDIST;
 		int AISPEED;
 
-		int stuckFlag;
-		bool stuckLeft;
-		bool stuckRight;
+		int stuckCountr;
+		int directionToTry;
+		bool stuck;
+		bool reallyStuck;
 
 		// Functions
 		void setMap(std::vector<std::vector<int>>);
@@ -60,7 +61,7 @@ private:
 		void dontFlee(void);
 		void fillPathDeck(void);
 		bool lineOfSight(void);
-		bool isStuck();
+		bool isStuck(int);
 
 		// Structs
 		struct vec2_

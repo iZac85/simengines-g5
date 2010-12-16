@@ -152,15 +152,16 @@ bool Pather::inMap(int x, int y)
 // Fleeing Functions
 void Pather::flee(int euclDist)
 {
-	if (euclDist < FASTFLEERADIUS)
+	if (euclDist < FASTFLEERADIUS && !reallyStuck)
 	{
 		fleeFast();
-		ninjaSpeed = 30*AISPEED;
+		ninjaSpeed = 40*AISPEED;
 	}
-	if (euclDist < SLOWFLEERADIUS)
+	else if (euclDist < SLOWFLEERADIUS && !reallyStuck)
 	{
 		fleeSlow();
 		ninjaSpeed = 20*AISPEED;
+
 	}
 	else
 	{
@@ -179,7 +180,7 @@ int Pather::checkQuadrant()
 	//  Quadrant
 	//  4  3
 	//  1  2
-	if (stuckFlag == 0)
+	if (stuckCountr == 0)
 	{
 		if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
 			return 1;
@@ -192,19 +193,7 @@ int Pather::checkQuadrant()
 	}
 	else
 	{
-		if(stuckLeft)
-		{
-			if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
-				return 2;
-			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
-				return 3;
-			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
-				return 4;
-			else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
-				return 1;	
-		
-		}
-		else
+		if (directionToTry == 0)
 		{
 			if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
 				return 4;
@@ -213,12 +202,27 @@ int Pather::checkQuadrant()
 			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
 				return 2;
 			else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
-				return 3;		
+				return 3;
+		}
+		else
+		{
+			if (player.currentPos.x < robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // LeftButtom
+				return 2;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y < robot.currentPos.y) // RightButtom
+				return 3;
+			else if (player.currentPos.x >= robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // RightTop 
+				return 4;
+			else // (player.currentPos.x < robot.currentPos.x && player.currentPos.y >= robot.currentPos.y) // LeftTop
+				return 1;
 		}
 	}
 }
 void Pather::fleeFast()
 {
+	// Randomize diversion in where to traverse
+	float randFast = rand()%((int)(FASTFLEEDIST/2));
+	int randFastInt = (int)randFast;
+
 	// Flee fast
 	for (int i = 1; i<=8;i++) // Loop through the surrounding neighbours
 	{
@@ -234,23 +238,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 				}
 				break;
@@ -259,23 +263,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 				}
 				break;
@@ -285,21 +289,21 @@ void Pather::fleeFast()
 					// Flee Towards RightTop
 					case 1 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 				}
@@ -309,23 +313,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 				}
 				break;
@@ -334,23 +338,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 				}
 				break;
@@ -360,21 +364,21 @@ void Pather::fleeFast()
 					// Flee Towards RightTop
 					case 1 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 				}
@@ -384,23 +388,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 				}
 				break;
@@ -409,23 +413,23 @@ void Pather::fleeFast()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y - FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y - FASTFLEEDIST - randFastInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x + FASTFLEEDIST + randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - FASTFLEEDIST;
-						goalNode.y = robot.currentPos.y + FASTFLEEDIST;
+						goalNode.x = robot.currentPos.x - FASTFLEEDIST - randFastInt;
+						goalNode.y = robot.currentPos.y + FASTFLEEDIST + randFastInt;
 						break;
 				}
 				break;
@@ -438,6 +442,9 @@ void Pather::fleeFast()
 }
 void Pather::fleeSlow()
 {
+	// Randomize diversion in where to traverse
+	float randSlow = rand()%(SLOWFLEEDIST/4);
+	int randSlowInt = (int)randSlow;
 	// Flee slow
 	for (int i = 1; i<=8;i++) // Loop through the surrounding neighbours
 	{
@@ -448,23 +455,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 				}
 				break;
@@ -473,23 +480,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 				}
 				break;
@@ -499,21 +506,21 @@ void Pather::fleeSlow()
 					// Flee Towards RightTop
 					case 1 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 				}
@@ -523,23 +530,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 				}
 				break;
@@ -548,23 +555,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 				}
 				break;
@@ -574,22 +581,22 @@ void Pather::fleeSlow()
 					// Flee Towards RightTop
 					case 1 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y + randSlowInt;
 						break;
 				}
 				break;
@@ -598,23 +605,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
 						goalNode.y = robot.currentPos.y;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
 						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y + randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 				}
 				break;
@@ -623,23 +630,23 @@ void Pather::fleeSlow()
 				{
 					// Flee Towards RightTop
 					case 1 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftTop
 					case 2 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y - SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y - SLOWFLEEDIST - randSlowInt;
 						break;
 					// Flee Towards LeftBottom
 					case 3 :
-						goalNode.x = robot.currentPos.x + SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x + SLOWFLEEDIST + randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 					// Flee Towards RightBottom
 					case 4 :
-						goalNode.x = robot.currentPos.x - SLOWFLEEDIST;
-						goalNode.y = robot.currentPos.y + SLOWFLEEDIST;
+						goalNode.x = robot.currentPos.x - SLOWFLEEDIST - randSlowInt;
+						goalNode.y = robot.currentPos.y + SLOWFLEEDIST + randSlowInt;
 						break;
 				}
 				break;
@@ -677,17 +684,22 @@ bool Pather::lineOfSight()
 	return true;
 }
 
-bool Pather::isStuck()
+bool Pather::isStuck(int euclDist)
 {
 
-	// Keep the deck to size 10 elements
+	if(stuckCountr>0)
+		stuckCountr--;
+
+	stuckDeck.push_back(pathDeck.front());
+
 	if(stuckDeck.size() > 10)
 		stuckDeck.pop_front();
 
-	if (stuckFlag == 0 && !stuckDeck.empty())
+	if (stuckCountr == 0 && !stuckDeck.empty())
 	{
 		int iter;
-		bool stuck = false;
+		stuck = false;
+		reallyStuck = false;
 		int i,j;
 		for (i = 0; i<(int)stuckDeck.size(); i++)
 		{
@@ -696,7 +708,11 @@ bool Pather::isStuck()
 			{
 				if(stuckDeck[i] == stuckDeck[j])
 					iter = iter+1;
-				if(iter > 3)
+				if(iter == 9)
+				{
+					reallyStuck = true;
+				}
+				if(iter > 4)
 				{
 					stuck = true;
 					break;
@@ -705,21 +721,18 @@ bool Pather::isStuck()
 			if(j<(int)stuckDeck.size())
 				break;
 		}
-		if(stuck)
+		if (reallyStuck)
 		{
-			stuckFlag = 10;
-			if(stuckLeft)
-			{
-				stuckLeft = false;
-				stuckRight = true;
-			}
-			else
-			{
-				stuckLeft = true;
-				stuckRight = false;
-			}
+			stuckCountr = euclDist/2;
 			return true;
 		}
+		else if(stuck)
+		{
+			stuckCountr = euclDist/2;
+			directionToTry = rand()%2;
+			return true;
+		}
+
 	}
 
 	return false;
@@ -734,10 +747,9 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FF
 	SLOWFLEEDIST = SFD;
 	FASTFLEEDIST = FFD;
 	DONTFLEEDIST = DFD;
-	AISPEED = AIS;
+	AISPEED = AIS;	//Conv to float
 
-	stuckFlag = 0;
-	stuckLeft = true;
+	stuckCountr = 0;
 
 	setMap(tempMapVector);
 
@@ -764,18 +776,15 @@ Ogre::Vector3 Pather::AIframe(int robPosX, int robPosY, int playerPosX, int play
 	if (pathDeck.empty() || euclDist < SLOWFLEERADIUS)// && stuckFlag == 0)
 	{
 		flee(euclDist);
-		stuckDeck.push_back(pathDeck.front());
-		isStuck();
+		isStuck(euclDist);
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
 		pathDeck.pop_front();
 		return(Ogre::Vector3((float)x,0.0f,(float)y));
 	}
 	else
 	{
-		if(stuckFlag>0)
-			stuckFlag--;
-		stuckDeck.push_back(pathDeck.front());
-		isStuck();
+
+		isStuck(euclDist);
 		mTalker->NodeToXY( pathDeck.front(), &x, &y );
 		if(!pathDeck.empty())
 			pathDeck.pop_front();
