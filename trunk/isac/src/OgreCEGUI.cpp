@@ -93,6 +93,7 @@ bool OgreCEGUI::mouseMoved( const OIS::MouseEvent &arg )
 {
     CEGUI::System &sys = CEGUI::System::getSingleton();
 	sys.injectMouseMove(arg.state.X.rel, arg.state.Y.rel);
+
 	// Scroll wheel.
 	if (arg.state.Z.rel)
 		sys.injectMouseWheelChange(arg.state.Z.rel / 120.0f);
@@ -203,18 +204,6 @@ void OgreCEGUI::createScene(void)
 
 	//Load main menu root window
 	mainMenuRootWindow = (CEGUI::Window*)Wmgr->getWindow("Root");
-
-	//load in a file, replace with your own file
-	//mainMenuImageTex = mRenderer->createTexture("logo.png", "Imagesets");
-
-	////create a new imageset with an image that spans the entire texture
-	//mainMenuImageSet = & CEGUI::ImagesetManager::getSingleton().createFromImageFile( "logo", "logo.png", "Imagesets" );
-
-	//mainMenuImageSet = CEGUI::ImagesetManager::getSingleton().create((CEGUI::utf8*)"MainMenuImageSet",mainMenuImageTex);
-	//mainMenuImageSet.defineImage("BaseImage", CEGUI::Point(0.0f, 0.0f), CEGUI::Size(guiTex.getSize().d_width, guiTex.getSize().d_height), CEGUI::Point(0.0f, 0.0f));
-
-	//mainMenuImageWindow = (CEGUI::DefaultWindow*)Wmgr->getWindow("OgreCEGUI/Image");
-	//mainMenuImageWindow->setProperty("Image", "BaseImage");
 
 	//Load main menu buttons
 	quitBtn = (CEGUI::PushButton*)Wmgr->getWindow("OgreCEGUI/quitBtn");
@@ -408,57 +397,6 @@ bool OgreCEGUI::launchDemo(const CEGUI::EventArgs &e)
 	mLaunch = true;
 	mainMenuRootWindow->setVisible(false);
 	CEGUI::MouseCursor::getSingleton().hide();
-	/*CEGUI::String aiSettingsString;
-	if (extensionSettings.aiSettingsOn)
-	{
-	aiSettingsString = "On";
-	}
-	else 
-	{
-	aiSettingsString = "off";
-	}
-
-	CEGUI::String physSettingsString;
-	if (extensionSettings.physSettingsOn) 
-	{
-	physSettingsString = "On";
-	}
-	else 
-	{
-	physSettingsString = "Off";
-	}
-
-	CEGUI::String aISettings;
-	if(extensionSettings.aiSettingsCustomOn == false) aISettings = " ";
-	else
-	{
-	CEGUI::String AI_SFR;
-	int AI_SFR_int = int(extensionSettings.aiSettingsSFRVal);
-	IntToString(AI_SFR_int, AI_SFR);
-
-	CEGUI::String AI_FFR;
-	int AI_FFR_int = int(extensionSettings.aiSettingsFFRVal);
-	IntToString(AI_FFR_int, AI_FFR);
-
-	CEGUI::String AI_SFD;
-	int AI_SFD_int = int(extensionSettings.aiSettingsSFDVal);
-	IntToString(AI_SFD_int, AI_SFD);
-
-	CEGUI::String AI_FFD;
-	int AI_FFD_int = int(extensionSettings.aiSettingsFFDVal);
-	IntToString(AI_FFD_int, AI_FFD);
-
-	CEGUI::String AI_DFD;
-	int AI_DFD_int = int(extensionSettings.aiSettingsDFDVal);
-	IntToString(AI_DFD_int, AI_DFD);
-
-	CEGUI::String AI_AIS;
-	int AI_AIS_int = int(extensionSettings.aiSettingsAISVal);
-	IntToString(AI_AIS_int, AI_AIS);
-
-	aISettings = " => SFR = " + AI_SFR + ", FFR = " + AI_FFR + ", SFD = " + AI_SFD + ", FFD = " + AI_FFD + ", DFD = " + AI_DFD + ", AIS = " + AI_AIS;
-	}
-	infoBox->setText("Demo launch with Physics: " + physSettingsString + ", AI: " + aiSettingsString + aISettings);*/
 	return true;
 }
 //-------------------------------------------------------------------------------------
@@ -780,100 +718,6 @@ float OgreCEGUI::calcSliderValue(bool sliderToSpinner, float currentValue)
 	}
 }
 //-------------------------------------------------------------------------------------
-void OgreCEGUI::IntToString(int& numberInt, CEGUI::String& numberString)
-{
-	int number = int(numberInt);
-	std::string stringHundredThousands;
-	std::string stringTenThousands;
-	std::string stringThousands;
-	std::string stringHundreds;
-	std::string stringTens;
-	std::string stringOnes;
-	int hundredThousands = number/100000;
-	int tenThousands = number/10000 - hundredThousands*10;
-	int thousands = number/1000 - tenThousands*10 - hundredThousands*100;
-	int hundreds = number/100 - thousands*10 - tenThousands*100 - hundredThousands*1000;
-	int tens = number/10 - hundreds*10 - thousands*100 - tenThousands*1000 - hundredThousands*10000;
-	int ones = (number -= (tens*10 + hundreds*100 + thousands*1000 + tenThousands*10000 + hundredThousands*100000));
-
-	if (hundredThousands == 0) stringHundredThousands = ' ';
-	else if (hundredThousands == 1) stringHundredThousands = '1';
-	else if (hundredThousands == 2) stringHundredThousands = '2';
-	else if (hundredThousands == 3) stringHundredThousands = '3';
-	else if (hundredThousands == 4) stringHundredThousands = '4';
-	else if (hundredThousands == 5) stringHundredThousands = '5';
-	else if (hundredThousands == 6) stringHundredThousands = '6';
-	else if (hundredThousands == 7) stringHundredThousands = '7';
-	else if (hundredThousands == 8) stringHundredThousands = '8';
-	else stringHundredThousands = '9';
-
-	if (tenThousands == 0 && hundredThousands == 0) stringTenThousands = ' ';
-	else if (tenThousands == 0) stringTenThousands = '0';
-	else if (tenThousands == 1) stringTenThousands = '1';
-	else if (tenThousands == 2) stringTenThousands = '2';
-	else if (tenThousands == 3) stringTenThousands = '3';
-	else if (tenThousands == 4) stringTenThousands = '4';
-	else if (tenThousands == 5) stringTenThousands = '5';
-	else if (tenThousands == 6) stringTenThousands = '6';
-	else if (tenThousands == 7) stringTenThousands = '7';
-	else if (tenThousands == 8) stringTenThousands = '8';
-	else stringTenThousands = '9';
-
-	if (thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringThousands = ' ';
-	else if (thousands == 0) stringThousands = '0';
-	else if (thousands == 1) stringThousands = '1';
-	else if (thousands == 2) stringThousands = '2';
-	else if (thousands == 3) stringThousands = '3';
-	else if (thousands == 4) stringThousands = '4';
-	else if (thousands == 5) stringThousands = '5';
-	else if (thousands == 6) stringThousands = '6';
-	else if (thousands == 7) stringThousands = '7';
-	else if (thousands == 8) stringThousands = '8';
-	else stringThousands = '9';
-	
-	if (hundreds == 0 && thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringHundreds = ' ';
-	else if (hundreds == 0) stringHundreds = '0';
-	else if (hundreds == 1) stringHundreds = '1';
-	else if (hundreds == 2) stringHundreds = '2';
-	else if (hundreds == 3) stringHundreds = '3';
-	else if (hundreds == 4) stringHundreds = '4';
-	else if (hundreds == 5) stringHundreds = '5';
-	else if (hundreds == 6) stringHundreds = '6';
-	else if (hundreds == 7) stringHundreds = '7';
-	else if (hundreds == 8) stringHundreds = '8';
-	else stringHundreds = '9';
-
-	if (tens == 0 && hundreds == 0 && thousands == 0 && tenThousands == 0 && hundredThousands == 0) stringTens = ' ';
-	else if (tens == 0) stringTens = '0';
-	else if (tens == 1) stringTens = '1';
-	else if (tens == 2) stringTens = '2';
-	else if (tens == 3) stringTens = '3';
-	else if (tens == 4) stringTens = '4';
-	else if (tens == 5) stringTens = '5';
-	else if (tens == 6) stringTens = '6';
-	else if (tens == 7) stringTens = '7';
-	else if (tens == 8) stringTens = '8';
-	else stringTens = '9';
-	
-	if (ones == 0) stringOnes = '0';
-	else if (ones == 1) stringOnes = '1';
-	else if (ones == 2) stringOnes = '2';
-	else if (ones == 3) stringOnes = '3';
-	else if (ones == 4) stringOnes = '4';
-	else if (ones == 5) stringOnes = '5';
-	else if (ones == 6) stringOnes = '6';
-	else if (ones == 7) stringOnes = '7';
-	else if (ones == 8) stringOnes = '8';
-	else stringOnes = '9';
-
-	     if (hundredThousands == 0 && tenThousands == 0 && thousands == 0 && hundreds == 0 && tens == 0) numberString = stringOnes;
-	else if (hundredThousands == 0 && tenThousands == 0 && thousands == 0 && hundreds == 0) numberString = stringTens + stringOnes;
-	else if (hundredThousands == 0 && tenThousands == 0 && thousands == 0) numberString = stringHundreds + stringTens + stringOnes;
-	else if (hundredThousands == 0 && tenThousands == 0) numberString = stringThousands + stringHundreds + stringTens + stringOnes;
-	else if (hundredThousands == 0) numberString = stringTenThousands + stringThousands + stringHundreds + stringTens + stringOnes;
-	else   numberString = stringHundredThousands + stringTenThousands + stringThousands + stringHundreds + stringTens + stringOnes;
-}
-//-------------------------------------------------------------------------------------
 void OgreCEGUI::updateRoomSize(int currentVal)
 {
 	int arenaSizeXval = extensionSettings.threeDSettingsArenaSizeX;
@@ -891,41 +735,3 @@ int OgreCEGUI::checkMinPercentRoomSize(int aSizeX, int aSizeY)
 	}
 	return 100;
 }
-//-------------------------------------------------------------------------------------
-/*
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-#define WIN32_LEAN_AND_MEAN
-#include "windows.h"
-#endif
-//-------------------------------------------------------------------------------------
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-    INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR strCmdLine, INT )
-#else
-    int main(int argc, char *argv[])
-#endif
-    {
-        // Create application object
-        OgreCEGUI app;
-
-        try {
-            app.go();
-        } catch( Ogre::Exception& e ) {
-#if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-            MessageBox( NULL, e.getFullDescription().c_str(), "An exception has occured!", MB_OK | MB_ICONERROR | MB_TASKMODAL);
-#else
-            std::cerr << "An exception has occured: " <<
-                e.getFullDescription().c_str() << std::endl;
-#endif
-        }
-
-        return 0;
-    }
-
-#ifdef __cplusplus
-}
-#endif
-*/

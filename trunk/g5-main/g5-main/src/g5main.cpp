@@ -23,7 +23,8 @@ g5main::g5main(void)
 	mainMenuActive(false),
 	cameraFPVinUse(false),
 	gameActive(false),
-	mapCreateFinished(false)
+	mapCreateFinished(false),
+	widgetsVisible(false)
 {
 	mCEGUI = new OgreCEGUI();
 }
@@ -44,6 +45,7 @@ void g5main::clearScene(void)
 {
 	mSceneMgr->clearScene();
 	mTrayMgr->hideAll();
+	widgetsVisible = false;
 	mTrayMgr->destroyAllWidgets();
 	mRoot->removeFrameListener(this);
 	mWindow->getViewport(0)->setCamera(mCamera);
@@ -206,11 +208,25 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 		mCEGUI->keyPressed(arg, gameActive);
 		return true;
 	}
-	if (mGuiActive == false && arg.key == OIS::KC_ESCAPE)
+	if (!mGuiActive && arg.key == OIS::KC_ESCAPE)
 	{
 		mCEGUI->ShowIngameMenu(gameActive);
 		mGuiActive = true;
 		return true;
+	}
+	if(!mGuiActive && arg.key == OIS::KC_K)
+	{
+		if (widgetsVisible)
+		{
+			mTrayMgr->hideAll();
+			widgetsVisible = false;
+		}
+		else 
+		{
+			mTrayMgr->showAll();
+			mTrayMgr->hideCursor();
+			widgetsVisible = true;
+		}
 	}
 	if (mCEGUI->extensionSettings.physSettingsOn != 0 && !mGuiActive)
 	{
@@ -408,7 +424,6 @@ bool g5main::launch()
 				Ogre::Vector3 scale(1, Ogre::Math::RangeRandom(0.9f, 1.1f), 1);
 				Ogre::Quaternion orientation;
 
-
 				orientation.FromAngleAxis(Ogre::Degree(Ogre::Math::RangeRandom(0, 359)), Ogre::Vector3::UNIT_Y);
 
 				sg->addEntity(grass, pos, orientation, scale);
@@ -419,6 +434,8 @@ bool g5main::launch()
 	// Grass Stop
 
 	BaseApplication::createFrameListener();
+	mTrayMgr->hideAll();
+	widgetsVisible = false;
 	if (mCEGUI->extensionSettings.threeDSettingsActive == true)
 	{
 		mMapCreate = new MapCreate(mRoot, mSceneMgr, mCEGUI->extensionSettings.threeDSettingsArenaSizeX, mCEGUI->extensionSettings.threeDSettingsArenaSizeY, 14, 14 , mCEGUI->extensionSettings.threeDsettingsMaxRoomSize, mCEGUI->extensionSettings.threeDsettingsDoorCnt, mCEGUI->extensionSettings.threeDsettingsFurnitureEn);

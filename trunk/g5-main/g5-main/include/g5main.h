@@ -80,6 +80,7 @@ protected:
 	bool mainMenuActive;
 	bool gameActive;
 	bool mapCreateFinished;
+	bool widgetsVisible;
 };
 
 #endif // #ifndef __g5main_h_
