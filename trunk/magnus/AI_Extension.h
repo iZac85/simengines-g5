@@ -18,7 +18,7 @@ public:
     ~Pather(void);
 		
 		// Public Functions
-		void AIinit(std::vector<std::vector<int>>, int, int, int, int, int, int);
+		void AIinit(std::vector<std::vector<int>>, int, int, int, int, int, float);
 		Ogre::Vector3 AIframe(int, int, int, int);
 		Ogre::Vector3 randPlayerPos(void);
 		Ogre::Vector3 randNinjaPos(void);
