@@ -44,7 +44,7 @@ private:
 		int SLOWFLEEDIST;
 		int FASTFLEEDIST;
 		int DONTFLEEDIST;
-		int AISPEED;
+		float AISPEED;
 
 		int stuckCountr;
 		int directionToTry;

@@ -747,7 +747,7 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FF
 	SLOWFLEEDIST = SFD;
 	FASTFLEEDIST = FFD;
 	DONTFLEEDIST = DFD;
-	AISPEED = 1;//AIS;
+	AISPEED = AIS/100;
 
 	stuckCountr = 0;
 
