@@ -548,7 +548,7 @@ bool OgreCEGUI::threeDSettingsEnableChanged(const CEGUI::EventArgs &e)
 		extensionSettings.threeDSettingsActive = true;
 		roomSizeMaxWindow->setVisible(true);
 		doorCntWindow->setVisible(true);
-		furnitureWindow->setVisible(true);
+		furnitureWindow->setVisible(false); //true
 	}
 	else
 	{
