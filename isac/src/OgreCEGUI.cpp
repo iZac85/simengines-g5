@@ -325,7 +325,6 @@ void OgreCEGUI::createScene(void)
 	aiSettingsAISWindow->setVisible(false);
 
 	//Load the input fields for AI settings
-
 	aiSettingsCustomOn = (CEGUI::Checkbox*)Wmgr->getWindow("AISettingsCustomOn");
 	aiSettingsCustomOn->subscribeEvent(CEGUI::Checkbox::EventCheckStateChanged, CEGUI::Event::Subscriber(&OgreCEGUI::aiSettingsCustomOnChanged, this));
 	aiSettingsSFR = (CEGUI::Spinner*)Wmgr->getWindow("AISettingsSFR");
@@ -370,7 +369,7 @@ void OgreCEGUI::createScene(void)
 	aiSettingsAIS->setMinimumValue(AI_AIS_MIN);	// AI Speed (%, range 50% to 400%)
 	aiSettingsAIS->setMaximumValue(AI_AIS_MAX);
 	aiSettingsAIS->setCurrentValue(AI_AIS_CURR);
-	extensionSettings.aiSettingsAISVal = float(AI_AIS_CURR/100);
+	extensionSettings.aiSettingsAISVal = float((aiSettingsAIS->getCurrentValue())/100);
 
 	//Set the "Off" value as default for AI settings
 	aiSettingsOffBtn -> setSelected(true);
@@ -763,7 +762,6 @@ bool OgreCEGUI::aiSettingsDFDChanged(const CEGUI::EventArgs &e)
 //-------------------------------------------------------------------------------------
 bool OgreCEGUI::aiSettingsAISChanged(const CEGUI::EventArgs &e)
 {
-	//extensionSettings.aiSettingsAISVal = aiSettingsAIS->getCurrentValue();
 	extensionSettings.aiSettingsAISVal = float((aiSettingsAIS->getCurrentValue())/100);
 	return true;
 }
