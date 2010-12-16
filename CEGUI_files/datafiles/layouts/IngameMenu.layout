@@ -31,7 +31,7 @@
             </Window>
             <Window Type="AquaLook/Button" Name="InGameQuitBtn" >
                 <Property Name="Text" Value="Quit to Windows" />
-                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{0.907152,0}}" />
+                <Property Name="UnifiedAreaRect" Value="{{0.03,0},{0.715241,0},{0.96,0},{0.920441,0}}" />
             </Window>
             <Window Type="AquaLook/Button" Name="InGameCloseBtn" >
                 <Property Name="Text" Value="Return to Game" />
@@ -44,7 +44,7 @@
             <Property Name="TitlebarFont" Value="BlueHighway-12" />
             <Property Name="InheritsAlpha" Value="False" />
             <Property Name="TitlebarEnabled" Value="False" />
-            <Property Name="UnifiedAreaRect" Value="{{-0.00217355,0},{-0.00458992,0},{0.325498,0},{0.221227,0}}" />
+            <Property Name="UnifiedAreaRect" Value="{{0.00095145,0},{-9.88711e-005,0},{0.328623,0},{0.225718,0}}" />
             <Property Name="VerticalAlignment" Value="Centre" />
             <Property Name="HorizontalAlignment" Value="Centre" />
             <Property Name="AutoRenderingSurface" Value="True" />
