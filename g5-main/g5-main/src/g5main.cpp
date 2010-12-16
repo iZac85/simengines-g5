@@ -459,9 +459,11 @@ bool g5main::launch()
 		mBulletWorld = new BulletInitWorld(mSceneMgr,
 										   mMapCreate->returnFloorNode(),
 										   mMapCreate->returnWallNodeVec(),
+										   mMapCreate->returnFurnitureNodeVec(),
 										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
 										   mCEGUI->extensionSettings.threeDSettingsArenaSizeY,
-										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX);
+										   mCEGUI->extensionSettings.threeDSettingsArenaSizeX,
+										   mCEGUI->extensionSettings.physSettingsGravEn);
 
 		// starting position of the player
 		Ogre::Vector3 position = Ogre::Vector3(10, 0.2, 10);//(mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
@@ -482,10 +484,10 @@ bool g5main::launch()
 		player->node->attachObject(mCameraFPV);
 		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,60,0));
 
-		cameraFPVinUse = true;
-		mWindow->getViewport(0)->setCamera(mCameraFPV);
-		mCameraPos = mCamera->getPosition();
-		mCameraOrt = mCamera->getOrientation();
+		//cameraFPVinUse = true;
+		//mWindow->getViewport(0)->setCamera(mCameraFPV);
+		//mCameraPos = mCamera->getPosition();
+		//mCameraOrt = mCamera->getOrientation();
 	}
 
 	delete mMapCreate;

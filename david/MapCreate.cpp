@@ -92,7 +92,7 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	{
 		for(int j = mRandGen->arena.wall[w].pos3D.y - mRandGen->arena.wall[w].dim3D.y/2; j < mRandGen->arena.wall[w].pos3D.y + mRandGen->arena.wall[w].dim3D.y/2; j++)
 		{
-			for(float k = 0.5; k < 20; k++)
+			for(float k = 0; k < 20; k=k+2)
 			{
 				mTmpEnt = mSceneMgr->createEntity("cube.mesh");
 				int r = mRandGen->randInt(2,2);
@@ -117,16 +117,16 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 				mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 				mTmpNode->attachObject(mFurnitureEnt[boxIndex]);
 				boxIndex++;
-				mTmpNode->setScale(0.0075 ,0.01, 0.0075);
+				mTmpNode->setScale(0.01 ,0.02, 0.01);
 				
 				float boxWidth = 1;//1.05;
-				float boxHeight = 1.075;
+				float boxHeight = 1;
 				
 				int x = i * boxWidth;
 				float y = k * boxHeight;
 				int z = j * boxWidth;
 				
-				mTmpNode->setPosition(x+0.5,y+0.5,z+0.5);
+				mTmpNode->setPosition(x+0.5,y+1.0001,z+0.5);
 				mFurnitureNode.push_back(mTmpNode);
 				//mRoot->renderOneFrame();
 			}

@@ -4,20 +4,25 @@
 BulletInitWorld::BulletInitWorld(Ogre::SceneManager* mSceneMgr, 
 								 Ogre::SceneNode* ogreFloorNode,
 								 std::vector<Ogre::SceneNode*> ogreWallNodeVec,
+								 std::vector<Ogre::SceneNode*> ogreBoxNodeVec,
 								 Ogre::Real dimx,
 								 Ogre::Real dimy,
-								 Ogre::Real dimz )
+								 Ogre::Real dimz,
+								 bool enableGravity)
 {
 	this->ogreSceneMgr = mSceneMgr;
 	this->bulletWorldX = dimx;
 	this->bulletWorldY = dimy;
 	this->bulletWorldZ = dimz;
+	this->zeroGravityisOn = !enableGravity;
 
 	this->initWorld();
-	this->debugBoxBullet(true);
+	this->debugBoxBullet(false);
 
 	this->addFloor(ogreFloorNode);
 	this->addWalls(ogreWallNodeVec);
+	this->addBoxes(ogreBoxNodeVec);
+
 }
 
 
@@ -37,7 +42,15 @@ void BulletInitWorld::initWorld()
 
 
 	//Start Bullet
-	gravityVector = Ogre::Vector3(0,-20.81,0);
+	if(zeroGravityisOn)
+	{
+		gravityVector = Ogre::Vector3(0,0,0);
+	}
+	else
+	{
+		gravityVector = Ogre::Vector3(0,-20.81,0);
+	}
+	
 	bounds = Ogre::AxisAlignedBox(minBound, maxBound);
 	mWorld = new OgreBulletDynamics::DynamicsWorld(ogreSceneMgr, bounds, gravityVector);
 	//mWorld->
@@ -118,6 +131,34 @@ void BulletInitWorld::addWalls(std::vector<Ogre::SceneNode*> ogreWallNodeVec)
 
 		mShapes.push_back(wallBoxShape);
 		 mBodies.push_back(defaultWallBody);
+	}
+}
+
+void BulletInitWorld::addBoxes(std::vector<Ogre::SceneNode*> ogreBoxNodeVec)
+{
+	for (int i=0; i < (int)ogreBoxNodeVec.size(); i++)
+	{
+
+		Ogre::AxisAlignedBox boxBoundingB = ogreBoxNodeVec[i]->getAttachedObject(0)->getBoundingBox();
+		Ogre::Vector3 boxSizeB = boxBoundingB.getSize();
+		boxSizeB /= 2.0f;
+		boxSizeB *= 0.98f;
+
+		boxSizeB.x *= ogreBoxNodeVec[i]->getScale().x;
+		boxSizeB.y *= ogreBoxNodeVec[i]->getScale().y;
+		boxSizeB.z *= ogreBoxNodeVec[i]->getScale().z;
+
+		OgreBulletCollisions::BoxCollisionShape *boxBoxShape = new OgreBulletCollisions::BoxCollisionShape(boxSizeB);
+
+		OgreBulletDynamics::RigidBody *defaultBoxBody = new OgreBulletDynamics::RigidBody(
+			"boxRigid" + Ogre::StringConverter::toString(i), 
+			mWorld);
+
+		Ogre::Vector3 posBox = Ogre::Vector3(ogreBoxNodeVec[i]->_getDerivedPosition());
+		defaultBoxBody->setShape(ogreBoxNodeVec[i],boxBoxShape,0.0,0.8,0.001f,posBox);
+
+		mShapes.push_back(boxBoxShape);
+		mBodies.push_back(defaultBoxBody);
 	}
 }
 
