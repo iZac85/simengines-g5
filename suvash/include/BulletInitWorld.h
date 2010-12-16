@@ -30,11 +30,14 @@ public:
 	Ogre::Real bulletWorldY;
 	Ogre::Real bulletWorldZ;
 
+	bool zeroGravityisOn;
+
 	//Initialize the world
 	void initWorld();
 	void debugBoxBullet(bool);
 	void addFloor(Ogre::SceneNode*);
 	void addWalls(std::vector<Ogre::SceneNode*>);
+	void addBoxes(std::vector<Ogre::SceneNode*>);
 	
 	void run();
 
@@ -44,9 +47,11 @@ public:
 	BulletInitWorld(Ogre::SceneManager*,
 					Ogre::SceneNode*,
 					std::vector<Ogre::SceneNode*>,
+					std::vector<Ogre::SceneNode*>,
 					Ogre::Real, 
 					Ogre::Real, 
-					Ogre::Real);
+					Ogre::Real,
+					bool);
 
 	~BulletInitWorld(void);
 };

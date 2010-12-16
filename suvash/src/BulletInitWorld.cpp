@@ -48,7 +48,7 @@ void BulletInitWorld::initWorld()
 	}
 	else
 	{
-		gravityVector = Ogre::Vector3(0,-20.81,0);
+		gravityVector = Ogre::Vector3(0,-10.81,0);
 	}
 	
 	bounds = Ogre::AxisAlignedBox(minBound, maxBound);
