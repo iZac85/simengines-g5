@@ -4,7 +4,6 @@
 
 #include "math.h"
 #include <vector>
-//using namespace std;
 
 class RandGen
 {
@@ -30,6 +29,7 @@ public:
 	struct wall
 	{
 		posFloat pos3D;
+		posFloat dim3D;
 		tile pos;
 		tile dim;	//m
 		int type; //0 = interior wall, 1 = exterior wall
@@ -61,6 +61,7 @@ public:
 	void generateMap(int dim_x=150, int dim_y=150, int room_min_x=14, int room_min_y=14, int room_max_area=200,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
 	void updateBlackTiles(void);
 	int randInt(int low, int high);
+	int GetLongestWall(void);
 
 private:
 	void updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos);

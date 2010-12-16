@@ -24,8 +24,8 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	mapFinished = false;
 	mRandGen = new RandGen();
 
-	//mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
-	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+	//mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	//mRandGen->generateMap(27,27,14,14,196,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	//mRandGen->generateMap(100,100,14,14,600,2,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
 	Ogre::Entity* mfloorEnt;
@@ -55,61 +55,83 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	mFloorNode->attachObject(mfloorEnt);
 	mFloorNode->setScale(0.01 * dim_x, 0.01, 0.01 * dim_y);
 	
-	//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+	int w = mRandGen->GetLongestWall();
+	int wallIndex = 0;
 	for(int i = 0; i < mRandGen->arena.wall_cnt; i++)
 	{
-		mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-		//mTmpEnt->setCastShadows(false);
-		int r = mRandGen->randInt(0,2);
-		switch (r)
+		if(i != w)
 		{
-			case 0: 
-				mTmpEnt->setMaterialName("WallBlue");
-				break;
-			case 1: 
-				mTmpEnt->setMaterialName("WallGreen");
-				break;
-			case 2: 
-				mTmpEnt->setMaterialName("WallPink");
-				break;
-		}
-		mWallEnt.push_back(mTmpEnt);
+			mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+			//mTmpEnt->setCastShadows(false);
+			int r = mRandGen->randInt(0,1);
+			switch (r)
+			{
+				case 0: 
+					mTmpEnt->setMaterialName("WallBlue");
+					break;
+				case 1: 
+					mTmpEnt->setMaterialName("WallGreen");
+					break;
+				case 2: 
+					mTmpEnt->setMaterialName("WallPink");
+					break;
+			}
+			mWallEnt.push_back(mTmpEnt);
 
-		mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-		mTmpNode->attachObject(mWallEnt[i]);
-		mTmpNode->setScale(0.01 * (mRandGen->arena.wall[i].dim.x) ,0.2, 0.01 * (mRandGen->arena.wall[i].dim.y));
-		mTmpNode->setPosition(mRandGen->arena.wall[i].pos3D.x,10,mRandGen->arena.wall[i].pos3D.y);
-		mWallNode.push_back(mTmpNode);
-		mRoot->renderOneFrame();
+			mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+			mTmpNode->attachObject(mWallEnt[wallIndex]);
+			wallIndex++;
+			mTmpNode->setScale(0.01 * (mRandGen->arena.wall[i].dim3D.x) ,0.2, 0.01 * (mRandGen->arena.wall[i].dim3D.y));
+			mTmpNode->setPosition(mRandGen->arena.wall[i].pos3D.x,10,mRandGen->arena.wall[i].pos3D.y);
+			mWallNode.push_back(mTmpNode);
+			mRoot->renderOneFrame();
+		}
 	}
-	/*for(int i = 0; i < 50; i++)
+	int boxIndex=0;
+	for(int i = mRandGen->arena.wall[w].pos3D.x - mRandGen->arena.wall[w].dim3D.x/2; i < mRandGen->arena.wall[w].pos3D.x + mRandGen->arena.wall[w].dim3D.x/2; i++)
 	{
-		mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-		//mTmpEnt->setCastShadows(false);
-		int r = mRandGen->randInt(0,2);
-		switch (r)
+		for(int j = mRandGen->arena.wall[w].pos3D.y - mRandGen->arena.wall[w].dim3D.y/2; j < mRandGen->arena.wall[w].pos3D.y + mRandGen->arena.wall[w].dim3D.y/2; j++)
 		{
-		case 0: 
-			mTmpEnt->setMaterialName("WallBlue");
-			break;
-		case 1: 
-			mTmpEnt->setMaterialName("WallGreen");
-			break;
-		case 2: 
-			mTmpEnt->setMaterialName("WallPink");
-			break;
-		}
-		mFurnitureEnt.push_back(mTmpEnt);
+			for(float k = 0.1; k < 20; k++)
+			{
+				mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+				int r = mRandGen->randInt(2,2);
+				switch (r)
+				{
+				case 0: 
+					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+					//mTmpEnt->setMaterialName("WallBlue");
+					break;
+				case 1: 
+					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+					//mTmpEnt->setMaterialName("WallGreen");
+					break;
+				case 2: 
+					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
+					mTmpEnt->setMaterialName("WallPink");
+					break;
+				}
+				//mTmpEnt->setCastShadows(false);
+				mFurnitureEnt.push_back(mTmpEnt);
 
-		mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
-		mTmpNode->attachObject(mFurnitureEnt[i]);
-		mTmpNode->setScale(0.1 ,0.1, 0.1);
-		int x = mRandGen->randInt( 0 , mRandGen->arena.dim.x-1 );
-		int z = mRandGen->randInt( 0 , mRandGen->arena.dim.y-1 );
-		mTmpNode->setPosition(x,0.1,z);
-		mFurnitureNode.push_back(mTmpNode);
-		mRoot->renderOneFrame();
-	}*/
+				mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+				mTmpNode->attachObject(mFurnitureEnt[boxIndex]);
+				boxIndex++;
+				mTmpNode->setScale(0.0099 ,0.01, 0.0099);
+				
+				float boxWidth = 1;//1.05;
+				float boxHeight = 1.01;
+				
+				int x = i * boxWidth;
+				float y = k * boxHeight;
+				int z = j * boxWidth;
+				
+				mTmpNode->setPosition(x+0.5,y+0.5,z+0.5);
+				mFurnitureNode.push_back(mTmpNode);
+				//mRoot->renderOneFrame();
+			}
+		}
+	}
 	mapFinished = true;
 	map = mRandGen->arena.blackTile;
 }
@@ -123,7 +145,10 @@ Ogre::SceneNode* MapCreate::returnFloorNode()
 {
 	return mFloorNode;
 }
-
+std::vector<Ogre::SceneNode*> MapCreate::returnFurnitureNodeVec()
+{
+	return mFurnitureNode;
+}
 std::vector<Ogre::SceneNode*> MapCreate::returnWallNodeVec()
 {
 	return mWallNode;
