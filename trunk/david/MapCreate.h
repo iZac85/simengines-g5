@@ -36,6 +36,8 @@ public:
 	std::vector<std::vector<int>> map;
 	Ogre::SceneNode* returnFloorNode();
 	std::vector<Ogre::SceneNode*> returnWallNodeVec();
+	std::vector<Ogre::SceneNode*> returnFurnitureNodeVec();
+	
 	bool mapFinished;
 
     MapCreate(Ogre::Root* mRoot,
@@ -55,7 +57,6 @@ public:
     ~MapCreate(void);
 private:
 	RandGen* mRandGen;
-	//RandGen::map map;
 };
 
 #endif // #ifndef __Rand_h_
