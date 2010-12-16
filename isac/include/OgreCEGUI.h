@@ -164,7 +164,7 @@ protected:
 
 	static const int AI_AIS_MIN = 10;	// AI Speed (%, range 50% to 400%)
 	static const int AI_AIS_MAX = 400;
-	static const int AI_AIS_CURR = 60;
+	static const int AI_AIS_CURR = 80;
 
 //------------------------CEGUI POINTERS--------------------------//
 
