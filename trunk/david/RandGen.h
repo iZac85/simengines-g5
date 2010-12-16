@@ -59,7 +59,6 @@ public:
 	};
 	map arena;
 	void generateMap(int dim_x=150, int dim_y=150, int room_min_x=14, int room_min_y=14, int room_max_area=200,int door_cnt=2, bool furniture_enable=0, int desk_cnt=1, int chair_cnt=1, int shelf_cnt=1, int painting_cnt=1);
-	void updateBlackTiles(void);
 	int randInt(int low, int high);
 	int GetLongestWall(void);
 
@@ -73,9 +72,7 @@ private:
 	int getWallType(tile dim, tile pos);
 	bool wallEmpty(int k, int wallNum);
 	bool sizeOkForSplitting(int k);
-	void computeWallJunction(void);
 	void removeBlackTile(tile p);
-	void deleteShortWalls(int k);
 	void compute3DWallPos(void);
 	void addBlackTile(tile pos);
 	int getBiggestRoom(void);
