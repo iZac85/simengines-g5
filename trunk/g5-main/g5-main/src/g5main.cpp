@@ -502,10 +502,11 @@ bool g5main::launch()
 		player->node->attachObject(mCameraFPV);
 		mCameraFPV->setPosition(player->node->getPosition()*Ogre::Vector3(0,60,0));
 
-		//cameraFPVinUse = true;
-		//mWindow->getViewport(0)->setCamera(mCameraFPV);
-		//mCameraPos = mCamera->getPosition();
-		//mCameraOrt = mCamera->getOrientation();
+		cameraFPVinUse = true;
+		mWindow->getViewport(0)->setCamera(mCameraFPV);
+		mCameraPos = mCamera->getPosition();
+		mCameraOrt = mCamera->getOrientation();
+		mCameraFPV->lookAt(mCameraFPV->getDerivedPosition().x+1, mCameraFPV->getDerivedPosition().y, mCameraFPV->getDerivedPosition().z+1);
 	}
 
 	delete mMapCreate;
