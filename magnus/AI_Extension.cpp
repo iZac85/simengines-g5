@@ -739,7 +739,7 @@ bool Pather::isStuck(int euclDist)
 }
 
 // AI Initialization
-void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FFR, int SFD, int FFD, int DFD, int AIS)
+void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FFR, int SFD, int FFD, int DFD, float AIS)
 {
 
 	SLOWFLEERADIUS = SFR;
@@ -747,7 +747,7 @@ void Pather::AIinit(std::vector<std::vector<int>> tempMapVector, int SFR, int FF
 	SLOWFLEEDIST = SFD;
 	FASTFLEEDIST = FFD;
 	DONTFLEEDIST = DFD;
-	AISPEED = AIS/100;
+	AISPEED = AIS;
 
 	stuckCountr = 0;
 
