@@ -25,9 +25,7 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	mRandGen = new RandGen();
 
 	mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,door_cnt,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
-	//mRandGen->generateMap(dim_x,dim_y,room_min_x,room_min_y,room_max_area,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
-	//mRandGen->generateMap(27,27,14,14,196,1,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
-	//mRandGen->generateMap(100,100,14,14,600,2,furniture_enable,desk_cnt,chair_cnt,shelf_cnt,painting_cnt);
+
 	Ogre::Entity* mfloorEnt;
 	Ogre::Entity* mTmpEnt;
 	std::vector<Ogre::Entity*> mWallEnt;
@@ -50,7 +48,6 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 	mfloorEnt = mSceneMgr->createEntity("floor1", "cube.mesh");
 	mfloorEnt->setMaterialName("FloorMat");
 
-	//mfloorEnt->setCastShadows(false);
 	mFloorNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("FloorNode", Ogre::Vector3(dim_x/2, -0.5, dim_y/2));
 	mFloorNode->attachObject(mfloorEnt);
 	mFloorNode->setScale(0.01 * dim_x, 0.01, 0.01 * dim_y);
@@ -62,7 +59,6 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 		if(i != w)
 		{
 			mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-			//mTmpEnt->setCastShadows(false);
 			int r = mRandGen->randInt(0,1);
 			switch (r)
 			{
@@ -95,23 +91,7 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 			for(float k = 0; k < 20; k=k+2)
 			{
 				mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-				int r = mRandGen->randInt(2,2);
-				switch (r)
-				{
-				case 0: 
-					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-					//mTmpEnt->setMaterialName("WallBlue");
-					break;
-				case 1: 
-					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-					//mTmpEnt->setMaterialName("WallGreen");
-					break;
-				case 2: 
-					//mTmpEnt = mSceneMgr->createEntity("cube.mesh");
-					mTmpEnt->setMaterialName("WallPink");
-					break;
-				}
-				//mTmpEnt->setCastShadows(false);
+				mTmpEnt->setMaterialName("WallPink");
 				mFurnitureEnt.push_back(mTmpEnt);
 
 				mTmpNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
@@ -128,7 +108,6 @@ MapCreate::MapCreate(Ogre::Root* mRoot, Ogre::SceneManager* mSceneMgr, int dim_x
 				
 				mTmpNode->setPosition(x+0.5,y+1.0001,z+0.5);
 				mFurnitureNode.push_back(mTmpNode);
-				//mRoot->renderOneFrame();
 			}
 		}
 	}

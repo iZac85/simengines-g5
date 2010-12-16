@@ -4,12 +4,9 @@
 
 RandGen::RandGen(void)
 {
-	//map *arena;
-	//arena = new map;//arena = new map;
 }
 RandGen::~RandGen(void)
 {
-	//delete map;
 }
 void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, int room_max_area, int door_cnt, bool furniture_enable, int desk_cnt, int chair_cnt, int shelf_cnt, int painting_cnt)
 {
@@ -36,7 +33,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 	arena.blackTile = std::vector<std::vector<int>> (dim_x,rows);
 	//Generate Walls
 	split();
-	//doors and Furniture 
+	//Doors and Furniture 
 	for (int i = 0; i < arena.room_cnt; i++)
 	{
 		arena.room[i].door.cnt = door_cnt;
@@ -56,9 +53,7 @@ void RandGen::generateMap(int dim_x, int dim_y, int room_min_x, int room_min_y, 
 			arena.room[i].painting.cnt = 0;
 		}
 		doors(i);
-		//compute3DWallPos();
 	}
-	//doors(0);
 	compute3DWallPos();
 }
 void RandGen::split()
@@ -95,7 +90,7 @@ void RandGen::split()
 	addWall(wall,pos,1);
 	/*-------------------------------------*/
 	//Generate interior walls
-	while(sizeOkForSplitting(getBiggestRoom()))//Is the biggest room too big? room with longest wall? //Wrong????
+	while(sizeOkForSplitting(getBiggestRoom()))//Is the biggest room too big?
 	{
 		k = getBiggestRoom();
 		wallPos = 0;
@@ -168,16 +163,11 @@ void RandGen::addRoom(int k,struct tile len, struct tile pos)
 
 	arena.room.push_back(tmp);
 	arena.room_cnt++;
-	//build walls in room: wall[4]: len 
 }
 int RandGen::randInt(int low, int high)
 {
 	int r = rand() % (high - low + 1) + low;
 	return r;
-}
-void RandGen::updateBlackTiles(void)
-{
-	//From Physics
 }
 void RandGen::addBlackTile(struct tile pos)
 {
@@ -200,15 +190,15 @@ void RandGen::addWall(struct tile len, struct tile pos, int extWall)
 	{
 		wallTmp.dim.x =len.x;
 		wallTmp.dim.y =1;
-		wallTmp.pos.x =pos.x;// + (len.x/2);
-		wallTmp.pos.y =pos.y;// + 0.5;
+		wallTmp.pos.x =pos.x;
+		wallTmp.pos.y =pos.y;
 	}
 	else if(len.x == 1)			//wall in y direction?
 	{
 		wallTmp.dim.x =1;
 		wallTmp.dim.y =len.y;
-		wallTmp.pos.x =pos.x;// + 0.5;
-		wallTmp.pos.y =pos.y;// + (len.y/2);
+		wallTmp.pos.x =pos.x;
+		wallTmp.pos.y =pos.y;
 	}
 	wallTmp.type = extWall;
 	arena.wall.push_back(wallTmp);
@@ -220,7 +210,6 @@ bool RandGen::sizeOkForSplitting(int k)
 	//Size is ok for splitting if the room is bigger than the biggest allowed room
 	if( (arena.room[k].dim.x * arena.room[k].dim.y) > arena.room_max_area )
 	{
-		//if( ( arena.room[k].dim.x > ((arena.room_min_size.x*2)+1)) || (arena.room[k].dim.y > ((arena.room_min_size.y*2)+1) ) )//room not too small?
 		if( ( arena.room[k].dim.x >= ( (arena.room_min_size.x*2)-1) ) || ( arena.room[k].dim.y >= ( (arena.room_min_size.y*2)-1) ) )//room not too small?
 		{
 			return true;
@@ -252,7 +241,6 @@ int RandGen::getBiggestRoom()
 ///////////////Other stuff/////////////////////////
 void RandGen::doors(int k)
 {
-	// jag skriver över väggar när jag gör ett nytt rym!!!!
 	int wallNum, doorsInRoom;
 	int min, max;
 	tile doorDim, doorPos;
@@ -264,7 +252,7 @@ void RandGen::doors(int k)
 	{
 		if(arena.room[k].wall[wallNum].type == 0) //only interior walls has doors			
 		{
-			if(doorPossible(k,wallNum))			//Is wall big enough?
+			if(doorPossible(k,wallNum))			//Is wall long enough?
 			{
 				if(wallEmpty(k,wallNum))			//does wall have a door already form black tiles?
 				{
@@ -296,8 +284,8 @@ void RandGen::doors(int k)
 						doorDim.y = 1;		
 					}
 					int wallIndex = getMapWallIndex(doorDim, doorPos);
-					updateMapWalls(wallIndex, k, doorDim, doorPos);		//update walls loop through global walls and split them accordingly!
-				}				//update black tiles in arena
+					updateMapWalls(wallIndex, k, doorDim, doorPos);		//update walls: loop through global walls and split them accordingly!
+				}			
 				doorsInRoom++;
 			}
 		}
@@ -377,7 +365,6 @@ void RandGen::computeWalls(int k)//Get walls of room
 	wallTmp.pos.y = arena.room[k].orig.y;	
 	wallTmp.type = getWallType(wallTmp.dim, wallTmp.pos);
 	computeWallSegments(k,wallTmp.dim,wallTmp.pos,wallTmp.type);
-	//arena.room[k].wall.push_back(wallTmp);
 
 	wallTmp.dim.x = arena.room[k].dim.x;
 	wallTmp.dim.y = 1;
@@ -385,7 +372,6 @@ void RandGen::computeWalls(int k)//Get walls of room
 	wallTmp.pos.y = arena.room[k].orig.y;
 	wallTmp.type = getWallType(wallTmp.dim, wallTmp.pos);
 	computeWallSegments(k,wallTmp.dim,wallTmp.pos,wallTmp.type);
-	//arena.room[k].wall.push_back(wallTmp);
 
 	wallTmp.dim.x = 1;
 	wallTmp.dim.y = arena.room[k].dim.y;
@@ -393,7 +379,6 @@ void RandGen::computeWalls(int k)//Get walls of room
 	wallTmp.pos.y = arena.room[k].orig.y;
 	wallTmp.type = getWallType(wallTmp.dim, wallTmp.pos);
 	computeWallSegments(k,wallTmp.dim,wallTmp.pos,wallTmp.type);
-	//arena.room[k].wall.push_back(wallTmp);
 
 	wallTmp.dim.x = arena.room[k].dim.x;
 	wallTmp.dim.y = 1;
@@ -401,19 +386,6 @@ void RandGen::computeWalls(int k)//Get walls of room
 	wallTmp.pos.y = arena.room[k].orig.y + arena.room[k].dim.y - 1;
 	wallTmp.type = getWallType(wallTmp.dim, wallTmp.pos);	//is wall interior?
 	computeWallSegments(k,wallTmp.dim,wallTmp.pos,wallTmp.type);
-	//arena.room[k].wall.push_back(wallTmp);
-
-	//deleteShortWalls(k);
-}
-void RandGen::deleteShortWalls(int k)
-{
-	for(int i=0; i<arena.room[k].wallSegCnt; i++)
-	{
-		if(!doorPossible(k,i))
-		{
-			//arena.room[k].wall.erase(i);
-		}
-	}
 }
 void RandGen::computeWallSegments(int k, tile dim, tile pos, int type)
 {
@@ -434,7 +406,7 @@ void RandGen::computeWallSegments(int k, tile dim, tile pos, int type)
 				if(arena.blackTile[pos.x+1][i]== 1 || arena.blackTile[pos.x-1][i] == 1)
 				{
 					wOne.pos.x = arena.room[k].wall.back().pos.x;
-					wOne.pos.y = i;//arena.room[k].wall.back().pos.y + i;
+					wOne.pos.y = i;
 					wOne.dim.x = arena.room[k].wall.back().dim.x;
 					wOne.dim.y = arena.room[k].wall.back().pos.y + arena.room[k].wall.back().dim.y - i;
 					wOne.type = arena.room[k].wall.back().type;
@@ -458,7 +430,7 @@ void RandGen::computeWallSegments(int k, tile dim, tile pos, int type)
 					wOne.dim.y = arena.room[k].wall.back().dim.y;
 					wOne.type = arena.room[k].wall.back().type;
 
-					arena.room[k].wall.back().dim.x = i - arena.room[k].wall.back().pos.x + 1;//???
+					arena.room[k].wall.back().dim.x = i - arena.room[k].wall.back().pos.x + 1;
 
 					arena.room[k].wall.push_back(wOne);
 					arena.room[k].wallSegCnt++;
@@ -502,8 +474,6 @@ void RandGen::updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos)
 			removeBlackTile(p);
 		}
 	}
-	//int u = 0;
-	//I do some thing wrong below!!!
 	if(dim.y == 1)		//wall in x direction?
 	{
 		if(arena.wall[wallIndex].dim.x > arena.room[roomIndex].dim.x)
@@ -513,7 +483,7 @@ void RandGen::updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos)
 		wallTmp.dim.x = arena.wall[wallIndex].dim.x - (pos.x - arena.wall[wallIndex].pos.x + dim.x);
 		wallTmp.dim.y = arena.wall[wallIndex].dim.y;
 		wallTmp.pos.x = pos.x + dim.x;
-		wallTmp.pos.y = arena.wall[wallIndex].pos.y;// + 0.5;
+		wallTmp.pos.y = arena.wall[wallIndex].pos.y;
 
 		arena.wall[wallIndex].dim.x = pos.x - arena.wall[wallIndex].pos.x;
 
@@ -529,7 +499,7 @@ void RandGen::updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos)
 		}
 		wallTmp.dim.x = arena.wall[wallIndex].dim.x;
 		wallTmp.dim.y = arena.wall[wallIndex].dim.y - (pos.y - arena.wall[wallIndex].pos.y + dim.y);
-		wallTmp.pos.x = arena.wall[wallIndex].pos.x;// + 0.5;
+		wallTmp.pos.x = arena.wall[wallIndex].pos.x;
 		wallTmp.pos.y = pos.y + dim.y;
 		
 		arena.wall[wallIndex].dim.y = pos.y - arena.wall[wallIndex].pos.y;
@@ -537,9 +507,7 @@ void RandGen::updateMapWalls(int wallIndex, int roomIndex, tile dim, tile pos)
 		wallTmp.type = arena.wall[wallIndex].type;
 		arena.wall.push_back(wallTmp);
 		arena.wall_cnt++;
-	
 	}
-
 }
 void RandGen::removeBlackTile(tile p)
 {
@@ -596,7 +564,7 @@ void RandGen::compute3DWallPos(void)
 			{
 				arena.wall[i].dim3D.x = (float)arena.wall[i].dim.x - 1;
 				arena.wall[i].dim3D.y = (float)arena.wall[i].dim.y;
-				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + (arena.wall[i].dim3D.x/2);// + 0.5;
+				arena.wall[i].pos3D.x = (float)arena.wall[i].pos.x + (arena.wall[i].dim3D.x/2);
 				arena.wall[i].pos3D.y = (float)(arena.wall[i].pos.y + 0.5);
 			}
 			else
@@ -628,7 +596,7 @@ void RandGen::compute3DWallPos(void)
 				arena.wall[i].dim3D.x = (float)arena.wall[i].dim.x;
 				arena.wall[i].dim3D.y = (float)arena.wall[i].dim.y -1;
 				arena.wall[i].pos3D.x = (float)(arena.wall[i].pos.x + 0.5);
-				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + (arena.wall[i].dim3D.y/2);// + 0.5;
+				arena.wall[i].pos3D.y = (float)arena.wall[i].pos.y + (arena.wall[i].dim3D.y/2);
 			}
 			else
 			{

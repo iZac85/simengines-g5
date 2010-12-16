@@ -222,13 +222,13 @@ bool g5main::keyPressed( const OIS::KeyEvent &arg )
 			if(cameraFPVinUse)
 			{
 				position = (mCameraFPV->getDerivedPosition() + mCameraFPV->getDerivedDirection().normalisedCopy() * 10);
-				speed = mCameraFPV->getDerivedDirection().normalisedCopy() * 9.0f;
+				speed = mCameraFPV->getDerivedDirection().normalisedCopy() * 40.0f;
 			}
 			else
 			{
 				// starting position of the box
 				position = (mCamera->getDerivedPosition() + mCamera->getDerivedDirection().normalisedCopy() * 10);
-				speed = mCamera->getDerivedDirection().normalisedCopy() * 9.0f;
+				speed = mCamera->getDerivedDirection().normalisedCopy() * 40.0f;
 			}
 			OBBox *box = new OBBox(mSceneMgr, mBulletWorld->mWorld, position, speed, mBulletWorld->mNumEntitiesInstanced, "cube.mesh");
 
