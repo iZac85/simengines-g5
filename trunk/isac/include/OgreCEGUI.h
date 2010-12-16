@@ -142,21 +142,21 @@ protected:
 
 	static const int MIN_ROOM_WIDTH = 14;
 
-	static const int AI_SFR_MIN = 35;	// Slow Flee Radius
+	static const int AI_SFR_MIN = 45;	// Slow Flee Radius
 	static const int AI_SFR_MAX = 100;
-	static const int AI_SFR_CURR = 50;
+	static const int AI_SFR_CURR = 60;
 
 	static const int AI_FFR_MIN = 5;	// Fast Flee Radius
-	static const int AI_FFR_MAX = 30;
-	static const int AI_FFR_CURR = 10;
+	static const int AI_FFR_MAX = 40;
+	static const int AI_FFR_CURR = 30;
 
 	static const int AI_SFD_MIN = 5;	// Slow Flee Distance
 	static const int AI_SFD_MAX = 30;
-	static const int AI_SFD_CURR = 10;
+	static const int AI_SFD_CURR = 20;
 
 	static const int AI_FFD_MIN = 1;	// Fast Flee Distance
 	static const int AI_FFD_MAX = 10;
-	static const int AI_FFD_CURR = 3;
+	static const int AI_FFD_CURR = 5;
 
 	static const int AI_DFD_MIN = 50;	// Don't Flee Distance
 	static const int AI_DFD_MAX = 200;
