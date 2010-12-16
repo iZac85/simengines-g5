@@ -385,7 +385,7 @@ bool g5main::launch()
 	Ogre::Plane plane;
 	plane.normal = Ogre::Vector3::UNIT_Y;
 	plane.d = 0;
-	Ogre::MeshManager::getSingleton().createPlane("plane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 10000.0f, 10000.0f, 10, 10, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
+	Ogre::MeshManager::getSingleton().createPlane("plane", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane, 10000.0f, 10000.0f, 1, 1, true, 1, 50.0f, 50.0f, Ogre::Vector3::UNIT_Z);
 	Ogre::Entity* planeEnt = mSceneMgr->createEntity("floor","plane");
 	planeEnt->setMaterialName("Examples/GrassFloor");
 	planeEnt->setCastShadows(false);
