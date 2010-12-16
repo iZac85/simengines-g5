@@ -55,11 +55,12 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	// Generate random starting positions
 	//mCamera->setPosition(aiPather->randPlayerPos());
 	//mCamera->lookAt(aiPather->centerOfMap());
-	//while (mCamera->getDerivedPosition().positionCloses(ninjaNode->getPosition(),10))
-	//{
+	ninjaNode->setPosition(Ogre::Vector3(0,0,0));
+	while(ninjaNode->getPosition().x < 15 && ninjaNode->getPosition().z < 15)
+	{
 		ninjaNode->setPosition(aiPather->randNinjaPos());
-		mWalkList.push_back(ninjaNode->getPosition());
-	//}
+	}
+	mWalkList.push_back(ninjaNode->getPosition());
 
 }
 bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
@@ -162,7 +163,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 					Ogre::Quaternion quat = src.getRotationTo(mDirection);
 					//mNode->rotate(quat);
 					mRotating = true;
-					mRotFactor = 1.0f / 40.0f;
+					mRotFactor = 1.0f / 10.0f;
 					mOrientSrc = ninjaNode->getOrientation();
 					mOrientDest = quat * mOrientSrc;           // We want dest orientation, not a relative rotation (quat)
 					mRotProgress = 0;

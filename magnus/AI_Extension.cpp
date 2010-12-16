@@ -16,7 +16,7 @@ using namespace micropather;
 // CONSTANTS
 bool DONTFLEEACTIVE = true;
 
-int WALLTHICKNESS = 2;
+int WALLTHICKNESS = 3;
 
 // INSTANCES
 Pather *mPather;
