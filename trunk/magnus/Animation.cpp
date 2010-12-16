@@ -41,7 +41,7 @@ void Animation::AnimationInit(Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCame
 	arrowNode = mSceneMgr->getRootSceneNode()->createChildSceneNode("ArrowNode");//,Ogre::Vector3(100.0f,30.0f,100.0f));
 	arrowEntity->setMaterialName("Arrow");
 	arrowNode->attachObject(arrowEntity);
-	arrowNode->setScale(0.007f,0.007f,0.007f);
+	arrowNode->setScale(0.02f,0.02f,0.02f);//(0.007f,0.007f,0.007f);
 	arrowEntity->setCastShadows(false);
 
 	// Set variables
