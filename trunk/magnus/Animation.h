@@ -19,7 +19,7 @@ public:
 		int SFD = 20,
 		int FFD = 5,
 		int DFD = 100,
-		int AIS = 100);
+		int AIS = 60);
     ~Animation(void);
 
 	// Functions

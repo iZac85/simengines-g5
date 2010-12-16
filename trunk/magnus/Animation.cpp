@@ -209,6 +209,6 @@ bool Animation::NextLocation(Ogre::Camera* mCamera){
 	mWalkList.pop_front();             // this removes the front of the deque
 	mDirection = mDestination - ninjaNode->getPosition();
 	mDistance = mDirection.normalise();
-	mWalkSpeed = aiPather->ninjaSpeed;
+	mWalkSpeed = (int)aiPather->ninjaSpeed;
 	return true;
 }
