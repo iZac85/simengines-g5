@@ -72,6 +72,7 @@ void g5main::createCamera(void)
 	mCamera->setNearClipDistance(0.1);
 
 	mCameraMan = new OgreBites::SdkCameraMan(mCamera);   // create a default camera controller
+	mCameraMan->setTopSpeed(20);
 
 	mCameraFPV = mSceneMgr->createCamera("FPVCam");
 	mCamera->lookAt(Ogre::Vector3(0, 10, mCEGUI->extensionSettings.threeDSettingsArenaSizeX));
