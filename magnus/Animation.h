@@ -14,12 +14,12 @@ public:
     Animation(std::vector<std::vector<int>>, 
 		Ogre::SceneManager*, 
 		Ogre::Camera*,
-		int SFR = 80,
-		int FFR = 5,
-		int SFD = 15,
+		int SFR = 60,
+		int FFR = 30,
+		int SFD = 20,
 		int FFD = 5,
 		int DFD = 100,
-		int AIS = 1);
+		int AIS = 100);
     ~Animation(void);
 
 	// Functions

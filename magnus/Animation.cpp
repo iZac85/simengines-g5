@@ -85,11 +85,11 @@ bool Animation::UpdateAnimation(const Ogre::FrameEvent &evt, Ogre::SceneManager*
 void Animation::updateArrow(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSceneMgr, Ogre::Camera* mCamera)
 {
 	cameraPos = mCamera->getDerivedPosition();
-	cameraDir = mCamera->getDirection();
-	Ogre::Vector3 cameraUp = mCamera->getUp();
-	Ogre::Vector3 cameraRight = mCamera->getRight();
-	Ogre::Vector3 cameraOriUp = mCamera->getOrientation()*cameraUp;
-	Ogre::Vector3 cameraOriRight = mCamera->getOrientation()*cameraRight;
+	cameraDir = mCamera->getDerivedDirection();
+	Ogre::Vector3 cameraUp = mCamera->getDerivedUp();
+	Ogre::Vector3 cameraRight = mCamera->getDerivedRight();
+	Ogre::Vector3 cameraOriUp = mCamera->getDerivedOrientation()*cameraUp;
+	Ogre::Vector3 cameraOriRight = mCamera->getDerivedOrientation()*cameraRight;
 
 	ninjaPos = ninjaNode->getPosition();
 	ninjaPos.y = ninjaPos.y+20;
@@ -162,7 +162,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 					Ogre::Quaternion quat = src.getRotationTo(mDirection);
 					//mNode->rotate(quat);
 					mRotating = true;
-					mRotFactor = 1.0f / 5.0f;
+					mRotFactor = 1.0f / 40.0f;
 					mOrientSrc = ninjaNode->getOrientation();
 					mOrientDest = quat * mOrientSrc;           // We want dest orientation, not a relative rotation (quat)
 					mRotProgress = 0;
@@ -190,7 +190,7 @@ bool Animation::updateNinja(const Ogre::FrameEvent &evt, Ogre::SceneManager* mSc
 
 
 
-	mAnimationState->addTime(evt.timeSinceLastFrame*mWalkSpeed*0.2);		//*2 to speed up animation
+	mAnimationState->addTime(evt.timeSinceLastFrame*mWalkSpeed*0.15);		//*2 to speed up animation
 
 	if (robotDead)
 		return false;
