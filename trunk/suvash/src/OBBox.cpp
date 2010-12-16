@@ -42,7 +42,7 @@ OBBox::OBBox(Ogre::SceneManager* mSceneMgr,
  		sceneBoxShape,
  		0.3f,			// dynamic body restitution
  		0.8f,			// dynamic body friction
- 		0.00005f, 			// dynamic bodymass
+ 		0.0001f, 			// dynamic bodymass
  		position,		// starting position of the box
  		Ogre::Quaternion(0,1,0,1));// orientation of the box
 
