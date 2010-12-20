@@ -65,7 +65,7 @@ bool BaseApplication::configure(void)
     {
         // If returned true, user clicked OK so initialise
         // Here we choose to let the system create a default rendering window by passing 'true'
-        mWindow = mRoot->initialise(true, "g5-main Render Window");
+        mWindow = mRoot->initialise(true, "NINJAAAAH!!!!");
 
         // Let's add a nice window icon
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
