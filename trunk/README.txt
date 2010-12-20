@@ -109,5 +109,35 @@ To run the software just open the g5main.exe which can be found in             .
 
 To run a tech demo simply click the launch button once the software 
 is started.                
-                        
+                     
+If you want to compile the code in Visual Studio, simply open g5-main.sln 
+which can be found in the folder g5-main. Choose if you want to run in debug
+or release mode. To compile you also need to have the following SDKs:
+Ogre, CEGUI, Bullet and OgreBullet.
+
+These have to be placed in a folder called "libs-SDK" which have to be placed next to the SVN-folder, 
+i.e. in the same folder. In the different SDK-folders, there should be a folder named as the corresponding 
+version of that SDK (THIS DOES NOT APPLY FOR THE OgreBullet FOLDER WHICH IS A SPECIAL CASE, SEE BELOW). 
+Finally, in those folders, the 
+corresponding SDK should be placed. 
+The structure should look exactly like this:
+	
+Current Folder
+ROOT							libs-SDK												OgreBullet
+
+<YourSVNFolder>
+libs-SDK			>>>>		BulletSDK 	>>>> 	bullet-2.77
+					>>>>		CeguiSDK 	>>>> 	CEGUI-SDK-0.7.5-vc10
+					>>>>		OgreSDK 	>>>> 	OgreSDK_vc10_v1-7-1					 
+					>>>>		OgreBullet									>>>>		Collisions
+																			>>>>		Dynamics
+																			>>>>		lib
+
+>>>> means that the righthand folder is a subfolder inside the lefthand folder
+
+When your folder structure looks like this and you have the correct versions of the SDKs, 
+the code should be compile able. It may work with other versions of the SDKs but this has not 
+been tested and we cannot guarantee that it will work.
+
 ENJOY!
+
