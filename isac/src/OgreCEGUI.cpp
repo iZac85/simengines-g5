@@ -142,7 +142,6 @@ void OgreCEGUI::createScene(void)
 	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
 	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
 
-	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
 	CEGUI::SchemeManager::getSingleton().create("VanillaSkin.scheme");
 	CEGUI::SchemeManager::getSingleton().create("AquaLookSkin.scheme");
 
