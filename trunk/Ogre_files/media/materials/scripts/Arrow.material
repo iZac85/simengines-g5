@@ -1,0 +1,14 @@
+material Arrow
+{
+	receive_shadows off
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture BlackArrowTex.png
+			}
+		}
+	}
+}
